@@ -1,0 +1,4 @@
+export const STAFF_REQUEST = "STAFF_REQUEST"
+export const STAFF_SUCCESS = "STAFF_SUCCESS"
+export const STAFF_FAIL = "STAFF_FAIL"
+export const STAFF_RESET= "STAFF_RESET"

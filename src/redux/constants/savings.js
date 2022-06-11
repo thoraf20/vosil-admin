@@ -1,0 +1,4 @@
+export const SAVING_REQUEST = "SAVING_REQUEST"
+export const SAVING_SUCCESS = "SAVING_SUCCESS"
+export const SAVING_FAIL = "SAVING_FAIL"
+export const SAVING_RESET= "SAVING_RESET"

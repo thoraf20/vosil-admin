@@ -30,23 +30,15 @@ const UserProfile = () => {
         />
       </div>
       
-      <div className="mt-5">
-        {/* <Button
-          color="white"
-          bgColor={currentColor}
-          text="Logout"
-          borderRadius="10px"
-          width="full"
-          onClick={handleLogout}
-        /> */}
+      <div className="mt-3">
         <button
-      type="button"
-      onClick={handleLogout}
-      style={{ backgroundColor: currentColor, color: 'white', borderRadius: '10px' }}
-      // className={` text-${size} p-3 w-${width} hover:drop-shadow-xl hover:bg-${bgHoverColor}`}
-    >
-      Logout
-    </button>
+          type="button"
+          onClick={handleLogout}
+          style={{ backgroundColor: currentColor, color: 'white', borderRadius: '10px' }}
+          className={` text-x p-3 w-full hover:drop-shadow-xl hover:bg-red`}
+        >
+          Logout
+        </button>
       </div>
     </div>
 

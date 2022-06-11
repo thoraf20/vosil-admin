@@ -85,7 +85,7 @@ const App = () => {
                 {/* <Route path="/login" element={(<LoginForm />)} /> */}
 
                 {/* dashboard  */}
-                {/* <Route path="/" element={(<Dashboard />)} /> */}
+                <Route path="/" element={(<Dashboard />)} />
                 <Route path="/overview" element={(<Dashboard />)} />
 
                 {/* pages  */}

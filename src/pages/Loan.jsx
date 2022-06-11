@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
-import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { GridComponent, Inject, ColumnsDirective, 
+  ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
 
-import { employeesData, employeesGrid } from '../data/dummy';
+import { loansGrid } from '../data/dummy';
 import { Header } from '../components';
 
 import BasicModal from '../commons/Modals.js'
 import PostLoan from '../components/Loans/Loans';
+import { loansData } from '../redux/actions/loan';
 
 const Loans = () => {
   const toolbarOptions = ['Search'];
 
   const editing = { allowDeleting: true, allowEditing: true };
+
+  const dispatch = useDispatch()
+
+  const data = useSelector((state) => state.loans)
+
+  const { loading, allData } = data
+
+  useEffect(() => {
+    dispatch(loansData())
+  }, [dispatch])
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true)
@@ -32,8 +45,10 @@ const Loans = () => {
           </button>
         </div>
       </div>
+
+      {loading ? "loading..." : (
       <GridComponent
-        dataSource={employeesData}
+        dataSource={allData}
         width="auto"
         allowPaging
         allowSorting
@@ -43,10 +58,11 @@ const Loans = () => {
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {employeesGrid.map((item, index) => <ColumnDirective key={index} {...item} />)}
+          {loansGrid.map((item, index) => <ColumnDirective key={index} {...item} />)}
         </ColumnsDirective>
         <Inject services={[Search, Page]} />
       </GridComponent>
+      )}
     </div>
     <BasicModal open={open} onClose={handleClose} title='Loan Form' content={<PostLoan />}/>
   </>

@@ -28,7 +28,7 @@ export const dashboardData = () => async (dispatch, getState) => {
     // }
 
     const { data } = await axios.get(`${baseUrl}/dashboard`);
-    console.log(data)
+    
     dispatch({
       type: DASHBOARD_SUCCESS,
       payload: data,

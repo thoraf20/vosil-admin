@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
 
-import { employeesData, employeesGrid } from '../data/dummy';
+import { employeesGrid } from '../data/dummy';
 import { Header } from '../components';
 
 import BasicModal from '../commons/Modals.js'
 import StaffDetails from '../components/Staffs/StaffDetails';
+import { staffsData } from '../redux/actions/staffs';
 
 const Employees = () => {
   const toolbarOptions = ['Search'];
 
   const editing = { allowDeleting: true, allowEditing: true };
+
+  const dispatch = useDispatch()
+
+  const data = useSelector((state) => state.staffs)
+
+  const { loading, allData } = data
+
+  useEffect(() => {
+    dispatch(staffsData())
+  }, [dispatch])
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true)
@@ -20,7 +32,7 @@ const Employees = () => {
     <>
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
     <div className='flex justify-between'>
-      <Header category="Page" title="Employees" />
+      <Header category="Page" title="Staffs" />
         <div>
           <button
             type="button"
@@ -32,8 +44,10 @@ const Employees = () => {
           </button>
         </div>
       </div>
+
+      {loading ? "loading..." : (
       <GridComponent
-        dataSource={employeesData}
+        dataSource={allData}
         width="auto"
         allowPaging
         allowSorting
@@ -47,6 +61,7 @@ const Employees = () => {
         </ColumnsDirective>
         <Inject services={[Search, Page]} />
       </GridComponent>
+      )}
     </div>
     <BasicModal open={open} onClose={handleClose} title='Staff Details' content={<StaffDetails />}/>
   </>
