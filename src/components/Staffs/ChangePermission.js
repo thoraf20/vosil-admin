@@ -7,13 +7,16 @@ import { accounts, roles } from '../../utils/index'
 
 import { toast, Toaster} from 'react-hot-toast'
 
-import { addStaffData } from '../../redux/actions/staffs'
+import { staffsByIdData, updateStaffData } from '../../redux/actions/staffs'
 
-const StaffDetails = () => {
-
+const UpdateStaffDetails = () => {
+const id = localStorage.getItem('userId');
   const dispatch = useDispatch()
-  const staff = useSelector((state) => state.addStaff)
-  const { loading, success, error} = staff
+  const staff = useSelector((state) => state.staffById)
+  const updatedStaff = useSelector((state) => state.updateStaff)
+  
+  const { loading, allData} = staff;
+  const { success, error } = updatedStaff;
 
   const [account, setAccount] = useState(accounts[0].value);
   const [role, setRole] = useState(roles[0].value);
@@ -32,13 +35,16 @@ const StaffDetails = () => {
     setState({...state, [name]: value});
   };
 
-  const { surName, otherNames,  email, password, phoneNumber } = state
+  useEffect(() => {
+    dispatch(staffsByIdData(id))
+  }, [])
 
-  const notify = () => toast.success(` Staff Added Successfully.`, {duration: 6000})
+  const { phoneNumber } = state
+
+  const notify = () => toast.success(` Staff Details Updated Successfully.`, {duration: 6000})
   const notifyFailure = () => toast.error(
-    `Unable To Add Staff.`, {duration: 6000}
+    `Unable To Update Staff Details.`, {duration: 6000}
     )
-
   useEffect(() => {
     if (error) {
       notifyFailure()
@@ -49,16 +55,12 @@ const StaffDetails = () => {
   }, [success, error])
 
   const handleSubmit = async () => {
-    const requestData = {
-      surName, 
-      otherNames, 
-      email, 
-      password, 
+    const requestData = { 
       phoneNumber,
       accountType: account,
       role,
     }
-    dispatch(addStaffData(requestData))
+    dispatch(updateStaffData(id, requestData))
   }
 
   return (
@@ -78,22 +80,25 @@ const StaffDetails = () => {
             required
             id="outlined-required"
             label="SurName"
-            name='surName'
-            onChange={handleChange} />
+            value={allData?.surName}
+            />
 
           <TextField
             required
             id="outlined-required"
             label="OtherNames"
-            name='otherNames'
-            onChange={handleChange} />
+            value={allData?.otherNames}
+            />
 
           <TextField
             required
             id="outlined-required"
             label="Email"
-            name='email'
-            onChange={handleChange} />
+            // name='email'
+            value={allData?.email}
+            // onChange={handleChange}
+
+            />
 
           <TextField
             required
@@ -112,6 +117,7 @@ const StaffDetails = () => {
               shrink: true,
             }}
             name='phoneNumber'
+            value={allData?.phoneNumber}
             onChange={handleChange} />
 
           <TextField
@@ -152,7 +158,7 @@ const StaffDetails = () => {
             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
           >
-            {loading ? 'Saving...' : 'Save'}
+            {loading ? 'Updating...' : 'Update'}
           </button>
         </div>
       </Box>
@@ -161,4 +167,4 @@ const StaffDetails = () => {
   )
 }
 
-export default StaffDetails
+export default UpdateStaffDetails

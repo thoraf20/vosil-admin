@@ -14,7 +14,6 @@ const UserProfile = () => {
 
   const handleLogout = async () => {
     dispatch(logout())
-    console.log("clicked")
     navigate("/login", {replace: true});
   }
 
