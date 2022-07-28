@@ -2,7 +2,11 @@ import {
   WITHDRAWAL_REQUEST,
   WITHDRAWAL_SUCCESS,
   WITHDRAWAL_FAIL,
-  WITHDRAWAL_RESET
+  WITHDRAWAL_RESET,
+  CREATE_WITHDRAWAL_REQUEST,
+  CREATE_WITHDRAWAL_SUCCESS,
+  CREATE_WITHDRAWAL_FAIL,
+  CREATE_WITHDRAWAL_RESET
 } from "../constants/withdrawals.js"
 
 export const withdrawalsReducer = (state= {allData: [] }, action) => {
@@ -17,6 +21,25 @@ export const withdrawalsReducer = (state= {allData: [] }, action) => {
     return {loading: false, error: action.payload };
 
   case  WITHDRAWAL_RESET:
+    return { allData: [] };
+
+    default:
+      return state;
+  }
+}
+
+export const createWithdrawalsReducer = (state= {allData: [] }, action) => {
+  switch (action.type) {
+    case  CREATE_WITHDRAWAL_REQUEST: 
+      return { loading : true};
+
+  case  CREATE_WITHDRAWAL_SUCCESS:
+    return {loading: false, success: true, allData: action.payload };
+
+  case  CREATE_WITHDRAWAL_FAIL:
+    return {loading: false, error: action.payload };
+
+  case  CREATE_WITHDRAWAL_RESET:
     return { allData: [] };
 
     default:
