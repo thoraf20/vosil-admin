@@ -1,23 +1,23 @@
 import {
-  LOAN_REQUEST,
-  LOAN_SUCCESS,
-  LOAN_FAIL,
-  CREATE_LOAN_REQUEST,
-  CREATE_LOAN_SUCCESS,
-  CREATE_LOAN_FAIL,
-} from "../constants/loans.js"
+  SETTINGS_REQUEST,
+  SETTINGS_SUCCESS,
+  SETTINGS_FAIL,
+  UPDATE_SETTINGS_REQUEST,
+  UPDATE_SETTINGS_SUCCESS,
+  UPDATE_SETTINGS_FAIL,
+} from "../constants/settings.js"
 
 import axios from "axios"
 
 import { baseUrl } from "../../api/baseUrl"
 
-export const loansData = () => async (dispatch, getState) => {
+export const settingsData = () => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
   try {
     dispatch({
-      type: LOAN_REQUEST,
+      type: SETTINGS_REQUEST,
     })
 
     const config = {
@@ -26,16 +26,16 @@ export const loansData = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/loans`, config);
-    
+    const { data } = await axios.get(`${baseUrl}/settings/_create`, config);
+    console.log(data[0])
     dispatch({
-      type: LOAN_SUCCESS,
-      payload: data,
+      type: SETTINGS_SUCCESS,
+      payload: data[0],
     })
 
   } catch (error) {
     dispatch({
-      type: LOAN_FAIL,
+      type: SETTINGS_FAIL,
       payload: 
         error.response && error.response.data.message
           ? error.response.data.message
@@ -44,13 +44,13 @@ export const loansData = () => async (dispatch, getState) => {
   }
 }
 
-export const createLoan = (requestData) => async (dispatch, getState) => {
+export const updateSettingsData = (id, requestData) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
   try {
     dispatch({
-      type: CREATE_LOAN_REQUEST,
+      type: UPDATE_SETTINGS_REQUEST,
     })
 
     const config = {
@@ -59,19 +59,19 @@ export const createLoan = (requestData) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.post(`${baseUrl}/loans/_create`, requestData, config);
+    const { data } = await axios.patch(`${baseUrl}/settings/${id}`, requestData, config);
     
     dispatch({
-      type: CREATE_LOAN_SUCCESS,
+      type: UPDATE_SETTINGS_SUCCESS,
       payload: data,
     })
 
   } catch (error) {
     dispatch({
-      type: CREATE_LOAN_FAIL,
+      type: UPDATE_SETTINGS_FAIL,
       payload: 
         error.response && error.response.data.message
-          ? error.response.data.msg
+          ? error.response.data.message
           : error.message
     })
   }

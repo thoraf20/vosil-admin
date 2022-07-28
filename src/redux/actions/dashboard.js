@@ -10,24 +10,22 @@ import axios from "axios"
 import { baseUrl } from "../../api/baseUrl"
 
 export const dashboardData = () => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
+
   try {
     dispatch({
       type: DASHBOARD_REQUEST,
     })
 
-    // const {
-    //   userLogin: {userInfo},
-    // } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
 
-    // console.log(getState)
-
-    // const config = {
-    //   headers: {
-    //     Authorization: `Bearer ${userInfo.token}`,
-    //   },
-    // }
-
-    const { data } = await axios.get(`${baseUrl}/dashboard`);
+    const { data } = await axios.get(`${baseUrl}/dashboard`, config);
+    console.log(data)
     
     dispatch({
       type: DASHBOARD_SUCCESS,

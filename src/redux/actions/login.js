@@ -24,11 +24,13 @@ export const login = (email, password) => async (dispatch) => {
 
     const { data } = await axios.post(`${baseUrl}/login`, { email, password }, config);
 
+    localStorage.setItem("userInfo", JSON.stringify(data))
+
     dispatch({
       type: LOGIN_SUCCESS,
       payload: data,
     })
-    localStorage.setItem("userInfo", JSON.stringify(data))
+    
 
   } catch (error) {
     dispatch({
