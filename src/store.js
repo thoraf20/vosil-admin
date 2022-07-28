@@ -3,20 +3,40 @@ import logger from 'redux-logger'
 
 import { loginReducer } from "./redux/reducers/login"
 import { dashboardReducer } from "./redux/reducers/dashboard"
-import { customerReducer } from './redux/reducers/customers'
-import { savingsReducer } from './redux/reducers/savings'
-import { withdrawalsReducer } from './redux/reducers/withdrawals'
-import { loansReducer } from './redux/reducers/loans'
-import { staffReducer } from './redux/reducers/staffs'
+import { addCustomerReducer, customerByIdReducer, customerReducer, customerSavingsReducer } from './redux/reducers/customers'
+import { createSavingsReducer, savingsReducer, singleSavingsReducer } from './redux/reducers/savings'
+import { createWithdrawalsReducer, withdrawalsReducer } from './redux/reducers/withdrawals'
+import { createLoansReducer, loansReducer } from './redux/reducers/loans'
+import { addStaffReducer, staffByIdReducer, staffReducer, updatePermissionByIdReducer, updateStaffByIdReducer } from './redux/reducers/staffs'
+import { settingsReducer, updateSettingsByIdReducer } from './redux/reducers/settings'
 
 const reducer = {
   loginStore: loginReducer,
   dashboard: dashboardReducer,
+
   customers: customerReducer,
+  singleCustomer: customerByIdReducer,
+  customerSavings: customerSavingsReducer,
+  addCustomer: addCustomerReducer,
+
   savings: savingsReducer,
+  singleSaving: singleSavingsReducer,
+  addSavings: createSavingsReducer,
+
   withdrawals: withdrawalsReducer,
+  addWithdrawal: createWithdrawalsReducer,
+
   loans: loansReducer,
-  staffs: staffReducer
+  addLoan: createLoansReducer,
+
+  staffs: staffReducer,
+  addStaff: addStaffReducer,
+  staffById: staffByIdReducer,
+  updateStaff: updateStaffByIdReducer,
+  updatePermission: updatePermissionByIdReducer,
+
+  settings: settingsReducer,
+  updateSettings: updateSettingsByIdReducer,
 }
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

@@ -29,6 +29,7 @@ const BasicModal = ({open, onClose, ...props}) => {
         onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        style={{overflow: 'scroll'}}
       >
         <Box sx={style}>
         <div className='flex justify-between'>

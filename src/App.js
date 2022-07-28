@@ -4,13 +4,15 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Savings, Withdrawal, Loans, Calendar, Employees, Customers,  ColorPicker, Dashboard } from './pages';
+import { Savings, Withdrawal, Loans, Employees, Customers, Dashboard, CustomerDetails } from './pages';
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
 import { LoginForm } from './authentication';
 
 import Router from "./routes"
+import IndividualSavings from './pages/savings/individualSavingDetails';
+import Settings from './pages/Settings';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -28,7 +30,6 @@ const App = () => {
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
-
     {!userInfo ? ( 
       <BrowserRouter>
        <Router />
@@ -55,7 +56,7 @@ const App = () => {
             </TooltipComponent>
           </div>
           {activeMenu ? (
-            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+            <div className="w-60 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
               <Sidebar />
             </div>
           ) : (
@@ -90,13 +91,17 @@ const App = () => {
 
                 {/* pages  */}
                 <Route path="/customers" element={<Customers />} />
+                <Route path="/customers/:id" element={<CustomerDetails />} />
+
                 <Route path="/savings" element={<Savings />} />
+                <Route path="/savings/:acc" element={<IndividualSavings />} />
+                
                 <Route path="/withdrawals" element={<Withdrawal />} />
                 <Route path="/loans" element={<Loans />} />
+                <Route path="/loans/name" element={''} />
+
                 <Route path="/staffs" element={<Employees />} />
-               
-                <Route path="/calendar" element={<Calendar />} />
-                <Route path="/color-picker" element={<ColorPicker />} />
+                <Route path="/settings" element={<Settings />} />
 
               </Routes>
             </div>
