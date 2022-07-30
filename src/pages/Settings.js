@@ -16,9 +16,10 @@ const Settings = () => {
   const setting = useSelector((state) => state.settings)
   const staffs = useSelector((state) => state.staffs)
 
-  const { loading, success, allData} = setting
+  const { loading, success, settingData} = setting
+  const {  allData } = staffs
 
-  const today = moment(allData?.date).format('yyyy-MM-DD')
+  const today = moment(settingData?.date).format('yyyy-MM-DD')
 
   const [state, setState] = useState(today)
   const [permission, setPermission] = useState([])
@@ -44,7 +45,7 @@ const Settings = () => {
 
   const handleSubmit = async () => {
     const requestData = { date }
-    dispatch(updateSettingsData(allData?._id, requestData))
+    dispatch(updateSettingsData(settingData?._id, requestData))
   }
 
   const onChange = (e, perm) => {
@@ -58,19 +59,19 @@ const Settings = () => {
 
   const handlePermissionSubmit = async () => {
     const requestData = { permission }
-    dispatch(updatePermissionData(allData?._id, requestData))
+
+    dispatch(updatePermissionData(userId, requestData))
   }
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-    {console.log(permission.includes('create'))}
       <Header category="Settings" title="Date" />
       {  loading ? 'loading' : (
       <TextField
         id="date"
         label="Date"
         type="date"
-        value={moment(allData?.date).format('yyyy-MM-DD')}
+        value={moment(settingData?.date).format('yyyy-MM-DD')}
         name='date'
         sx={{ width: 220 }}
         onChange={handleChange}
@@ -86,7 +87,7 @@ const Settings = () => {
           style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
           className="text-sm text-white p-4 mb-10 hover:drop-shadow-xl hover:bg-light-gray"
         >
-          Update
+          {loading ? 'Updating' : 'Update'}
         </button>
       </div>
 
@@ -112,62 +113,74 @@ const Settings = () => {
       <SmallHeader title="Customers" />
       <Permissions title="create" 
       onChange={(e) => onChange(e, '/v1/customer/_create')}
-      defaultChecked={permission.includes('create')}
+      defaultChecked={permission.includes('/v1/customer/_create')}
       />
       <Permissions title="update"
-        onChange={(e) => onChange(e, '/v1/customer/_create')}
-        defaultChecked={permission.includes('updat')}
+        onChange={(e) => onChange(e, 'update_customer')}
+        defaultChecked={permission.includes('update_customer')}
+      />
+      <Permissions title="delete"
+        onChange={(e) => onChange(e, 'delete_customer')}
+        defaultChecked={permission.includes('delete_customer')}
       />
 
       <SmallHeader title="Savings" />
       <Permissions title="create"
-        onChange={(e) => onChange(e, '/v1/savings/_create')}
-        defaultChecked={permission.includes('create')}
+        onChange={(e) => onChange(e, '/savings/_create')}
+        defaultChecked={permission.includes('/savings/_create')}
       />
-      <Permissions title="update"
-        onChange={(e) => onChange(e, '/v1/savings/_create')}
-        defaultChecked={permission.includes('update')}
+      <Permissions title="delete"
+        onChange={(e) => onChange(e, 'delete_savings')}
+        defaultChecked={permission.includes('delete_savings')}
       />
 
       <SmallHeader title="Withdrawals" />
       <Permissions title="create"
-        onChange={(e) => onChange(e, '/v1/withdrawals/_create')}
-        defaultChecked={permission.includes('create')}
+        onChange={(e) => onChange(e, '/withdrawals/_create')}
+        defaultChecked={permission.includes('/withdrawals/_create')}
       />
       <Permissions title="update"
-        onChange={(e) => onChange(e, '/v1/withdrawals/_create')}
-        defaultChecked={permission.includes('update')}
+        onChange={(e) => onChange(e, 'update_withdrawals')}
+        defaultChecked={permission.includes('update_withdrawals')}
+      />
+      <Permissions title="update"
+        onChange={(e) => onChange(e, 'delete_withdrawals')}
+        defaultChecked={permission.includes('delete_withdrawals')}
       />
 
       <SmallHeader title="Loans" />
       <Permissions title="create"
-        onChange={(e) => onChange(e, '/v1/loans/_create')}
-        defaultChecked={permission.includes('create')}
+        onChange={(e) => onChange(e, '/loans/_create')}
+        defaultChecked={permission.includes('/loans/_create')}
       />
       <Permissions title="update"
-        onChange={(e) => onChange(e, '/v1/loans/_update')}
-        defaultChecked={permission.includes('update')}
+        onChange={(e) => onChange(e, 'update_loan')}
+        defaultChecked={permission.includes('update_loan')}
+      />
+      <Permissions title="delete"
+        onChange={(e) => onChange(e, 'delete_loan')}
+        defaultChecked={permission.includes('delete_loan')}
       />
 
       <SmallHeader title="Staffs" />
       <Permissions title="create"
-        onChange={(e) => onChange(e, '/v1/_create_staff')}
-        defaultChecked={permission.includes('update')}
+        onChange={(e) => onChange(e, '/_create_staff')}
+        defaultChecked={permission.includes('/_create_staff')}
       />
       <Permissions title="update"
-        onChange={(e) => onChange(e, '/v1/staffs/_update')}
-        defaultChecked={permission.includes('update')}
+        onChange={(e) => onChange(e, 'update_permission')}
+        defaultChecked={permission.includes('update_permission')}
       />
 
-      <SmallHeader title="Settings" />
+      {/* <SmallHeader title="Settings" />
       <Permissions title="create"
         onChange={(e) => onChange(e, '/v1/settings/_create')}
         defaultChecked={permission.includes('create')}
       />
       <Permissions title="update"
         onChange={(e) => onChange(e, '/v1/settings/_update')}
-        defaultChecked={permission.includes('update')}
-      />
+        defaultChecked={permission.includes('update_create')}
+      /> */}
       
 
       <div className='flex justify-end'>
@@ -177,7 +190,7 @@ const Settings = () => {
           style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
           className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
         >
-          Update
+          {staffs?.loading ? 'Updating' : 'Update'}
         </button>
       </div>
     </div>

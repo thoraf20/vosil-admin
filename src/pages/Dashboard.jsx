@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { earningData} from '../data/dummy';
+// import { earningData} from '../data/dummy';
 import { useDispatch, useSelector } from "react-redux";
 import { dashboardData } from "../redux/actions/dashboard.js"
 import { formatCurrency } from '../utils';
@@ -40,29 +40,29 @@ const Dashboard = () => {
         <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
-              <button
+              {/* <button
                 type="button"
                 style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
                 {earningData[0].icon}
-              </button>
+              </button> */}
               <p className="mt-3">
                 <span className="text-lg font-semibold">
                 {formatCurrency(allData?.totalSavings ? allData?.totalSavings : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">{earningData[0].title}</p>
+              <p className="text-sm text-gray-400  mt-1">Total Savings</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
-              <button
+              {/* <button
                 type="button"
                 style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
                 {earningData[0].icon}
-              </button>
+              </button> */}
               <p className="mt-3">
                 <span className="text-lg font-semibold">
                 {formatCurrency(allData?.totalCurrentMonthSavings ? allData?.totalCurrentMonthSavings : 0)}
@@ -74,10 +74,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -88,13 +88,13 @@ const Dashboard = () => {
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
-              <button
+              {/* <button
                 type="button"
                 style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
                 {earningData[0].icon}
-              </button>
+              </button> */}
               <p className="mt-3">
                 <span className="text-lg font-semibold">
                 {formatCurrency(allData?.totalCurrentMonthWithdrawals ? allData?.totalCurrentMonthWithdrawals : 0)}
@@ -106,10 +106,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -122,10 +122,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -138,10 +138,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -154,10 +154,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -170,10 +170,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -186,10 +186,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -202,10 +202,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -218,10 +218,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -234,10 +234,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
@@ -250,10 +250,10 @@ const Dashboard = () => {
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
               <button
                 type="button"
-                style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                {earningData[0].icon}
+                {/* {earningData[0].icon} */}
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">

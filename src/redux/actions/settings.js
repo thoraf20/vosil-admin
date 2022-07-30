@@ -26,8 +26,7 @@ export const settingsData = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/settings/_create`, config);
-    console.log(data[0])
+    const { data } = await axios.get(`${baseUrl}/settings`, config);
     dispatch({
       type: SETTINGS_SUCCESS,
       payload: data[0],
