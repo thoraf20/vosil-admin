@@ -14,7 +14,7 @@ const PostLoan = () => {
   const dispatch = useDispatch()
 
   const loan = useSelector((state) => state.addLoan)
-  const { loading, success, error} = loan
+  const { loading, success, error, allData} = loan
 
   const [state, setState] = useState('')
 
@@ -23,7 +23,7 @@ const PostLoan = () => {
     amount, 
    } = state
 
-  const notify = () => toast.success(` Loan Successfully Created.`, {duration: 6000})
+  const notify = () => toast.success(` ${allData.msg}.`, {duration: 6000})
   const notifyFailure = () => toast.error(
     `${error}`, {duration: 6000}
     )
@@ -80,6 +80,7 @@ const PostLoan = () => {
           label="Account Number"
           name='accountNumber'
           onChange={handleChange}
+          helperText="Name will appear here"
         />
         <TextField
           required

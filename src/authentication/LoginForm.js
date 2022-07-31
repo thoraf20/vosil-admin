@@ -7,13 +7,12 @@ import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import {  
-  Link,  Stack, Grid,
+  Link,  Stack,
   Checkbox,  TextField,  
   IconButton,  InputAdornment,  
   FormControlLabel, Paper, Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import EmailIcon from "@mui/icons-material/Email";
 import { login } from "../redux/actions/login";
 
 export default function LoginForm({ history }) {  
@@ -34,18 +33,15 @@ export default function LoginForm({ history }) { 
     } 
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, getFieldProps } = formik;
    useEffect(() => {     
-  if (userInfo && userInfo?.token) {      
+  if (userInfo && userInfo?.token) {  
     navigate("/overview")} 
-    else { navigate("/login") }
    }, [history, navigate, userInfo]);
 
    const submitHandler = (e) => { 
       e.preventDefault();     
-  //DISPATCH LOGIN     
   dispatch(login(values.email, values.password));
-  // await login(values.email, values.password) 
 };
   const handleShowPassword = () => { 
     setShowPassword((show) => !show); 
@@ -73,7 +69,6 @@ export default function LoginForm({ history }) { 
               label="Email address" {...getFieldProps("email")}              
               InputProps={{ endAdornment: (                  
               <InputAdornment position="end">                    
-              {/* <Icon icon={eyeFill} />                  */}
               </InputAdornment> 
               ),}}              
               error={Boolean(touched.email && errors.email)}              

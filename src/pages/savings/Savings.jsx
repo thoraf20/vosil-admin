@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Navigate, useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';

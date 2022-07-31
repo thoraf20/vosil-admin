@@ -13,7 +13,7 @@ const Saving = () => {
   const dispatch = useDispatch()
 
   const saving = useSelector((state) => state.addSavings)
-  const { loading, success, error } = saving
+  const { loading, success, error, allData } = saving
 
   const [state, setState] = useState('')
 
@@ -24,11 +24,11 @@ const Saving = () => {
    } = state
 
    const notify = () => toast.success(
-    `Savings Successfully Added.`, { duration: 6000}
+    `${allData.msg}`, { duration: 7000}
   )
 
   const notifyError = () => toast.error(
-    `${error}`, { duration: 6000, position: 'top-right'}
+    `${error}`, { duration: 7000, position: 'top-right'}
   )
 
   useEffect(() => {
@@ -78,6 +78,7 @@ const Saving = () => {
           label="Account Number"
           name='accountNumber'
           onChange={handleChange}
+          helperText="Name will appear here"
         />
         
       <TextField
@@ -95,14 +96,6 @@ const Saving = () => {
           name='amount'
           onChange={handleChange}
         />
-      
-        {/* <TextField
-          required
-          id="outlined-required"
-          label="Date"
-          name='date'
-          onChange={handleChange}
-        /> */}
       </div>
       <div className='flex justify-end'>
       <button

@@ -10,7 +10,6 @@ import './App.css';
 import { useStateContext } from './contexts/ContextProvider';
 import { LoginForm } from './authentication';
 
-import Router from "./routes"
 import IndividualSavings from './pages/savings/individualSavingDetails';
 import Settings from './pages/Settings';
 
@@ -26,17 +25,15 @@ const App = () => {
     }
   }, []);
 
-  const userInfo = localStorage.getItem("userInfo")
-
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
-    {!userInfo ? ( 
+    
       <BrowserRouter>
-       <Router />
-      </BrowserRouter>
-      ) : 
-     
-      <BrowserRouter>
+
+      <Routes>
+      <Route path="/login" element={(<LoginForm />)} />
+      </Routes>
+
         <div className="flex relative dark:bg-main-dark-bg">
           <>
           <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
@@ -82,8 +79,6 @@ const App = () => {
               {themeSettings && (<ThemeSettings />)}
 
              <Routes> 
-                {/* {authentication} */}
-                {/* <Route path="/login" element={(<LoginForm />)} /> */}
 
                 {/* dashboard  */}
                 <Route path="/" element={(<Dashboard />)} />
@@ -109,7 +104,6 @@ const App = () => {
           </div>
         </div>
       </BrowserRouter>
-    }
     </div>
   );
 };

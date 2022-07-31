@@ -25,6 +25,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import moment from 'moment';
 import { IoEyeSharp } from "react-icons/io5";
+import { AiFillMail } from "react-icons/ai"
 import BasicModal from '../commons/Modals';
 import { CustomerHeadCells } from '../data/dummy';
 import { customerData } from '../redux/actions/customers';
@@ -329,6 +330,12 @@ export default function Customers() {
 
                       <TableCell align="left">{row.category}</TableCell>
                       <TableCell align="left">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="right">
+                        <AiFillMail 
+                        style={{cursor: "pointer"}}
+                        // onClick={() => handleDetailsOpen(row._id)}
+                        />
+                      </TableCell>
                       <TableCell align="right">
                         <IoEyeSharp 
                           style={{cursor: "pointer"}}

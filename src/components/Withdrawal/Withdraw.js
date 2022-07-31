@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import { TextField } from '@mui/material';
@@ -26,12 +25,12 @@ const Withdraws = () => {
    } = state
 
   const notifySuccess = () => toast.success(
-    `Withdrawal of ${formatCurrency(allData.amount)} Successful.`,
-   {duration: 6000}
+    `Withdrawal of ${formatCurrency(allData.amount)} was Successful.`,
+   {duration: 7000}
   )
 
   const notifyFailure = () => toast.error(
-    `${error}`, {duration: 6000}
+    `${error}`, {duration: 7000}
   )
 
   useEffect(() => {
@@ -83,6 +82,7 @@ const Withdraws = () => {
           label="Account Number"
           name='accountNumber'
           onChange={handleChange}
+          helperText="Name will appear here"
         />
 
         <TextField
