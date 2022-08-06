@@ -12,7 +12,7 @@ import axios from "axios"
 
 import { baseUrl } from "../../api/baseUrl"
 
-export const withdrawalsData = () => async (dispatch, getState) => {
+export const withdrawalsData = (query, column) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
@@ -27,7 +27,7 @@ export const withdrawalsData = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/withdrawals`, config);
+    const { data } = await axios.get(`${baseUrl}/withdrawals?search=${query}&column=${column}`, config);
     
     dispatch({
       type: WITHDRAWAL_SUCCESS,

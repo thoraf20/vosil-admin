@@ -17,7 +17,7 @@ import axios from "axios"
 
 import { baseUrl } from "../../api/baseUrl"
 
-export const customerData = () => async (dispatch, getState) => {
+export const customerData = (query, column) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
@@ -32,7 +32,7 @@ export const customerData = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/customers`, config);
+    const { data } = await axios.get(`${baseUrl}/customers?search=${query}&column=${column}`, config);
     
     dispatch({
       type: CUSTOMER_SUCCESS,

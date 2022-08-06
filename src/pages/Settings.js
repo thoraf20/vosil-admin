@@ -17,6 +17,7 @@ const Settings = () => {
   const staffs = useSelector((state) => state.staffs)
 
   const { loading, success, settingData} = setting
+  
   const {  allData } = staffs
 
   const today = moment(settingData?.date).format('yyyy-MM-DD')
@@ -32,14 +33,13 @@ const Settings = () => {
 
   const handleStaffChange = (event) => {
     setUserId(event.target.value);
-    setPermission(staffs?.allData?.find(el => el._id === event.target.value).permissions)
+    setPermission(allData?.staffs?.find(el => el._id === event.target.value).permissions)
   };
 
   useEffect(() => {
     dispatch(settingsData())
-    dispatch(staffsData())
+    dispatch(staffsData(","))
   }, [dispatch])
-
 
   const { date } = state
 
@@ -101,7 +101,7 @@ const Settings = () => {
           helperText="Please select staff"
           style={{width: '40%'}}
         >
-          {staffs?.allData?.map((option) => (
+          {allData?.staffs?.map((option) => (
             <MenuItem key={option._id} value={option._id}>
               {option.surName + ' ' + option.otherNames}
             </MenuItem>

@@ -14,7 +14,7 @@ import axios from "axios"
 
 import { baseUrl } from "../../api/baseUrl"
 
-export const savingsData = () => async (dispatch, getState) => {
+export const savingsData = (query, column) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
@@ -29,7 +29,7 @@ export const savingsData = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/savings`, config);
+    const { data } = await axios.get(`${baseUrl}/savings?search=${query}&column=${column}`, config);
     
     dispatch({
       type: SAVING_SUCCESS,
@@ -47,7 +47,7 @@ export const savingsData = () => async (dispatch, getState) => {
   }
 }
 
-export const singleSavingsData = (accountNumber) => async (dispatch, getState) => {
+export const singleSavingsData = () => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
@@ -62,7 +62,7 @@ export const singleSavingsData = (accountNumber) => async (dispatch, getState) =
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/savings/${accountNumber}`, config);
+    const { data } = await axios.get(`${baseUrl}/savings`, config);
     
     dispatch({
       type: SINGLE_SAVING_SUCCESS,

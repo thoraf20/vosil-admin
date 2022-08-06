@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,16 +17,16 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import BasicModal from '../commons/Modals'
-import { WithdrawalHeadCells } from '../data/dummy';
-import { withdrawalsData } from '../redux/actions/withdrawals';
-import Withdraws from '../components/Withdrawal/Withdraw'
-import { savingsFilter } from '../utils';
-import { MenuItem, TextField } from '@mui/material';
-import WithdrawalsTable from '../components/Table/WithdrawalTable';
+import { IoEyeSharp } from "react-icons/io5";
+import { LoanHeadCells, SavingsHeadCells } from '../../data/dummy';
+import { formatCurrency } from '../../utils';
+import moment from 'moment';
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -39,7 +43,6 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
 
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -62,7 +65,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {WithdrawalHeadCells.map((headCell) => (
+        {LoanHeadCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -123,12 +126,10 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Typography
           sx={{ flex: '1 1 100%' }}
-          // variant="h6"
-          // id="tableTitle"
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
-          Withdrawal
+          Savings
         </Typography>
       )}
 
@@ -141,7 +142,8 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-          {''}            {/* <FilterListIcon /> */}
+            <FilterListIcon />
+            {/* SearchBar */}
           </IconButton>
         </Tooltip>
       )}
@@ -153,40 +155,26 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Withdrawal() {
 
-  const dispatch = useDispatch()
+export default function LoanTable({allData}) {
+  const navigate = useNavigate()
 
-  const data = useSelector((state) => state.withdrawals)
-
-  const { loading, error, allData } = data
-
-
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('');
   const [selected, setSelected] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [column, setColumToQuery] = useState("");
-  
-  const handleChange = (e) => {
-    setColumToQuery(e.target.value)
-  }
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
 
-  const handleSearch = (e) => {
-    e.preventDefault()
-    setSearchQuery(e.target.value)
-  }
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
-  useEffect(() => {
-    dispatch(withdrawalsData(searchQuery, column))
-  }, [dispatch, searchQuery, column])
-
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.withdrawals?.map((n) => n.name);
+      const newSelecteds = allData?.savings?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -213,58 +201,115 @@ export default function Withdrawal() {
     setSelected(newSelected);
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 20));
+    setPage(0);
+  };
+
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
+
+  const handleViewDetails = (acc) => {
+    navigate(`/savings/${acc}`)
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
-    {loading ? 'loading...' : (
+    {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
-      <div className='flex justify-end'>
-         <div>
-           <button
-             type="button"
-             onClick={handleOpen}
-             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
-            className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? 'small' : 'medium'}
           >
-              Create Withdrawal
-           </button>
-        </div>
-        </div>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <div className='flex justify-end'>
-        <TextField
-          id="search-bar"
-          className="text"
-          onChange={handleSearch}
-          value={searchQuery}
-          label="Search..."
-          variant="outlined"
-          placeholder="Search..."
-          size="small"
-          autoFocus={true}
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={allData.count}
+            />
+            <TableBody>
+            {allData?.loans?.slice().sort(getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.name);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row._id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row._id}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {index+1}
+                      </TableCell>
+                      <TableCell align="left">{row.name}</TableCell>
+                      <TableCell align="right">{row.accountNumber}</TableCell>
+                      <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
+                      <TableCell align="right">{row.paybackAmount}</TableCell>
+                      <TableCell align="right">{row.interest}</TableCell>
+                      <TableCell align="right">{row.postedBy}</TableCell>
+                      <TableCell align="right">{row.accountOfficer}</TableCell>
+                      <TableCell align="right">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="right">{moment(row.dueDate).format('DD/MM/YY')}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[15, 25, 35]}
+          component="div"
+          count={allData.count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
-          <TextField
-          id="outlined-select-account-type"
-          select
-          label="Select"
-          value={column}
-          onChange={handleChange}
-          size='small'
-          helperText="Column to search"
-        >
-          {savingsFilter.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem> 
-          ))}
-        </TextField>
-        </div>
-        <WithdrawalsTable allData={allData}/>
       </Paper>
       )}
-      <BasicModal open={open} onClose={handleClose} title='Withdrawal Form' content={<Withdraws />}/>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
     </Box>
   );
 }

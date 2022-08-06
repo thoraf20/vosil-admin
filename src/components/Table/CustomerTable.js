@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -22,17 +22,11 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { IoEyeSharp } from "react-icons/io5";
+import { CustomerHeadCells } from '../../data/dummy';
+import { formatCurrency } from '../../utils';
 import moment from 'moment';
-import { MdEditOff } from "react-icons/md";
-import BasicModal from '../commons/Modals';
-import { EmployeeHeadCells } from '../data/dummy';
-import { staffsData } from '../redux/actions/staffs';
-import StaffDetails from '../components/Staffs/StaffDetails';
-import UpdateStaffDetails from '../components/Staffs/ChangePermission';
-import SearchBar from '../components/Search';
-import { MenuItem, TextField } from '@mui/material';
-import { savingsFilter } from '../utils';
-import EmployeeTable from '../components/Table/EmployeeTable';
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -49,7 +43,6 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
 
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -72,7 +65,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {EmployeeHeadCells.map((headCell) => (
+        {CustomerHeadCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -133,12 +126,10 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Typography
           sx={{ flex: '1 1 100%' }}
-          // variant="h6"
-          // id="tableTitle"
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
-          Staff
+          Savings
         </Typography>
       )}
 
@@ -149,7 +140,12 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        ""
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+            {/* SearchBar */}
+          </IconButton>
+        </Tooltip>
       )}
     </Toolbar>
   );
@@ -159,46 +155,16 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Employees() {
+
+export default function CustomerTable({allData}) {
+  const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
+  const [orderBy, setOrderBy] = useState('');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [column, setColumToQuery] = useState("");
-
-  const dispatch = useDispatch()
-
-  const data = useSelector((state) => state.staffs)
-
-  const { loading, allData } = data
-
-  const handleChange = (e) => {
-    setColumToQuery(e.target.value)
-  }
-
-  const handleSearch = (e) => {
-    e.preventDefault()
-    setSearchQuery(e.target.value)
-  }
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
-  const [openDetails, setOpenDetails] = useState(false);
-  const handleDetailsOpen = (id) => {
-    localStorage.setItem('userId', id)
-    setOpenDetails(true)
-  }
-  const handleDetailsClose = () => setOpenDetails(false)
-
-  useEffect(() => {
-    dispatch(staffsData(searchQuery, column))
-  }, [column, dispatch, searchQuery])
+  const [rowsPerPage, setRowsPerPage] = useState(15);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -208,7 +174,7 @@ export default function Employees() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData.map((n) => n.name);
+      const newSelecteds = allData?.savings?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -240,7 +206,7 @@ export default function Employees() {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 20));
     setPage(0);
   };
 
@@ -254,56 +220,102 @@ export default function Employees() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
 
+  const handleViewDetails = (acc) => {
+    navigate(`/savings/${acc}`)
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
-    {loading ? 'laoding...' : (
+    {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
-      <div className='flex justify-end'>
-         <div>
-           <button
-             type="button"
-             onClick={handleOpen}
-             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
-            className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? 'small' : 'medium'}
           >
-              Add Staff
-           </button>
-        </div>
-        </div>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <div className='flex justify-end'>
-        <TextField
-          id="search-bar"
-          className="text"
-          onChange={handleSearch}
-          value={searchQuery}
-          label="Search..."
-          variant="outlined"
-          placeholder="Search..."
-          size="small"
-          autoFocus={true}
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={allData?.count}
+            />
+            <TableBody>
+            {allData?.allCustomers?.slice().sort(getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.name);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row._id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row._id}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {index+1}
+                      </TableCell>
+                      <TableCell align="left">{row.surName}</TableCell>
+                      <TableCell align="left">{row.otherNames}</TableCell>
+                      <TableCell align="right">{row.phoneNumber}</TableCell>
+                      <TableCell align="right">{row.residentialAddress}</TableCell>
+                      <TableCell align="right">{row.accountNumber}</TableCell>
+                      <TableCell align="right">{formatCurrency(row.accountBalance)}</TableCell>
+                      <TableCell align="right">{row.accountOfficer}</TableCell>
+                      <TableCell align="right">{row.category}</TableCell>
+                      <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="right">
+                        <IoEyeSharp 
+                          style={{cursor: "pointer"}}
+                          onClick={() => handleViewDetails(row.accountNumber)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[15, 25, 35]}
+          component="div"
+          count={allData?.count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
-          <TextField
-          id="outlined-select-account-type"
-          select
-          label="Select"
-          value={column}
-          onChange={handleChange}
-          size='small'
-          helperText="Column to search"
-        >
-          {savingsFilter.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem> 
-          ))}
-        </TextField>
-        </div>
-        <EmployeeTable allData={allData}/>
       </Paper>
       )}
-      <BasicModal open={open} onClose={handleClose} title='Staff Form' content={<StaffDetails />}/>
-      <BasicModal open={openDetails} onClose={handleDetailsClose} title='Update Staff Details' content={<UpdateStaffDetails />}/>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
     </Box>
   );
 }

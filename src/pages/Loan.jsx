@@ -29,7 +29,10 @@ import BasicModal from '../commons/Modals';
 import PostLoan from '../components/Loans/Loans';
 import { LoanHeadCells } from '../data/dummy';
 import { loansData } from '../redux/actions/loan';
-import { formatCurrency } from '../utils';
+import { formatCurrency, savingsFilter } from '../utils';
+import SearchBar from '../components/Search';
+import { MenuItem, TextField } from '@mui/material';
+import LoanTable from '../components/Table/LoanTable';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -175,33 +178,34 @@ EnhancedTableToolbar.propTypes = {
 
 export default function Loans() {
   //   const navigate = useNavigate()
-
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
   const dispatch = useDispatch()
 
   const data = useSelector((state) => state.loans)
 
   const { loading, allData } = data
 
-  useEffect(() => {
-    dispatch(loansData())
-  }, [dispatch])
+  const [selected, setSelected] = useState([]);
+  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [column, setColumToQuery] = useState("");
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    setSearchQuery(e.target.value)
+  }
+
+  const handleChange = (e) => {
+    setColumToQuery(e.target.value)
+  }
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
+  useEffect(() => {
+    dispatch(loansData(searchQuery, column))
+  }, [dispatch, searchQuery, column])
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -231,25 +235,9 @@ export default function Loans() {
 
     setSelected(newSelected);
   };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+  
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -268,100 +256,37 @@ export default function Loans() {
         </div>
         </div>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={allData?.length}
-            />
-              <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-              {allData?.slice().sort(getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row._id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row._id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {index+1}
-                      </TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="left">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.paybackAmount)}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.interest)}</TableCell>
-                      <TableCell align="right">{row.postedBy}</TableCell>
-                      <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
-                      <TableCell align="right">{row.dueDate}</TableCell>
-                      <TableCell align="right">
-                        <IoEyeSharp 
-                          style={{cursor: "pointer"}}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[15, 25, 35]}
-          component="div"
-          count={allData?.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+        <div className='flex justify-end'>
+        <TextField
+          id="search-bar"
+          className="text"
+          onChange={handleSearch}
+          value={searchQuery}
+          label="Search..."
+          variant="outlined"
+          placeholder="Search..."
+          size="small"
+          autoFocus={true}
         />
+          <TextField
+          id="outlined-select-account-type"
+          select
+          label="Select"
+          value={column}
+          onChange={handleChange}
+          size='small'
+          helperText="Column to search"
+        >
+          {savingsFilter.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem> 
+          ))}
+        </TextField>
+        </div>
+        <LoanTable allData={allData}/>
       </Paper>
       )}
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
       <BasicModal open={open} onClose={handleClose} title='Loan Form' content={<PostLoan />}/>
 
     </Box>

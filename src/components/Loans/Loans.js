@@ -15,6 +15,7 @@ const PostLoan = () => {
 
   const loan = useSelector((state) => state.addLoan)
   const { loading, success, error, allData} = loan
+  console.log(error)
 
   const [state, setState] = useState('')
 

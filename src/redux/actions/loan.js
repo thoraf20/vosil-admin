@@ -11,7 +11,7 @@ import axios from "axios"
 
 import { baseUrl } from "../../api/baseUrl"
 
-export const loansData = () => async (dispatch, getState) => {
+export const loansData = (query, column) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
@@ -26,7 +26,7 @@ export const loansData = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/loans`, config);
+    const { data } = await axios.get(`${baseUrl}/loans?search=${query}&column=${column}`, config);
     
     dispatch({
       type: LOAN_SUCCESS,
@@ -39,7 +39,7 @@ export const loansData = () => async (dispatch, getState) => {
       payload: 
         error.response && error.response.data.message
           ? error.response.data.message
-          : error.message
+          : error.msg
     })
   }
 }

@@ -1,3 +1,30 @@
+export const savingsFilter = [
+  {
+    value: 'pageNo',
+    label: 'Page No',
+  },
+  {
+    value: 'name',
+    label: 'Name',
+  },
+  {
+    value: 'accountNumber',
+    label: 'Account Number',
+  },
+  {
+    value: 'postedBy',
+    label: 'Posted By',
+  },
+  {
+    value: 'accountOfficer',
+    label: 'Account Officer',
+  },
+  {
+    value: 'date',
+    label: 'Date',
+  },
+];
+
 export const accounts = [
   {
     value: 'interim',
