@@ -8,16 +8,21 @@ import { toast, Toaster} from 'react-hot-toast'
 
 import { createLoan } from '../../redux/actions/loan'
 import { durations } from '../../utils';
+import { customerByAccNo } from '../../redux/actions/customers';
 
 
 const PostLoan = () => {
   const dispatch = useDispatch()
 
+  const userDetails = useSelector((state) => state.customerData)
+
+  const { userData } = userDetails;
+
   const loan = useSelector((state) => state.addLoan)
   const { loading, success, error, allData} = loan
-  console.log(error)
 
   const [state, setState] = useState('')
+  const [ customerName, setCustomerName ] = useState('')
 
   const {
     accountNumber, 
@@ -47,6 +52,15 @@ const PostLoan = () => {
   const handleChange = (event) => {
     const { name, value } = event.target
     setState({...state, [name]: value});
+  };
+
+  const handleAccNumberChange = (event) => {
+    const { name, value } = event.target
+    setState({...state, [name]: value});
+    if (value.length >= 10) {
+      dispatch(customerByAccNo(value))
+    }
+    setCustomerName(userData?.surName + ' ' + userData?.otherNames)
   };
 
   const userInfo = localStorage.getItem("userInfo")
@@ -80,8 +94,8 @@ const PostLoan = () => {
           id="outlined-required"
           label="Account Number"
           name='accountNumber'
-          onChange={handleChange}
-          helperText="Name will appear here"
+          onChange={handleAccNumberChange}
+          helperText={customerName}
         />
         <TextField
           required

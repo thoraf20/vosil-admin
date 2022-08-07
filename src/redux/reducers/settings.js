@@ -28,19 +28,19 @@ export const settingsReducer = (state= {settingData: [] }, action) => {
   }
 }
 
-export const updateSettingsByIdReducer = (state= {settingData: [] }, action) => {
+export const updateSettingsByIdReducer = (state= {updateDate: [] }, action) => {
   switch (action.type) {
     case UPDATE_SETTINGS_REQUEST: 
       return { loading : true};
 
     case UPDATE_SETTINGS_SUCCESS:
-      return {loading: false, success: true, settingData: action.payload };
+      return {loading: false, success: true, updateDate: action.payload };
 
     case UPDATE_SETTINGS_FAIL:
       return {loading: false, error: action.payload };
 
     case UPDATE_SETTINGS_RESET:
-      return { settingData: [] };
+      return { updateDate: [] };
 
     default:
       return state;

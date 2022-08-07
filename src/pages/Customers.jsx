@@ -15,9 +15,9 @@ import BasicModal from '../commons/Modals';
 import { customerData } from '../redux/actions/customers';
 import CustomerDetails from '../components/Customer/CustomerDetails';
 import { savingsFilter } from '../utils';
-import SearchBar from '../components/Search';
 import { MenuItem, TextField } from '@mui/material';
 import CustomerTable from '../components/Table/CustomerTable';
+import * as XLSX from 'xlsx';
 
 
 const EnhancedTableToolbar = (props) => {
@@ -105,6 +105,13 @@ export default function Customers() {
     dispatch(customerData(searchQuery, column))
   }, [dispatch, searchQuery, column])
 
+  const handleExport = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allData?.allCustomers)
+
+    XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
+    XLSX.writeFile(wb, "customers.xlsx");
+  }
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = allData?.allCustomers?.map((n) => n.name);
@@ -151,18 +158,29 @@ export default function Customers() {
         </div>
         </div>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <div className='flex justify-end'>
-        <TextField
-          id="search-bar"
-          className="text"
-          onChange={handleSearch}
-          value={searchQuery}
-          label="Search..."
-          variant="outlined"
-          placeholder="Search..."
-          size="small"
-          autoFocus={true}
-        />
+        <div className='flex justify-between w-full'>
+        <div>
+           <button
+             type="button"
+             onClick={handleExport}
+             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
+             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              Export
+           </button>
+        </div>
+        <div>
+          <TextField
+            id="search-bar"
+            className="text"
+            onChange={handleSearch}
+            value={searchQuery}
+            label="Search..."
+            variant="outlined"
+            placeholder="Search..."
+            size="small"
+            autoFocus={true}
+          />
           <TextField
           id="outlined-select-account-type"
           select
@@ -178,6 +196,7 @@ export default function Customers() {
             </MenuItem> 
           ))}
         </TextField>
+        </div>
         </div>
         <CustomerTable allData={allData}/>
       </Paper>

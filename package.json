@@ -45,6 +45,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
     "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "scripts": {

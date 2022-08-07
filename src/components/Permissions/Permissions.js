@@ -14,7 +14,6 @@ const Permissions = ({title, onChange, defaultChecked}) => {
  },[defaultChecked])
   return (
     <div>
-    {console.log(checked)}
       <div className='flex justify-between'>
         <Typography>
           {title}

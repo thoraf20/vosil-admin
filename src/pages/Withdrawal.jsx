@@ -14,7 +14,6 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import BasicModal from '../commons/Modals'
 import { WithdrawalHeadCells } from '../data/dummy';
@@ -23,22 +22,7 @@ import Withdraws from '../components/Withdrawal/Withdraw'
 import { savingsFilter } from '../utils';
 import { MenuItem, TextField } from '@mui/material';
 import WithdrawalsTable from '../components/Table/WithdrawalTable';
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
+import * as XLSX from 'xlsx';
 
 
 function EnhancedTableHead(props) {
@@ -183,7 +167,13 @@ export default function Withdrawal() {
     dispatch(withdrawalsData(searchQuery, column))
   }, [dispatch, searchQuery, column])
 
+  const handleExport = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allData?.withdrawals)
 
+    XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
+    XLSX.writeFile(wb, "withdrawals.xlsx");
+  }
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = allData?.withdrawals?.map((n) => n.name);
@@ -233,18 +223,29 @@ export default function Withdrawal() {
         </div>
         </div>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <div className='flex justify-end'>
-        <TextField
-          id="search-bar"
-          className="text"
-          onChange={handleSearch}
-          value={searchQuery}
-          label="Search..."
-          variant="outlined"
-          placeholder="Search..."
-          size="small"
-          autoFocus={true}
-        />
+        <div className='flex justify-between w-full'>
+        <div>
+           <button
+             type="button"
+             onClick={handleExport}
+             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
+             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              Export
+           </button>
+        </div>
+        <div>
+          <TextField
+            id="search-bar"
+            className="text"
+            onChange={handleSearch}
+            value={searchQuery}
+            label="Search..."
+            variant="outlined"
+            placeholder="Search..."
+            size="small"
+            autoFocus={true}
+          />
           <TextField
           id="outlined-select-account-type"
           select
@@ -260,6 +261,7 @@ export default function Withdrawal() {
             </MenuItem> 
           ))}
         </TextField>
+        </div>
         </div>
         <WithdrawalsTable allData={allData}/>
       </Paper>

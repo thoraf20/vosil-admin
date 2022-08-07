@@ -97,19 +97,19 @@ export const updateStaffByIdReducer = (state= {allData: [] }, action) => {
   }
 }
 
-export const updatePermissionByIdReducer = (state= {allData: [] }, action) => {
+export const updatePermissionByIdReducer = (state= {permissionData: [] }, action) => {
   switch (action.type) {
     case UPDATE_PERMISSION_REQUEST: 
       return { loading : true};
 
   case UPDATE_PERMISSION_SUCCESS:
-    return {loading: false, success: true, allData: action.payload };
+    return {loading: false, success: true, permissionData: action.payload };
 
   case UPDATE_PERMISSION_FAIL:
     return {loading: false, error: action.payload };
 
   case UPDATE_PERMISSION_RESET:
-    return { allData: [] };
+    return { permissionData: [] };
 
     default:
       return state;

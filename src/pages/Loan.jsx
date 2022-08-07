@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,51 +13,18 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import moment from 'moment';
-import { IoEyeSharp } from "react-icons/io5";
 import BasicModal from '../commons/Modals';
 import PostLoan from '../components/Loans/Loans';
 import { LoanHeadCells } from '../data/dummy';
 import { loansData } from '../redux/actions/loan';
-import { formatCurrency, savingsFilter } from '../utils';
-import SearchBar from '../components/Search';
+import { savingsFilter } from '../utils';
 import { MenuItem, TextField } from '@mui/material';
 import LoanTable from '../components/Table/LoanTable';
+import * as XLSX from 'xlsx';
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
 
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -207,6 +169,13 @@ export default function Loans() {
     dispatch(loansData(searchQuery, column))
   }, [dispatch, searchQuery, column])
 
+  const handleExport = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allData?.loans)
+
+    XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
+    XLSX.writeFile(wb, "loans.xlsx");
+  }
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = allData.map((n) => n.name);
@@ -243,7 +212,7 @@ export default function Loans() {
     <Box sx={{ width: '100%' }}>
     {loading ? 'laoding...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
-      <div className='flex justify-end'>
+      <div className='flex justify-between w-full'>
          <div>
            <button
              type="button"
@@ -256,7 +225,18 @@ export default function Loans() {
         </div>
         </div>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <div className='flex justify-end'>
+        <div className='flex justify-between w-full'>
+        <div>
+           <button
+             type="button"
+             onClick={handleExport}
+             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
+             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              Export
+           </button>
+        </div>
+        <div>
         <TextField
           id="search-bar"
           className="text"
@@ -283,6 +263,7 @@ export default function Loans() {
             </MenuItem> 
           ))}
         </TextField>
+        </div>
         </div>
         <LoanTable allData={allData}/>
       </Paper>

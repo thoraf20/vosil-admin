@@ -240,7 +240,7 @@ export default function EmployeeTable({allData}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData?.length}
+              rowCount={allData?.count}
             />
             <TableBody>
             {allData?.staffs?.slice().sort(getComparator(order, orderBy))
@@ -274,9 +274,9 @@ export default function EmployeeTable({allData}) {
                       <TableCell align="left">{row.surName}</TableCell>
                       <TableCell align="left">{row.otherNames}</TableCell>
                       <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.phoneNumber)}</TableCell>
+                      <TableCell align="right">{row.phoneNumber}</TableCell>
                       <TableCell align="right">{row.role}</TableCell>
-                      <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="right">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
                     </TableRow>
                   );
                 })}

@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-
 import Box from '@mui/material/Box';
 import { TextField } from '@mui/material';
-
 import { toast, Toaster} from 'react-hot-toast'
 
 import { createWithdrawal } from '../../redux/actions/withdrawals'
 import { CREATE_WITHDRAWAL_RESET } from '../../redux/constants/withdrawals';
 import { formatCurrency } from '../../utils';
+import { customerByAccNo } from '../../redux/actions/customers';
+
 
 const Withdraws = () => {
 
   const dispatch = useDispatch()
 
+  const userDetails = useSelector((state) => state.customerData)
+
+  const { userData } = userDetails;
+
   const withdraw = useSelector((state) => state.addWithdrawal)
   const { loading, success, error, allData} = withdraw
 
   const [state, setState] = useState('')
+  const [ customerName, setCustomerName ] = useState('')
 
   const { 
     accountNumber, 
@@ -46,6 +51,15 @@ const Withdraws = () => {
   const handleChange = (event) => {
     const { name, value } = event.target
     setState({...state, [name]: value});
+  };
+
+  const handleAccNumberChange = (event) => {
+    const { name, value } = event.target
+    setState({...state, [name]: value});
+    if (value.length >= 10) {
+      dispatch(customerByAccNo(value))
+      setCustomerName(userData?.surName + ' ' + userData?.otherNames)
+    }
   };
 
   const userInfo = localStorage.getItem("userInfo")
@@ -81,8 +95,8 @@ const Withdraws = () => {
           id="outlined-required"
           label="Account Number"
           name='accountNumber'
-          onChange={handleChange}
-          helperText="Name will appear here"
+          onChange={handleAccNumberChange}
+          helperText={customerName}
         />
 
         <TextField

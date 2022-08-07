@@ -16,7 +16,7 @@ import { MenuItem, TextField } from '@mui/material';
 import SavingsTable from '../../components/Table/SavingsTable';
 import BasicModal from '../../commons/Modals';
 import { savingsData } from '../../redux/actions/savings';
-
+import * as XLSX from 'xlsx';
 
 const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
@@ -104,6 +104,13 @@ export default function Savings() {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
+  const handleExport = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allData?.savings)
+
+    XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
+    XLSX.writeFile(wb, "savings.xlsx");
+  }
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -134,14 +141,25 @@ export default function Savings() {
              type="button"
              onClick={handleOpen}
              style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
-            className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
-          >
-              Save
+             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              Create
            </button>
         </div>
         </div>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <div className='flex justify-end'>
+        <div className='flex justify-between w-full'>
+        <div>
+           <button
+             type="button"
+             onClick={handleExport}
+             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
+             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              Export
+           </button>
+        </div>
+        <div>
           <TextField
             id="search-bar"
             className="text"
@@ -168,6 +186,7 @@ export default function Savings() {
             </MenuItem> 
           ))}
         </TextField>
+        </div>
         </div>
         <SavingsTable allData={allData}/>
       </Paper>
