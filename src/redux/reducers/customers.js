@@ -11,10 +11,6 @@ import {
   CUSTOMER_BY_ID_FAIL,
   CUSTOMER_BY_ID_SUCCESS,
   CUSTOMER_BY_ID_RESET,
-  CUSTOMER_BY_ACC_REQUEST,
-  CUSTOMER_BY_ACC_FAIL,
-  CUSTOMER_BY_ACC_SUCCESS,
-  CUSTOMER_BY_ACC_RESET,
   CUSTOMER_SAVINGS_REQUEST,
   CUSTOMER_SAVINGS_SUCCESS,
   CUSTOMER_SAVINGS_RESET,
@@ -53,25 +49,6 @@ export const customerByIdReducer = (state= {allData: [] }, action) => {
 
   case CUSTOMER_BY_ID_RESET:
     return { allData: [] };
-
-    default:
-      return state;
-  }
-}
-
-export const customerByAccNoReducer = (state= {userData: [] }, action) => {
-  switch (action.type) {
-    case CUSTOMER_BY_ACC_REQUEST: 
-      return { loading : true};
-
-  case CUSTOMER_BY_ACC_SUCCESS:
-    return {loading: false, userData: action.payload };
-
-  case CUSTOMER_BY_ACC_FAIL:
-    return {loading: false, error: action.payload };
-
-  case CUSTOMER_BY_ACC_RESET:
-    return { userData: [] };
 
     default:
       return state;

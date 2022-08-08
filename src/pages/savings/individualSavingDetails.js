@@ -24,11 +24,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { SavingsHeadCells } from '../../data/dummy';
-import Saving from '../../components/Savings/Savings';
 import { singleSavingsData } from '../../redux/actions/savings';
 import { IoArrowBack } from "react-icons/io5";
 import { customerSavings } from '../../redux/actions/customers';
 import { formatCurrency } from '../../utils';
+import moment from 'moment';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -191,7 +191,7 @@ export default function IndividualSavings() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData.map((n) => n.name);
+      const newSelecteds = allData?.savigs?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -235,7 +235,7 @@ export default function IndividualSavings() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -292,11 +292,11 @@ export default function IndividualSavings() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData?.length}
+              rowCount={allData?.count}
             />
             
               <TableBody>
-            {allData?.slice().sort(getComparator(order, orderBy))               
+            {allData?.savings?.slice().sort(getComparator(order, orderBy))               
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -330,7 +330,7 @@ export default function IndividualSavings() {
                       <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
                       <TableCell align="right">{row.postedBy}</TableCell>
                       <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -350,7 +350,7 @@ export default function IndividualSavings() {
         <TablePagination
           rowsPerPageOptions={[15, 25, 35]}
           component="div"
-          count={allData?.length}
+          count={allData?.count}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

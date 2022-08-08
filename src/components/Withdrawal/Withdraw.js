@@ -14,10 +14,6 @@ const Withdraws = () => {
 
   const dispatch = useDispatch()
 
-  const userDetails = useSelector((state) => state.customerData)
-
-  const { userData } = userDetails;
-
   const withdraw = useSelector((state) => state.addWithdrawal)
   const { loading, success, error, allData} = withdraw
 
@@ -53,14 +49,15 @@ const Withdraws = () => {
     setState({...state, [name]: value});
   };
 
-  const handleAccNumberChange = (event) => {
+  const handleAccNumberChange = async (event) => {
     const { name, value } = event.target
     setState({...state, [name]: value});
+    setCustomerName('')
     if (value.length >= 10) {
-      dispatch(customerByAccNo(value))
+      const userData = await customerByAccNo(value)
       setCustomerName(userData?.surName + ' ' + userData?.otherNames)
     }
-  };
+  }
 
   const userInfo = localStorage.getItem("userInfo")
   const user = JSON.parse(userInfo)

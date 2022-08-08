@@ -108,8 +108,6 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Typography
           sx={{ flex: '1 1 100%' }}
-          // variant="h6"
-          // id="tableTitle"
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
@@ -126,7 +124,8 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <FilterListIcon />
+            {/* <FilterListIcon /> */}
+            {''}
           </IconButton>
         </Tooltip>
       )}
@@ -212,7 +211,7 @@ export default function Loans() {
     <Box sx={{ width: '100%' }}>
     {loading ? 'laoding...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
-      <div className='flex justify-between w-full'>
+      <div className='flex justify-end w-full'>
          <div>
            <button
              type="button"

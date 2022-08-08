@@ -44,6 +44,7 @@ export const loansData = (query, column) => async (dispatch, getState) => {
   }
 }
 
+
 export const createLoan = (requestData) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)

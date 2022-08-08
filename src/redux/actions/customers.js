@@ -8,9 +8,6 @@ import {
   CUSTOMER_BY_ID_REQUEST,
   CUSTOMER_BY_ID_SUCCESS,
   CUSTOMER_BY_ID_FAIL,
-  CUSTOMER_BY_ACC_REQUEST,
-  CUSTOMER_BY_ACC_SUCCESS,
-  CUSTOMER_BY_ACC_FAIL,
   CUSTOMER_SAVINGS_REQUEST,
   CUSTOMER_SAVINGS_SUCCESS,
   CUSTOMER_SAVINGS_FAIL,
@@ -53,14 +50,11 @@ export const customerData = (query, column) => async (dispatch, getState) => {
   }
 }
 
-export const customerByAccNo = (accNo) => async (dispatch, getState) => {
+export const customerByAccNo = async (accNo) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
   try {
-    dispatch({
-      type: CUSTOMER_BY_ACC_REQUEST,
-    })
 
     const config = {
       headers: {
@@ -69,20 +63,11 @@ export const customerByAccNo = (accNo) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.get(`${baseUrl}/customer?search=${accNo}`, config);
-    
-    dispatch({
-      type: CUSTOMER_BY_ACC_SUCCESS,
-      payload: data,
-    })
+   
+    return data
 
   } catch (error) {
-    dispatch({
-      type: CUSTOMER_BY_ACC_FAIL,
-      payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    })
+    console.log(error)
   }
 }
 
