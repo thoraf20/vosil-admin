@@ -15,13 +15,13 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
-import BasicModal from '../commons/Modals'
-import { WithdrawalHeadCells } from '../data/dummy';
-import { withdrawalsData } from '../redux/actions/withdrawals';
-import Withdraws from '../components/Withdrawal/Withdraw'
-import { savingsFilter } from '../utils';
+import BasicModal from '../../commons/Modals'
+import { WithdrawalHeadCells } from '../../data/dummy';
+import { withdrawalsData } from '../../redux/actions/withdrawals';
+import Withdraws from '../../components/Withdrawal/Withdraw'
+import { savingsFilter } from '../../utils';
 import { MenuItem, TextField } from '@mui/material';
-import WithdrawalsTable from '../components/Table/WithdrawalTable';
+import WithdrawalsTable from '../../components/Table/WithdrawalTable';
 import * as XLSX from 'xlsx';
 
 

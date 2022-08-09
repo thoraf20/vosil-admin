@@ -63,11 +63,11 @@ const CustomerDetails = () => {
   return (
     <>
     <div className='flex justify-center w-full'>
-    <div className='cursor-pointer'>
-          <IoArrowBack
-            onClick={() => navigate("/customers")}
-          />
-        </div>
+      <div className='cursor-pointer'>
+        <IoArrowBack
+          onClick={() => navigate("/customers")}
+        />
+      </div>
     {loading ? 'loading...' : (
       <Box
       component="form"

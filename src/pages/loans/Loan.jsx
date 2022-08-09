@@ -16,13 +16,13 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import BasicModal from '../commons/Modals';
-import PostLoan from '../components/Loans/Loans';
-import { LoanHeadCells } from '../data/dummy';
-import { loansData } from '../redux/actions/loan';
-import { savingsFilter } from '../utils';
+import BasicModal from '../../commons/Modals';
+import PostLoan from '../../components/Loans/Loans';
+import { LoanHeadCells } from '../../data/dummy';
+import { loansData } from '../../redux/actions/loan';
+import { savingsFilter } from '../../utils';
 import { MenuItem, TextField } from '@mui/material';
-import LoanTable from '../components/Table/LoanTable';
+import LoanTable from '../../components/Table/LoanTable';
 import * as XLSX from 'xlsx';
 
 

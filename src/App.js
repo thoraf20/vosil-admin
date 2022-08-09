@@ -12,6 +12,7 @@ import { LoginForm } from './authentication';
 
 import IndividualSavings from './pages/savings/individualSavingDetails';
 import Settings from './pages/Settings';
+import { AddCustomer } from './pages/customers/AddCustomer';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -86,6 +87,7 @@ const App = () => {
 
                 {/* pages  */}
                 <Route path="/customers" element={<Customers />} />
+                <Route path="/customers/add" element={<AddCustomer />} />
                 <Route path="/customers/:id" element={<CustomerDetails />} />
 
                 <Route path="/savings" element={<Savings />} />

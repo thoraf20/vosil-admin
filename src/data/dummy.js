@@ -58,6 +58,13 @@ export const CustomerHeadCells = [
   },
 
   {
+    id: 'accountOfficer',
+    numeric: false,
+    disablePadding: false,
+    label: 'Acc Officer',
+  },
+
+  {
     id: 'surName',
     numeric: false,
     disablePadding: false,
@@ -72,10 +79,10 @@ export const CustomerHeadCells = [
   },
 
   {
-    id: 'phoneNumber',
+    id: 'category',
     numeric: false,
     disablePadding: false,
-    label: 'Phone',
+    label: 'Category',
   },
 
   {
@@ -85,6 +92,12 @@ export const CustomerHeadCells = [
     label: 'Address',
   },
 
+  {
+    id: 'phoneNumber',
+    numeric: false,
+    disablePadding: false,
+    label: 'Phone',
+  },
 
   {
     id: 'accountNumber',
@@ -98,20 +111,6 @@ export const CustomerHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Acc Balance',
-  },
-
-  {
-    id: 'accountOfficer',
-    numeric: false,
-    disablePadding: false,
-    label: 'Acc Officer',
-  },
-
-  {
-    id: 'category',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category',
   },
 
   {
@@ -192,6 +191,13 @@ export const LoanHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Due Date',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
   },
 
 ];

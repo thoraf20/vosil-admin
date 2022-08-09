@@ -21,6 +21,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { AiFillDelete } from "react-icons/ai"
+import { FiEdit } from "react-icons/fi"
 import { visuallyHidden } from '@mui/utils';
 import { IoEyeSharp } from "react-icons/io5";
 import { SavingsHeadCells } from '../../data/dummy';
@@ -164,7 +166,7 @@ export default function SavingsTable({allData}) {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(15);
+  const [rowsPerPage, setRowsPerPage] = useState(30);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -279,9 +281,15 @@ export default function SavingsTable({allData}) {
                       <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
-                        <IoEyeSharp 
+                        <FiEdit 
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <AiFillDelete
+                          style={{cursor: "pointer"}}
+                          // onClick={() => handleViewDetails(row.accountNumber)}
                         />
                       </TableCell>
                     </TableRow>
@@ -300,9 +308,9 @@ export default function SavingsTable({allData}) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[15, 25, 35]}
+          rowsPerPageOptions={[30, 50, 70]}
           component="div"
-          count={allData?.savings?.length}
+          count={allData?.count}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

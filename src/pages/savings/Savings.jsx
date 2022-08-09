@@ -81,7 +81,7 @@ export default function Savings() {
 
   const [selected, setSelected] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [column, setColumToQuery] = useState("Name");
+  const [column, setColumToQuery] = useState("");
   
   const handleChange = (e) => {
     setColumToQuery(e.target.value)

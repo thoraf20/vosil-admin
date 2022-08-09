@@ -17,8 +17,9 @@ const CustomerDetails = () => {
 
   const dispatch = useDispatch()
   const customer = useSelector((state) => state.addCustomer)
-  const { loading, success, error} = customer  
+  const { loading, success, error, allData } = customer  
 
+  console.log(allData)
   const [account, setAccount] = useState(accounts[0].value);
 
   const handleAccountChange = (event) => {
@@ -72,7 +73,7 @@ const CustomerDetails = () => {
   )
 
   const notifyError = () => toast.error(
-    `Unable To Create Customer.`, { duration: 6000, position: 'top-right'}
+    `${error}.`, { duration: 6000, position: 'top-right'}
   )
 
   useEffect(() => {
@@ -121,14 +122,15 @@ const CustomerDetails = () => {
       noValidate
       autoComplete="off"
     >
-      <div>
+      <div className='flex justify-between'>
         <TextField
           required
           id="outlined-required"
           label="SurName"
           name='surName'
           onChange={handleChange}
-          size='small'
+          size='medium'
+          style={{width: "30%"}}
         />
         <TextField
           required
@@ -136,20 +138,20 @@ const CustomerDetails = () => {
           label="OtherNames"
           name='otherNames'
           onChange={handleChange}
-          size='small'
-
+          size='medium'
+          style={{width: "30%"}}
         />
 
          <TextField
-          // required
           id="outlined-required"
           label="Email"
           name='email'
           onChange={handleChange}
-          size='small'
-
+          size='medium'
+          style={{width: "30%"}}
         />
-
+      </div>
+      <div>
         <TextField
           id="outlined-number"
           label="Phone Number"
@@ -158,7 +160,8 @@ const CustomerDetails = () => {
             shrink: true,
           }}
           onChange={handleChange}
-          size='small'
+          size='medium'
+          style={{width: "30%"}}
         />
 
         <TextField
@@ -167,8 +170,9 @@ const CustomerDetails = () => {
           label="Select"
           value={account}
           onChange={handleAccountChange}
-          size='small'
+          size='medium'
           helperText="Please select account type"
+          style={{width: "30%"}}
         >
           {accounts.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -182,55 +186,60 @@ const CustomerDetails = () => {
           label="Category"
           name='category'
           onChange={handleChange}
-          size='small'
+          size='medium'
+          style={{width: "30%"}}
         />
-
-        <TextField
-          id="outlined-select-account-officer"
-          select
-          label="Select"
-          value={status}
-          onChange={handleStatusChange}
-          size='small'
-          helperText="Please select marital status"
-        >
-          {maritalStatus.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          id="outlined-select-account-officer"
-          select
-          label="Select"
-          value={gender}
-          onChange={handleGenderChange}
-          size='small'
-          helperText="Please select gender"
-        >
-          {genders.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+        </div>
+        <div>
+          <TextField
+            id="outlined-select-account-officer"
+            select
+            label="Select"
+            value={status}
+            onChange={handleStatusChange}
+            size='medium'
+            style={{width: "30%"}}
+            helperText="Please select marital status"
+          >
+            {maritalStatus.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            id="outlined-select-account-officer"
+            select
+            label="Select"
+            value={gender}
+            onChange={handleGenderChange}
+            size='medium'
+            style={{width: "30%"}}
+            helperText="Please select gender"
+          >
+            {genders.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
         
-        <TextField
-          id="outlined-select-account-officer"
-          select
-          label="Select"
-          value={state}
-          onChange={handleStateChange}
-          size='small'
-          helperText="Please select state"
-        >
-          {states.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+          <TextField
+            id="outlined-select-account-officer"
+            select
+            label="Select"
+            value={state}
+            onChange={handleStateChange}
+            ssize='medium'
+            style={{width: "30%"}}
+            helperText="Please select state"
+          >
+            {states.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
       </div>
       {/* ) : ( */}
         <div>
@@ -240,7 +249,8 @@ const CustomerDetails = () => {
           label="Residential Address"
           name='residentialAddress'
           onChange={handleChange}
-          size='small'
+          size='medium'
+          style={{width: "30%"}}
         />
         <TextField
           required
@@ -248,7 +258,8 @@ const CustomerDetails = () => {
           label="Office Address"
           name='officeAddress'
           onChange={handleChange}
-          size='small'
+          size='medium'
+          style={{width: "30%"}}
         />
 
          <TextField
@@ -256,57 +267,61 @@ const CustomerDetails = () => {
           label="Occupation"
           name='occupation'
           onChange={handleChange}
-          size='small'
+          size='medium'
+          style={{width: "30%"}}
         />
+        </div>
        
-        <TextField
-          id="outlined-select-account-officer"
-          select
-          label="Alert"
-          value={alert}
-          onChange={handleAlertsChange}
-          size='small'
-          helperText="Please select marital status"
-        >
-          {alerts.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          id="outlined-disabled"
-          label="Next Of Kin"
-          name='nextOfKin'
-          onChange={handleChange}
-          size='small'
-
-        />
+          <TextField
+            id="outlined-select-account-officer"
+            select
+            label="Alert"
+            value={alert}
+            onChange={handleAlertsChange}
+            size='medium'
+            style={{width: "30%"}}
+            helperText="Please select marital status"
+          >
+            {alerts.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            id="outlined-disabled"
+            label="Next Of Kin"
+            name='nextOfKin'
+            onChange={handleChange}
+            size='medium'
+            style={{width: "30%"}}
+          />
         <TextField
           id="outlined-disabled"
           label="Next Of Kin Relationship"
           name='nextOfKinRelationship'
           onChange={handleChange}
-          size='small'
-
+          size='medium'
+          style={{width: "30%"}}
         />
+        
         <TextField
           id="outlined-disabled"
           label="Next Of Kin Address"
           name='nextOfKinAddress'
           onChange={handleChange}
-          size='small'
-
+          size='medium'
+          style={{width: "30%"}}
         />
         <TextField
           id="outlined-disabled"
           label="Next Of Kin Phone No"
           name='nextOfKinPhoneNumber'
           onChange={handleChange}
-          size='small'
+          size='medium'
+          style={{width: "30%"}}
         />
         
-      </div>
       <div className='flex justify-end'>
          <button
             type="button"

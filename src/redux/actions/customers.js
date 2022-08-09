@@ -154,6 +154,7 @@ export const createCustomer = (requestData) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.post(`${baseUrl}/customer/_create`, requestData, config);
+    console.log(data)
     
     dispatch({
       type: CREATE_CUSTOMER_SUCCESS,
@@ -164,8 +165,8 @@ export const createCustomer = (requestData) => async (dispatch, getState) => {
     dispatch({
       type: CREATE_CUSTOMER_FAIL,
       payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.msg
+          ? error.response.data.msg
           : error.message
     })
   }

@@ -21,10 +21,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { AiFillDelete } from "react-icons/ai"
 import { visuallyHidden } from '@mui/utils';
-import { IoEyeSharp } from "react-icons/io5";
-import { EmployeeHeadCells, SavingsHeadCells } from '../../data/dummy';
-import { formatCurrency } from '../../utils';
+import { EmployeeHeadCells } from '../../data/dummy';
 import moment from 'moment';
 
 
@@ -164,7 +163,7 @@ export default function EmployeeTable({allData}) {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(15);
+  const [rowsPerPage, setRowsPerPage] = useState(30);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -277,6 +276,12 @@ export default function EmployeeTable({allData}) {
                       <TableCell align="right">{row.phoneNumber}</TableCell>
                       <TableCell align="right">{row.role}</TableCell>
                       <TableCell align="right">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="right">
+                        <AiFillDelete 
+                          style={{cursor: "pointer"}}
+                          // onClick={() => handleViewDetails(row.accountNumber)}
+                        />
+                    </TableCell>
                     </TableRow>
                   );
                 })}
@@ -293,7 +298,7 @@ export default function EmployeeTable({allData}) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[15, 25, 35]}
+          rowsPerPageOptions={[30, 50, 70]}
           component="div"
           count={allData.count}
           rowsPerPage={rowsPerPage}

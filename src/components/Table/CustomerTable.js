@@ -23,6 +23,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { IoEyeSharp } from "react-icons/io5";
+import { AiFillDelete } from "react-icons/ai"
+import { FiEdit } from "react-icons/fi";
 import { CustomerHeadCells } from '../../data/dummy';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
@@ -164,7 +166,7 @@ export default function CustomerTable({allData}) {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(15);
+  const [rowsPerPage, setRowsPerPage] = useState(30);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -271,19 +273,31 @@ export default function CustomerTable({allData}) {
                       <TableCell>
                         {index+1}
                       </TableCell>
+                      <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="left">{row.surName}</TableCell>
                       <TableCell align="left">{row.otherNames}</TableCell>
-                      <TableCell align="right">{row.phoneNumber}</TableCell>
+                      <TableCell align="right">{row.category}</TableCell>
                       <TableCell align="right">{row.residentialAddress}</TableCell>
+                      <TableCell align="right">{row.phoneNumber}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
                       <TableCell align="right">{formatCurrency(row.accountBalance)}</TableCell>
-                      <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="right">{row.category}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
                         <IoEyeSharp 
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <FiEdit 
+                          style={{cursor: "pointer"}}
+                          // onClick={() => handleViewDetails(row.accountNumber)}
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <AiFillDelete 
+                          style={{cursor: "pointer"}}
+                          // onClick={() => handleViewDetails(row.accountNumber)}
                         />
                       </TableCell>
                     </TableRow>
@@ -302,7 +316,7 @@ export default function CustomerTable({allData}) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[15, 25, 35]}
+          rowsPerPageOptions={[30, 50, 70]}
           component="div"
           count={allData?.count}
           rowsPerPage={rowsPerPage}
