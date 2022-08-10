@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-// import { earningData} from '../data/dummy';
 import { useDispatch, useSelector } from "react-redux";
 import { dashboardData } from "../redux/actions/dashboard.js"
 import { formatCurrency } from '../utils';
@@ -68,7 +67,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalCurrentMonthSavings ? allData?.totalCurrentMonthSavings : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Total Current Month Savings</p>
+              <p className="text-sm text-gray-400  mt-1">Current Month Savings</p>
             </div>
             
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -100,7 +99,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalCurrentMonthWithdrawals ? allData?.totalCurrentMonthWithdrawals : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Total Current Month Withdrawals</p>
+              <p className="text-sm text-gray-400  mt-1">Current Month Withdrawals</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -132,7 +131,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalCurrentMonthLoans ? allData?.totalCurrentMonthLoans : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Total Current Month Loans Balance</p>
+              <p className="text-sm text-gray-400  mt-1">Current Month Loans</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -164,7 +163,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalCurrentMonthCustomerBalance ? allData?.totalCurrentMonthCustomerBalance : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Total Current Month Customer Balance</p>
+              <p className="text-sm text-gray-400  mt-1">Current Month Customer Balance</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -196,7 +195,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalCurrentMonthExcess ? allData?.totalCurrentMonthExcess : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Total Current Month Excess Balance</p>
+              <p className="text-sm text-gray-400  mt-1">Current Month Excess</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -212,7 +211,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalInterests ? allData?.totalInterests : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Total Interest Balance</p>
+              <p className="text-sm text-gray-400  mt-1">Total Loan Interest</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -228,7 +227,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalCurrentMonthInterests ? allData?.totalCurrentMonthInterests : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Current Month Loan Interests</p>
+              <p className="text-sm text-gray-400  mt-1">Current Month Loan Interest</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -244,7 +243,7 @@ const Dashboard = () => {
                 {formatCurrency(allData?.totalIncome ? allData?.totalIncome : 0)}
                 </span>
               </p>
-              <p className="text-sm text-gray-400  mt-1">Savings Income</p>
+              <p className="text-sm text-gray-400  mt-1">Total Savings Income</p>
             </div>
 
             <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
@@ -257,10 +256,27 @@ const Dashboard = () => {
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">
-                {formatCurrency(allData?.totalCureentMonthIncome ? allData?.totalCureentMonthIncome : 0)}
+                {formatCurrency(allData?.totalCurrentMonthIncome ? allData?.totalCurrentMonthIncome : 0)}
                 </span>
               </p>
               <p className="text-sm text-gray-400  mt-1">Current Month Savings Income</p>
+            </div>
+            <div className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+              <button
+                type="button"
+                // style={{ color: earningData[0].iconColor, backgroundColor: earningData[0].iconBg }}
+                className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+              >
+                {/* {earningData[0].icon} */}
+              </button>
+              <p className="mt-3">
+                <span className="text-lg font-semibold">
+                {
+                  formatCurrency(allData?.totalIncome + allData?.totalInterests)
+                }
+                </span>
+              </p>
+              <p className="text-sm text-gray-400  mt-1">Total Income</p>
             </div>
         </div>
       </div>
