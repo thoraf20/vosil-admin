@@ -13,7 +13,7 @@ export const AddCustomer = () => {
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
       <div className='cursor-pointer'>
         <IoArrowBack
-          onClick={() => navigate("/customers")}
+          onClick={() => navigate(-1)}
         />
       </div>
         <CustomerDetails />

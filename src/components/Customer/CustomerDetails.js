@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-
+import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import { MenuItem, TextField } from '@mui/material';
 
@@ -14,12 +14,12 @@ import {
 import { createCustomer } from '../../redux/actions/customers'
 
 const CustomerDetails = () => {
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
   const customer = useSelector((state) => state.addCustomer)
   const { loading, success, error, allData } = customer  
 
-  console.log(allData)
   const [account, setAccount] = useState(accounts[0].value);
 
   const handleAccountChange = (event) => {
@@ -69,11 +69,11 @@ const CustomerDetails = () => {
   const accOfficer = JSON.parse(user)
 
   const notify = () => toast.success(
-    `Customer Successfully Added.`, { duration: 6000}
+    `Customer Successfully Added.`, { duration: 4000}
   )
 
   const notifyError = () => toast.error(
-    `${error}.`, { duration: 6000, position: 'top-right'}
+    `${error}.`, { duration: 4000, position: 'top-right'}
   )
 
   useEffect(() => {
@@ -82,6 +82,7 @@ const CustomerDetails = () => {
     }
     if (success) {
       notify()
+      navigate(-1)
     }
   }, [success, error])
 
