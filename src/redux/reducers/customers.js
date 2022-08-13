@@ -16,6 +16,7 @@ import {
   CUSTOMER_SAVINGS_RESET,
   CUSTOMER_SAVINGS_FAIL
 } from "../constants/customers.js"
+import { CUSTOMER_WIDTHDRAWALS_FAIL, CUSTOMER_WIDTHDRAWALS_REQUEST, CUSTOMER_WIDTHDRAWALS_RESET, CUSTOMER_WIDTHDRAWALS_SUCCESS } from "../constants/withdrawals.js";
 
 export const customerReducer = (state= {allData: [] }, action) => {
   switch (action.type) {
@@ -68,6 +69,25 @@ export const customerSavingsReducer = (state= {savingsData: [] }, action) => {
 
   case CUSTOMER_SAVINGS_RESET:
     return { savingsData: [] };
+
+    default:
+      return state;
+  }
+}
+
+export const customerWithdrawalsReducer = (state= {withdrawalsData: [] }, action) => {
+  switch (action.type) {
+    case CUSTOMER_WIDTHDRAWALS_REQUEST: 
+      return { loading : true, success: false};
+
+  case CUSTOMER_WIDTHDRAWALS_SUCCESS:
+    return {loading: false, success: true, withdrawalsData: action.payload };
+
+  case CUSTOMER_WIDTHDRAWALS_FAIL:
+    return {loading: false, error: action.payload };
+
+  case CUSTOMER_WIDTHDRAWALS_RESET:
+    return { withdrawalsData: [] };
 
     default:
       return state;

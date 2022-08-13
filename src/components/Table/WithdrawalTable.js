@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -20,6 +21,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AiFillDelete } from "react-icons/ai"
+import { IoEyeSharp } from "react-icons/io5";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { WithdrawalHeadCells } from '../../data/dummy';
@@ -156,9 +158,11 @@ EnhancedTableToolbar.propTypes = {
 
 
 export default function WithdrawalsTable({allData}) {
+console.log(allData)
+  const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [orderBy, setOrderBy] = useState('name');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
@@ -218,6 +222,9 @@ export default function WithdrawalsTable({allData}) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
 
+    const handleViewDetails = (acc) => {
+      navigate(`/withdrawals/${acc}`)
+    }
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -273,7 +280,13 @@ export default function WithdrawalsTable({allData}) {
                       <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
-                        <AiFillDelete
+                        <IoEyeSharp
+                          style={{cursor: "pointer"}}
+                          onClick={() => handleViewDetails(row.accountNumber)}
+                        />
+                      </TableCell>
+                      <TableCell>
+                      <AiFillDelete
                           style={{cursor: "pointer"}}
                           // onClick={() => handleViewDetails(row.accountNumber)}
                         />

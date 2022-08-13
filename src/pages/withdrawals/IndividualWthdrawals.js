@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate} from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import {useNavigate, useParams} from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -22,13 +23,13 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { IoEyeSharp } from "react-icons/io5";
-import { AiFillDelete } from "react-icons/ai"
-import { FiEdit } from "react-icons/fi";
-import { CustomerHeadCells } from '../../data/dummy';
+import { SavingsHeadCells } from '../../data/dummy';
+import { IoArrowBack } from "react-icons/io5";
+import { customerSavings } from '../../redux/actions/customers';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
-
+import BalanceCard from '../../components/balanceCard';
+import { singleWithdrawalsData } from '../../redux/actions/withdrawals';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -67,7 +68,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {CustomerHeadCells.map((headCell) => (
+        {SavingsHeadCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -128,6 +129,8 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Typography
           sx={{ flex: '1 1 100%' }}
+          // variant="h6"
+          // id="tableTitle"
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
@@ -145,7 +148,6 @@ const EnhancedTableToolbar = (props) => {
         <Tooltip title="Filter list">
           <IconButton>
             <FilterListIcon />
-            {/* SearchBar */}
           </IconButton>
         </Tooltip>
       )}
@@ -157,16 +159,31 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-
-export default function CustomerTable({allData}) {
+export default function IndividualWithdrawals() {
+  const { acc } = useParams();
   const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [orderBy, setOrderBy] = useState('pageNo');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
+
+  const dispatch = useDispatch()
+
+  const data = useSelector((state) => state.singleWithdrawal)
+  const userSavings = useSelector((state) => state.customerSavings)
+
+
+  const { loading, allData } = data;
+  const { savingsData } = userSavings;
+
+  useEffect(() => {
+    dispatch(singleWithdrawalsData(acc))
+    dispatch(customerSavings(acc))
+
+  }, [acc, dispatch])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -176,7 +193,7 @@ export default function CustomerTable({allData}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.savings?.map((n) => n.name);
+      const newSelecteds = allData?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -208,7 +225,7 @@ export default function CustomerTable({allData}) {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 20));
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
@@ -220,16 +237,24 @@ export default function CustomerTable({allData}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
-
-  const handleViewDetails = (acc) => {
-    navigate(`/savings/${acc}`)
-  }
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
-    {false ? 'loading...' : (
-      <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
+    {loading ? 'laoding...' : (
+      <Paper sx={{ width: '100%', mb: 2, p: 4, }}>
+        <div className='cursor-pointer'>
+          <IoArrowBack
+            onClick={() => navigate(-1)}
+          />
+        </div>
+        <div className="flex flex-wrap lg:flex-nowrap justify-between">
+          <div>
+            <BalanceCard title="Total Savings" data={formatCurrency(savingsData?.totalWithdrawals)}/>
+            <BalanceCard title="Current Month Savings" data={formatCurrency(savingsData?.currentMonthWithdrawals)}/>
+          </div>
+        </div>
+
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -242,11 +267,12 @@ export default function CustomerTable({allData}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData?.count}
+              rowCount={allData?.length}
             />
-            <TableBody>
-            {allData?.allCustomers?.slice().sort(getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            
+              <TableBody>
+            {allData?.slice().sort(getComparator(order, orderBy))               
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
@@ -273,33 +299,13 @@ export default function CustomerTable({allData}) {
                       <TableCell>
                         {index+1}
                       </TableCell>
-                      <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="left">{row.surName}</TableCell>
-                      <TableCell align="left">{row.otherNames}</TableCell>
-                      <TableCell align="right">{row.category}</TableCell>
-                      <TableCell align="right">{row.residentialAddress}</TableCell>
-                      <TableCell align="right">{row.phoneNumber}</TableCell>
+                      <TableCell align="left">{row.pageNo}</TableCell>
+                      <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.accountBalance)}</TableCell>
+                      <TableCell align="right">{row.amount}</TableCell>
+                      <TableCell align="right">{row.postedBy}</TableCell>
+                      <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
-                      <TableCell align="right">
-                        <IoEyeSharp 
-                          style={{cursor: "pointer"}}
-                          onClick={() => handleViewDetails(row.accountNumber)}
-                        />
-                      </TableCell>
-                      <TableCell align="right">
-                        <FiEdit 
-                          style={{cursor: "pointer"}}
-                          onClick={() => navigate(`/customers/edit/${row._id}`)}
-                        />
-                      </TableCell>
-                      <TableCell align="right">
-                        <AiFillDelete 
-                          style={{cursor: "pointer"}}
-                          // onClick={() => navigate("/customers/edit")}
-                        />
-                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -313,12 +319,13 @@ export default function CustomerTable({allData}) {
                 </TableRow>
               )}
             </TableBody>
+            
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[30, 50, 70]}
+          rowsPerPageOptions={[30, 50, 60]}
           component="div"
-          count={allData?.count}
+          count={allData?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

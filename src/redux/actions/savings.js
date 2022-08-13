@@ -47,7 +47,7 @@ export const savingsData = (query, column) => async (dispatch, getState) => {
   }
 }
 
-export const singleSavingsData = () => async (dispatch, getState) => {
+export const singleSavingsData = (acc) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
@@ -62,7 +62,7 @@ export const singleSavingsData = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/savings`, config);
+    const { data } = await axios.get(`${baseUrl}/saving?search=${acc}`, config);
     
     dispatch({
       type: SINGLE_SAVING_SUCCESS,
@@ -73,9 +73,9 @@ export const singleSavingsData = () => async (dispatch, getState) => {
     dispatch({
       type: SINGLE_SAVING_FAIL,
       payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.message
     })
   }
 }

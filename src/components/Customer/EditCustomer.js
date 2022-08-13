@@ -11,15 +11,19 @@ import {
   states, alerts
 } from '../../utils/index'
 
-import { createCustomer } from '../../redux/actions/customers'
+import { createCustomer, customerById } from '../../redux/actions/customers'
 
-const CustomerDetails = () => {
+const CustomerEdit = ({id}) => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const customer = useSelector((state) => state.addCustomer)
-  const { loading, success, error, allData } = customer  
+  const addCustomer = useSelector((state) => state.addCustomer)
+  const customer = useSelector((state) => state.singleCustomer)
 
+  const { loading, success, error } = addCustomer;
+  const { allData } = customer
+
+  console.log(allData)
   const [account, setAccount] = useState(accounts[0].value);
 
   const handleAccountChange = (event) => {
@@ -77,6 +81,12 @@ const CustomerDetails = () => {
     `${error}.`, { duration: 4000, position: 'top-right'}
   )
 
+  // const id = localStorage.getItem("userId")
+  
+  useEffect(() => {
+    dispatch(customerById(id))
+  }, [dispatch, id])
+
   useEffect(() => {
     if (error) {
       notifyError()
@@ -109,7 +119,6 @@ const CustomerDetails = () => {
     }
 
     dispatch(createCustomer(requestData))
-    // navigate(-1)
   }
 
   return (
@@ -130,7 +139,8 @@ const CustomerDetails = () => {
           id="outlined-required"
           label="SurName"
           name='surName'
-          onChange={handleChange}
+          value={allData?.surName}
+          // onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -139,7 +149,8 @@ const CustomerDetails = () => {
           id="outlined-required"
           label="OtherNames"
           name='otherNames'
-          onChange={handleChange}
+          value={allData?.otherNames}
+          // onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -148,7 +159,8 @@ const CustomerDetails = () => {
           id="outlined-required"
           label="Email"
           name='email'
-          onChange={handleChange}
+          value={allData?.email}
+          // onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -158,6 +170,7 @@ const CustomerDetails = () => {
           id="outlined-number"
           label="Phone Number"
           name='phoneNumber'
+          value={allData?.phoneNumber}
           InputLabelProps={{
             shrink: true,
           }}
@@ -170,7 +183,7 @@ const CustomerDetails = () => {
           id="outlined-select-account-type"
           select
           label="Select"
-          value={account}
+          value={allData?.accountType}
           onChange={handleAccountChange}
           size='medium'
           helperText="Please select account type"
@@ -197,7 +210,7 @@ const CustomerDetails = () => {
             id="outlined-select-account-officer"
             select
             label="Select"
-            value={status}
+            value={allData?.maritalStatus}
             onChange={handleStatusChange}
             size='medium'
             style={{width: "30%"}}
@@ -213,8 +226,8 @@ const CustomerDetails = () => {
             id="outlined-select-account-officer"
             select
             label="Select"
-            value={gender}
-            onChange={handleGenderChange}
+            value={allData?.gender}
+            // onChange={handleGenderChange}
             size='medium'
             style={{width: "30%"}}
             helperText="Please select gender"
@@ -227,12 +240,12 @@ const CustomerDetails = () => {
           </TextField>
         
           <TextField
-            id="outlined-select-account-officer"
+            id="outlined-select-state-of-origin"
             select
             label="Select"
-            value={state}
-            onChange={handleStateChange}
-            ssize='medium'
+            value={allData?.stateOfOrigin}
+            // onChange={handleStateChange}
+            size='medium'
             style={{width: "30%"}}
             helperText="Please select state"
           >
@@ -250,6 +263,7 @@ const CustomerDetails = () => {
           id="outlined-required"
           label="Residential Address"
           name='residentialAddress'
+          value={allData?.residentialAddress}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -259,6 +273,7 @@ const CustomerDetails = () => {
           id="outlined-required"
           label="Office Address"
           name='officeAddress'
+          value={allData?.officeAddress}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -268,6 +283,7 @@ const CustomerDetails = () => {
           id="outlined-disabled"
           label="Occupation"
           name='occupation'
+          value={allData?.occupation}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -278,7 +294,7 @@ const CustomerDetails = () => {
             id="outlined-select-account-officer"
             select
             label="Alert"
-            value={alert}
+            value={allData?.alert}
             onChange={handleAlertsChange}
             size='medium'
             style={{width: "30%"}}
@@ -294,6 +310,7 @@ const CustomerDetails = () => {
             id="outlined-disabled"
             label="Next Of Kin"
             name='nextOfKin'
+            value={allData?.nextOfKin}
             onChange={handleChange}
             size='medium'
             style={{width: "30%"}}
@@ -302,6 +319,7 @@ const CustomerDetails = () => {
           id="outlined-disabled"
           label="Next Of Kin Relationship"
           name='nextOfKinRelationship'
+          value={allData?.nextOfKinRelationship}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -311,6 +329,7 @@ const CustomerDetails = () => {
           id="outlined-disabled"
           label="Next Of Kin Address"
           name='nextOfKinAddress'
+          value={allData?.nextOfKinAddress}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -319,6 +338,7 @@ const CustomerDetails = () => {
           id="outlined-disabled"
           label="Next Of Kin Phone No"
           name='nextOfKinPhoneNumber'
+          value={allData?.nextOfKinPhoneNumber}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -331,7 +351,7 @@ const CustomerDetails = () => {
             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
           >
-            {loading ? 'Saving' : 'Save'}
+            {loading ? 'Updating' : 'Update'}
         </button>  
       </div>
       </Box>
@@ -340,4 +360,4 @@ const CustomerDetails = () => {
   )
 }
 
-export default CustomerDetails
+export default CustomerEdit

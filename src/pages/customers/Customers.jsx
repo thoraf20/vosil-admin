@@ -11,10 +11,10 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import BasicModal from '../../commons/Modals';
+// import BasicModal from '../../commons/Modals';
 import { customerData } from '../../redux/actions/customers';
-import CustomerDetails from '../../components/Customer/CustomerDetails';
-import { savingsFilter } from '../../utils';
+// import CustomerDetails from '../../components/Customer/CustomerDetails';
+import { customerFilter } from '../../utils';
 import { MenuItem, TextField } from '@mui/material';
 import CustomerTable from '../../components/Table/CustomerTable';
 import * as XLSX from 'xlsx';
@@ -96,14 +96,18 @@ export default function Customers() {
     setColumToQuery(e.target.value)
   }
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  // const [open, setOpen] = useState(false);
+  // const handleOpen = () => setOpen(true)
+  // const handleClose = () => setOpen(false)
 
   
   useEffect(() => {
-    dispatch(customerData(searchQuery, column))
-  }, [dispatch, searchQuery, column])
+    const getData = setTimeout(() => {
+      dispatch(customerData(searchQuery, column));
+    }, 1000);
+
+    return () => clearTimeout(getData);
+  }, [searchQuery, column, dispatch])
 
   const handleExport = () => {
     const wb = XLSX.utils.book_new();
@@ -190,7 +194,7 @@ export default function Customers() {
           size='small'
           helperText="Column to search"
         >
-          {savingsFilter.map((option) => (
+          {customerFilter.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem> 

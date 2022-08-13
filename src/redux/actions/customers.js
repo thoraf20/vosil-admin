@@ -104,7 +104,6 @@ export const customerById = (id) => async (dispatch, getState) => {
   }
 }
 
-
 export const customerSavings = (accNum) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
@@ -120,7 +119,7 @@ export const customerSavings = (accNum) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/customer/savings/${accNum}`, config);
+    const { data } = await axios.get(`${baseUrl}/customer/savings?search=${accNum}`, config);
     
     dispatch({
       type: CUSTOMER_SAVINGS_SUCCESS,
@@ -131,8 +130,8 @@ export const customerSavings = (accNum) => async (dispatch, getState) => {
     dispatch({
       type: CUSTOMER_SAVINGS_FAIL,
       payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.msg
+          ? error.response.data.msg
           : error.message
     })
   }
@@ -154,7 +153,6 @@ export const createCustomer = (requestData) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.post(`${baseUrl}/customer/_create`, requestData, config);
-    console.log(data)
     
     dispatch({
       type: CREATE_CUSTOMER_SUCCESS,

@@ -26,6 +26,45 @@ export const savingsFilter = [
   },
 ];
 
+export const customerFilter = [
+  {
+    value: 'accountOfficer',
+    label: 'Acc Offcier',
+  },
+  {
+    value: 'surName',
+    label: 'Sur Name',
+  },
+  {
+    value: 'otherNames',
+    label: 'Other Names',
+  },
+  {
+    value: 'category',
+    label: 'Category',
+  },
+  {
+    value: 'residentialAddress',
+    label: 'Address',
+  },
+  {
+    value: 'phoneNumber',
+    label: 'Phone Number',
+  },
+  {
+    value: 'accountNumber',
+    label: 'Account Number',
+  },
+  {
+    value: 'accountBalance',
+    label: 'Account Balance',
+  },
+  {
+    value: 'date',
+    label: 'Date',
+  },
+];
+
 export const accounts = [
   {
     value: 'interim',

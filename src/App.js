@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Savings, Withdrawal, Loans, Employees, Customers, Dashboard, CustomerDetails } from './pages';
+import { Savings, Withdrawal, Loans, Employees, Customers, Dashboard } from './pages';
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
@@ -13,6 +13,8 @@ import { LoginForm } from './authentication';
 import IndividualSavings from './pages/savings/individualSavingDetails';
 import Settings from './pages/Settings';
 import { AddCustomer } from './pages/customers/AddCustomer';
+import { EditCustomer } from './pages/customers/EditCustomer';
+import IndividualWithdrawals from './pages/withdrawals/IndividualWthdrawals';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -88,12 +90,16 @@ const App = () => {
                 {/* pages  */}
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/customers/add" element={<AddCustomer />} />
-                <Route path="/customers/:id" element={<CustomerDetails />} />
+                <Route path="/customers/:acc" element={<IndividualSavings />} />
+                <Route path="/customers/edit/:id" element={<EditCustomer />} />
 
                 <Route path="/savings" element={<Savings />} />
                 <Route path="/savings/:acc" element={<IndividualSavings />} />
                 
                 <Route path="/withdrawals" element={<Withdrawal />} />
+                <Route path="/withdrawals/:acc" element={<IndividualWithdrawals />} />
+
+                {/* IndividualWithdrawals */}
                 <Route path="/loans" element={<Loans />} />
                 <Route path="/loans/name" element={''} />
 

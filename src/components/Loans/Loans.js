@@ -30,6 +30,7 @@ const PostLoan = () => {
     `${error}`, {duration: 6000}
     )
 
+    console.log(error)
   useEffect(() => {
     if (error) {
       notifyFailure()

@@ -29,6 +29,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { customerSavings } from '../../redux/actions/customers';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
+import BalanceCard from '../../components/balanceCard';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -163,11 +164,11 @@ export default function IndividualSavings() {
   const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
+  const [orderBy, setOrderBy] = useState('pageNo');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(30);
 
   const dispatch = useDispatch()
 
@@ -175,6 +176,7 @@ export default function IndividualSavings() {
   const userSavings = useSelector((state) => state.customerSavings)
 
   const { loading, allData } = data;
+  console.log(allData)
   const { savingsData } = userSavings;
 
   useEffect(() => {
@@ -191,7 +193,7 @@ export default function IndividualSavings() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.savigs?.map((n) => n.name);
+      const newSelecteds = allData?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -235,7 +237,7 @@ export default function IndividualSavings() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -243,43 +245,26 @@ export default function IndividualSavings() {
       <Paper sx={{ width: '100%', mb: 2, p: 4, }}>
         <div className='cursor-pointer'>
           <IoArrowBack
-            onClick={() => navigate("/savings")}
+            onClick={() => navigate(-1)}
           />
         </div>
-        <div className="flex flex-wrap lg:flex-nowrap justify-between ">
-          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-bold text-gray-400">Total Savings</p>
-                <p className="text-2xl">{formatCurrency(savingsData?.totalSavings)}</p>
-              </div>
-            </div>
+        <div className="flex flex-wrap lg:flex-nowrap justify-between">
+          <div>
+            <BalanceCard title="Total Savings" data={formatCurrency(savingsData?.totalSavings)}/>
+            <BalanceCard title="Current Month Savings" data={formatCurrency(savingsData?.currentMonthSavings)}/>
           </div>
-          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-bold text-gray-400">Total Withdrawals</p>
-                <p className="text-2xl">{formatCurrency(savingsData?.totalWithdrawals)}</p>
-              </div>
-            </div>
+
+          <div>
+            <BalanceCard title="Total Withdrawals" data={formatCurrency(savingsData?.totalWithdrawals)}/>
+            <BalanceCard title="Current Month Withdrawals" data={formatCurrency(savingsData?.currentMonthWithdrawals)}/>
           </div>
-          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-bold text-gray-400">Total Excess Savings</p>
-                <p className="text-2xl">{formatCurrency(savingsData?.totalExcessSavings)}</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-bold text-gray-400">Current Loans</p>
-                <p className="text-2xl">{formatCurrency(savingsData?.totalLoans)}</p>
-              </div>
-            </div>
+
+          <div>
+            <BalanceCard title="Total Loans" data={formatCurrency(savingsData?.totalLoans)}/>
+            <BalanceCard title="Current Month Loans" data={formatCurrency(savingsData?.monthlyLoans)}/>
           </div>
         </div>
+
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -292,11 +277,11 @@ export default function IndividualSavings() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData?.count}
+              rowCount={allData?.length}
             />
             
               <TableBody>
-            {allData?.savings?.slice().sort(getComparator(order, orderBy))               
+            {allData?.slice().sort(getComparator(order, orderBy))               
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -327,7 +312,7 @@ export default function IndividualSavings() {
                       <TableCell align="left">{row.pageNo}</TableCell>
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
+                      <TableCell align="right">{row.amount}</TableCell>
                       <TableCell align="right">{row.postedBy}</TableCell>
                       <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
@@ -348,9 +333,9 @@ export default function IndividualSavings() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[15, 25, 35]}
+          rowsPerPageOptions={[30, 50, 60]}
           component="div"
-          count={allData?.count}
+          count={allData?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
