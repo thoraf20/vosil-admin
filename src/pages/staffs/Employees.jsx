@@ -270,7 +270,7 @@ export default function Employees() {
         <EmployeeTable allData={allData}/>
       </Paper>
       )}
-      <BasicModal open={open} onClose={handleClose} title='Staff Form' content={<StaffDetails />}/>
+      <BasicModal open={open} onClose={handleClose} title='Staff Form' content={<StaffDetails onClose={handleClose}/>}/>
       <BasicModal open={openDetails} onClose={handleDetailsClose} title='Update Staff Details' content={<UpdateStaffDetails />}/>
     </Box>
   );

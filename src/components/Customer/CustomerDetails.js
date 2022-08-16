@@ -47,6 +47,7 @@ const CustomerDetails = () => {
   const [data, setData ] = useState('')
 
   const handleChange = (event) => {
+    event.preventDefault()
     const { name, value } = event.target
     setData({...data, [name]: value});
   };
@@ -80,7 +81,8 @@ const CustomerDetails = () => {
     }
   }, [error, success])
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const requestData = {
       surName, 
       otherNames, 
@@ -102,6 +104,7 @@ const CustomerDetails = () => {
       nextOfKinPhoneNumber
     }
     dispatch(createCustomer(requestData))
+    setData('')
   }
 
   return (

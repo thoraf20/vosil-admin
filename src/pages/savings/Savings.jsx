@@ -191,7 +191,7 @@ export default function Savings() {
         <SavingsTable allData={allData}/>
       </Paper>
       )}
-      <BasicModal open={open} onClose={handleClose} title='Savings Form' content={<Saving />}/>
+      <BasicModal open={open} onClose={handleClose} title='Savings Form' content={<Saving onClose={handleClose}/>}/>
     </Box>
   );
 }

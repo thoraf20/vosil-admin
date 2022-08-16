@@ -11,7 +11,7 @@ import { durations } from '../../utils';
 import { customerByAccNo } from '../../redux/actions/customers';
 
 
-const PostLoan = () => {
+const PostLoan = ({onClose}) => {
   const dispatch = useDispatch()
 
   const loan = useSelector((state) => state.addLoan)
@@ -31,7 +31,6 @@ const PostLoan = () => {
     `${error}`, {duration: 6000}
     )
 
-    console.log(error)
   useEffect(() => {
     if (error) {
       notifyFailure()
@@ -73,6 +72,9 @@ const PostLoan = () => {
     duration
     }
     dispatch(createLoan(requestData))
+    setTimeout(() => {
+      onClose()
+    }, "4000")
   }
   
   return (

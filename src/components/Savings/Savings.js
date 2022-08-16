@@ -6,13 +6,12 @@ import { toast, Toaster} from 'react-hot-toast'
 import { createSavings } from '../../redux/actions/savings'
 import { customerByAccNo } from '../../redux/actions/customers';
 
-const Saving = () => {
+const Saving = ({onClose}) => {
 
   const dispatch = useDispatch()
 
   const saving = useSelector((state) => state.addSavings)
   const { loading, success, error, allData } = saving
-
   const [state, setState] = useState('')
   const [ customerName, setCustomerName ] = useState('')
 
@@ -23,7 +22,7 @@ const Saving = () => {
    } = state
 
    const notify = () => toast.success(
-    `Savings Successfully Added`, { duration: 7000}
+    `${allData?.msg}`, { duration: 7000}
   )
 
   const notifyError = () => toast.error(
@@ -57,7 +56,8 @@ const Saving = () => {
   const userInfo = localStorage.getItem("userInfo")
   const user = JSON.parse(userInfo)
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const requestData = {
       pageNo, 
       accountNumber, 
@@ -65,6 +65,9 @@ const Saving = () => {
       postedBy: user.userExist.surName + ' ' + user.userExist.otherNames,
     }
     dispatch(createSavings(requestData))
+    setTimeout(() => {
+      onClose()
+    }, "4000")
   }
   
   return (

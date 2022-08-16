@@ -266,7 +266,7 @@ export default function Withdrawal() {
         <WithdrawalsTable allData={allData}/>
       </Paper>
       )}
-      <BasicModal open={open} onClose={handleClose} title='Withdrawal Form' content={<Withdraws />}/>
+      <BasicModal open={open} onClose={handleClose} title='Withdrawal Form' content={<Withdraws onClose={handleClose}/>}/>
     </Box>
   );
 }

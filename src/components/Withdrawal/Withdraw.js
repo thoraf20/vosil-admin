@@ -5,11 +5,10 @@ import { TextField } from '@mui/material';
 import { toast, Toaster} from 'react-hot-toast'
 
 import { createWithdrawal } from '../../redux/actions/withdrawals'
-import { CREATE_WITHDRAWAL_RESET } from '../../redux/constants/withdrawals';
 import { customerByAccNo } from '../../redux/actions/customers';
 
 
-const Withdraws = () => {
+const Withdraws = ({onClose}) => {
 
   const dispatch = useDispatch()
 
@@ -68,9 +67,9 @@ const Withdraws = () => {
     postedBy: user.userExist.surName + ' ' + user.userExist.otherNames,
     }
     dispatch(createWithdrawal(requestData))
-    dispatch({
-      type: CREATE_WITHDRAWAL_RESET
-    })
+    setTimeout(() => {
+      onClose()
+    }, "4000")
   }
   
   return (

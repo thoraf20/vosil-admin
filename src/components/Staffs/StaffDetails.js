@@ -9,7 +9,7 @@ import { toast, Toaster} from 'react-hot-toast'
 
 import { addStaffData } from '../../redux/actions/staffs'
 
-const StaffDetails = () => {
+const StaffDetails = ({onClose}) => {
 
   const dispatch = useDispatch()
   const staff = useSelector((state) => state.addStaff)
@@ -59,6 +59,9 @@ const StaffDetails = () => {
       role,
     }
     dispatch(addStaffData(requestData))
+    setTimeout(() => {
+      onClose()
+    }, "4000")
   }
 
   return (

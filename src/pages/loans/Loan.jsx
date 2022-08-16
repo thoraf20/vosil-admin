@@ -267,7 +267,7 @@ export default function Loans() {
         <LoanTable allData={allData}/>
       </Paper>
       )}
-      <BasicModal open={open} onClose={handleClose} title='Loan Form' content={<PostLoan />}/>
+      <BasicModal open={open} onClose={handleClose} title='Loan Form' content={<PostLoan onClose={handleClose}/>}/>
 
     </Box>
   );
