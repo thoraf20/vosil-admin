@@ -288,9 +288,7 @@ console.log(allData)
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
                         />
-                      </TableCell>
-                      <TableCell>
-                      <Delete
+                        <Delete
                         style={{cursor: "pointer"}}
                         onClick={handleOpen}
                         />

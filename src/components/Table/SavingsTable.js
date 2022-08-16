@@ -292,8 +292,6 @@ export default function SavingsTable({allData}) {
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
                         />
-                      </TableCell>
-                      <TableCell align="right">
                         <Delete
                           style={{cursor: "pointer"}}
                           onClick={handleOpen}

@@ -291,14 +291,10 @@ export default function CustomerTable({allData}) {
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
                         />
-                      </TableCell>
-                      <TableCell align="right">
                         <Edit 
                           style={{cursor: "pointer"}}
                           onClick={() => navigate(`/customers/edit/${row._id}`)}
                         />
-                      </TableCell>
-                      <TableCell align="right">
                         <Delete 
                           style={{cursor: "pointer"}}
                           onClick={handleOpen}

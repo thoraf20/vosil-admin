@@ -291,10 +291,13 @@ export default function LoanTable({allData}) {
                         />
                     </TableCell> */}
                     <TableCell align="right">
-                        <Delete 
-                          style={{cursor: "pointer"}}
-                          onClick={handleOpen}
-                        />
+                      {/* <Preview 
+                        style={{cursor: "pointer"}}
+                      /> */}
+                      <Delete 
+                        style={{cursor: "pointer"}}
+                        onClick={handleOpen}
+                      />
                     </TableCell>
                     </TableRow>
                   );

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
 
 const DeleteItem = () => {
 
   return (
     <div className='item-center mt-4'>
+    <div className='w-full flex justify-center item-center'>
+      <p className='text-md'>Work is ongoing...</p>
+    </div>
       <div className='flex justify-between'>
          <button
             type="button"
