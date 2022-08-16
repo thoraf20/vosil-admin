@@ -25,7 +25,8 @@ const PostLoan = () => {
     amount, 
    } = state
 
-  const notify = () => toast.success(` ${allData.msg}.`, {duration: 6000})
+  const notify = () => toast.success(` ${allData?.msg}`, {duration: 6000})
+  
   const notifyFailure = () => toast.error(
     `${error}`, {duration: 6000}
     )

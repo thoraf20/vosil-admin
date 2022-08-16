@@ -7,8 +7,7 @@ import { MenuItem, TextField } from '@mui/material';
 import { toast, Toaster} from 'react-hot-toast'
 
 import { 
-  accounts, maritalStatus, genders,  
-  states, alerts
+  accounts, maritalStatus, genders, alerts
 } from '../../utils/index'
 
 import { customerById, updateCustomerData } from '../../redux/actions/customers'
@@ -32,11 +31,6 @@ const CustomerEdit = ({id}) => {
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
   };
-  
-  const [state, setState] = useState(states[0].value);
-  const handleStateChange = (event) => {
-    setState(event.target.value);
-  };
 
   const [alert, setAlert] = useState(alerts[0].value);
   const handleAlertsChange = (event) => {
@@ -53,7 +47,7 @@ const CustomerEdit = ({id}) => {
     surName, otherNames, category,
     email, phoneNumber, occupation,
     residentialAddress, officeAddress, 
-    nextOfKin, nextOfKinRelationShip, 
+    nextOfKin, nextOfKinRelationShip, stateOfOrigin,
     nextOfKinAddress, nextOfKinPhoneNumber
   } = data
 
@@ -92,7 +86,7 @@ const CustomerEdit = ({id}) => {
       accountOfficer: accOfficer.userExist.surName  + ' ' + accOfficer.userExist.otherNames,
       maritalStatus: status,
       category,
-      stateOfOrigin: state,
+      stateOfOrigin,
       residentialAddress,
       officeAddress,
       occupation,
@@ -226,6 +220,16 @@ const CustomerEdit = ({id}) => {
           </TextField>
         
           <TextField
+          required
+          id="outlined-required"
+          label="StatecOfcOrigin"
+          name='stateOfOrigin'
+          value={allData?.stateOfOrigin}
+          onChange={handleChange}
+          size='medium'
+          style={{width: "30%"}}
+        />
+          {/* <TextField
             id="outlined-select-state-of-origin"
             select
             label="Select"
@@ -240,7 +244,7 @@ const CustomerEdit = ({id}) => {
                 {option.label}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField> */}
       </div>
       
         <div>

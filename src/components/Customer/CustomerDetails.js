@@ -37,12 +37,6 @@ const CustomerDetails = () => {
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
-  
-  const [state, setState] = useState(states[0].value);
-
-  const handleStateChange = (event) => {
-    setState(event.target.value);
-  };
 
   const [alert, setAlert] = useState(alerts[0].value);
 
@@ -61,7 +55,7 @@ const CustomerDetails = () => {
     surName, otherNames, category,
     email, phoneNumber, occupation,
     residentialAddress, officeAddress, 
-    nextOfKin, nextOfKinRelationShip, 
+    nextOfKin, nextOfKinRelationShip, stateOfOrigin, 
     nextOfKinAddress, nextOfKinPhoneNumber
   } = data
 
@@ -84,7 +78,7 @@ const CustomerDetails = () => {
     if (success) {
       notify()
     }
-  }, [success, error, notifyError, navigate])
+  }, [error, success])
 
   const handleSubmit = async () => {
     const requestData = {
@@ -97,7 +91,7 @@ const CustomerDetails = () => {
       maritalStatus: status,
       gender,
       category,
-      stateOfOrigin: state,
+      stateOfOrigin,
       residentialAddress,
       officeAddress,
       occupation,
@@ -107,9 +101,7 @@ const CustomerDetails = () => {
       nextOfKinAddress,
       nextOfKinPhoneNumber
     }
-
     dispatch(createCustomer(requestData))
-    // navigate(-1)
   }
 
   return (
@@ -227,21 +219,13 @@ const CustomerDetails = () => {
           </TextField>
         
           <TextField
-            id="outlined-select-account-officer"
-            select
-            label="Select"
-            value={state}
-            onChange={handleStateChange}
-            ssize='medium'
-            style={{width: "30%"}}
-            helperText="Please select state"
-          >
-            {states.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          id="outlined"
+          label="State Of Origin"
+          name='stateOfOrigin'
+          onChange={handleChange}
+          size='medium'
+          style={{width: "30%"}}
+        />
       </div>
       {/* ) : ( */}
         <div>

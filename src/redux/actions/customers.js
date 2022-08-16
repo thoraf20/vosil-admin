@@ -168,7 +168,7 @@ export const createCustomer = (requestData) => async (dispatch, getState) => {
       payload: 
         error.response && error.response.data.msg
           ? error.response.data.msg
-          : error.message
+          : error.response.data.error
     })
   }
 }

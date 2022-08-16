@@ -6,7 +6,6 @@ import { toast, Toaster} from 'react-hot-toast'
 
 import { createWithdrawal } from '../../redux/actions/withdrawals'
 import { CREATE_WITHDRAWAL_RESET } from '../../redux/constants/withdrawals';
-import { formatCurrency } from '../../utils';
 import { customerByAccNo } from '../../redux/actions/customers';
 
 
@@ -26,7 +25,7 @@ const Withdraws = () => {
    } = state
 
   const notifySuccess = () => toast.success(
-    `Withdrawal of ${formatCurrency(allData.amount)} was Successful.`,
+    `Withdrawal of ${allData?.withdrawal?.amount} Successful.`,
    {duration: 7000}
   )
 

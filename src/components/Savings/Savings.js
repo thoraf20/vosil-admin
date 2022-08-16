@@ -23,7 +23,7 @@ const Saving = () => {
    } = state
 
    const notify = () => toast.success(
-    `${allData.msg}`, { duration: 7000}
+    `Savings Successfully Added`, { duration: 7000}
   )
 
   const notifyError = () => toast.error(
