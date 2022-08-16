@@ -19,14 +19,14 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { AiFillDelete } from "react-icons/ai"
-import { IoEyeSharp } from "react-icons/io5";
+import { Preview, Delete } from '@mui/icons-material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { WithdrawalHeadCells } from '../../data/dummy';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
+import DeleteItem from '../Delete';
+import BasicModal from '../../commons/Modals';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -137,7 +137,7 @@ const EnhancedTableToolbar = (props) => {
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon />
+            <Delete />
           </IconButton>
         </Tooltip>
       ) : (
@@ -168,6 +168,9 @@ console.log(allData)
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -227,6 +230,7 @@ console.log(allData)
     }
 
   return (
+    <>
     <Box sx={{ width: '100%' }}>
     {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
@@ -280,15 +284,15 @@ console.log(allData)
                       <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
-                        <IoEyeSharp
+                        <Preview
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
                         />
                       </TableCell>
                       <TableCell>
-                      <AiFillDelete
-                          style={{cursor: "pointer"}}
-                          // onClick={() => handleViewDetails(row.accountNumber)}
+                      <Delete
+                        style={{cursor: "pointer"}}
+                        onClick={handleOpen}
                         />
                       </TableCell>
                     </TableRow>
@@ -322,5 +326,7 @@ console.log(allData)
         label="Dense padding"
       />
     </Box>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+  </>
   );
 }

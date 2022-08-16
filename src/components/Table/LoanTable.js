@@ -19,14 +19,16 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {Delete, Preview } from '@mui/icons-material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { IoEyeSharp } from "react-icons/io5";
-import { AiFillDelete } from "react-icons/ai"
+// import { AiFillDelete } from "react-icons/ai"
 import { LoanHeadCells } from '../../data/dummy';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
+import BasicModal from '../../commons/Modals';
+import DeleteItem from '../Delete';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -130,14 +132,14 @@ const EnhancedTableToolbar = (props) => {
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
-          Savings
+          Loans
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon />
+            <Delete />
           </IconButton>
         </Tooltip>
       ) : (
@@ -221,11 +223,12 @@ export default function LoanTable({allData}) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
 
-  const handleViewDetails = (acc) => {
-    navigate(`/savings/${acc}`)
-  }
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
   return (
+    <>
     <Box sx={{ width: '100%' }}>
     {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
@@ -282,16 +285,15 @@ export default function LoanTable({allData}) {
                       <TableCell align="right">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">{moment(row.dueDate).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">{row.status}</TableCell>
-                      <TableCell align="right">
-                        <IoEyeSharp 
+                      {/* <TableCell align="right">
+                        <Preview 
                           style={{cursor: "pointer"}}
-                          // onClick={() => handleViewDetails(row.accountNumber)}
                         />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="right">
-                        <AiFillDelete 
+                        <Delete 
                           style={{cursor: "pointer"}}
-                          // onClick={() => handleViewDetails(row.accountNumber)}
+                          onClick={handleOpen}
                         />
                     </TableCell>
                     </TableRow>
@@ -325,5 +327,7 @@ export default function LoanTable({allData}) {
         label="Dense padding"
       />
     </Box>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+  </>
   );
 }

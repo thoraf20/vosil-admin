@@ -14,7 +14,11 @@ import {
   CUSTOMER_SAVINGS_REQUEST,
   CUSTOMER_SAVINGS_SUCCESS,
   CUSTOMER_SAVINGS_RESET,
-  CUSTOMER_SAVINGS_FAIL
+  CUSTOMER_SAVINGS_FAIL,
+  UPDATE_CUSTOMER_RESET,
+  UPDATE_CUSTOMER_FAIL,
+  UPDATE_CUSTOMER_SUCCESS,
+  UPDATE_CUSTOMER_REQUEST
 } from "../constants/customers.js"
 import { CUSTOMER_WIDTHDRAWALS_FAIL, CUSTOMER_WIDTHDRAWALS_REQUEST, CUSTOMER_WIDTHDRAWALS_RESET, CUSTOMER_WIDTHDRAWALS_SUCCESS } from "../constants/withdrawals.js";
 
@@ -106,6 +110,25 @@ export const addCustomerReducer = (state= {allData: [] }, action) => {
 
   case CREATE_CUSTOMER_RESET:
     return { allData: [] };
+
+    default:
+      return state;
+  }
+}
+
+export const updateCustomerByIdReducer = (state= {updateDate: [] }, action) => {
+  switch (action.type) {
+    case UPDATE_CUSTOMER_REQUEST: 
+      return { loading : true};
+
+    case UPDATE_CUSTOMER_SUCCESS:
+      return {loading: false, success: true, updateDate: action.payload };
+
+    case UPDATE_CUSTOMER_FAIL:
+      return {loading: false, error: action.payload };
+
+    case UPDATE_CUSTOMER_RESET:
+      return { updateDate: [] };
 
     default:
       return state;

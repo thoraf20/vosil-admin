@@ -11,51 +11,39 @@ import {
   states, alerts
 } from '../../utils/index'
 
-import { createCustomer, customerById } from '../../redux/actions/customers'
+import { customerById, updateCustomerData } from '../../redux/actions/customers'
 
 const CustomerEdit = ({id}) => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const addCustomer = useSelector((state) => state.addCustomer)
+  const customerUpdate = useSelector((state) => state.updateCustomer)
   const customer = useSelector((state) => state.singleCustomer)
 
-  const { loading, success, error } = addCustomer;
+  const { loading, success, error } = customerUpdate;
   const { allData } = customer
 
-  console.log(allData)
   const [account, setAccount] = useState(accounts[0].value);
-
   const handleAccountChange = (event) => {
     setAccount(event.target.value);
   };
 
   const [status, setStatus] = useState(maritalStatus[0].value);
-
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
   };
-
-  const [gender, setGender] = useState(genders[0].value);
-
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
   
   const [state, setState] = useState(states[0].value);
-
   const handleStateChange = (event) => {
     setState(event.target.value);
   };
 
   const [alert, setAlert] = useState(alerts[0].value);
-
   const handleAlertsChange = (event) => {
     setAlert(event.target.value);
   };
 
   const [data, setData ] = useState('')
-
   const handleChange = (event) => {
     const { name, value } = event.target
     setData({...data, [name]: value});
@@ -73,15 +61,13 @@ const CustomerEdit = ({id}) => {
   const accOfficer = JSON.parse(user)
 
   const notify = () => toast.success(
-    `Customer Successfully Added.`, { duration: 4000}
+    `Customer Details Successfully Updated.`, { duration: 4000}
   )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const notifyError = () => toast.error(
     `${error}.`, { duration: 4000, position: 'top-right'}
   )
-
-  // const id = localStorage.getItem("userId")
   
   useEffect(() => {
     dispatch(customerById(id))
@@ -94,7 +80,7 @@ const CustomerEdit = ({id}) => {
     if (success) {
       notify()
     }
-  }, [success, error, notifyError, navigate])
+  }, [success, error])
 
   const handleSubmit = async () => {
     const requestData = {
@@ -105,7 +91,6 @@ const CustomerEdit = ({id}) => {
       accountType: account,
       accountOfficer: accOfficer.userExist.surName  + ' ' + accOfficer.userExist.otherNames,
       maritalStatus: status,
-      gender,
       category,
       stateOfOrigin: state,
       residentialAddress,
@@ -118,7 +103,7 @@ const CustomerEdit = ({id}) => {
       nextOfKinPhoneNumber
     }
 
-    dispatch(createCustomer(requestData))
+    dispatch(updateCustomerData(id, requestData))
   }
 
   return (
@@ -200,7 +185,8 @@ const CustomerEdit = ({id}) => {
           id="outlined"
           label="Category"
           name='category'
-          onChange={handleChange}
+          value={allData?.category}
+          // onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -244,7 +230,7 @@ const CustomerEdit = ({id}) => {
             select
             label="Select"
             value={allData?.stateOfOrigin}
-            // onChange={handleStateChange}
+            onChange={handleStateChange}
             size='medium'
             style={{width: "30%"}}
             helperText="Please select state"
@@ -256,7 +242,7 @@ const CustomerEdit = ({id}) => {
             ))}
           </TextField>
       </div>
-      {/* ) : ( */}
+      
         <div>
         <TextField
           required

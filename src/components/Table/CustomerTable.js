@@ -19,15 +19,14 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Preview, Edit, Delete } from '@mui/icons-material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { IoEyeSharp } from "react-icons/io5";
-import { AiFillDelete } from "react-icons/ai"
-import { FiEdit } from "react-icons/fi";
 import { CustomerHeadCells } from '../../data/dummy';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
+import BasicModal from '../../commons/Modals';
+import DeleteItem from '../Delete';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -138,7 +137,7 @@ const EnhancedTableToolbar = (props) => {
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon />
+            <Delete />
           </IconButton>
         </Tooltip>
       ) : (
@@ -167,6 +166,10 @@ export default function CustomerTable({allData}) {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -227,6 +230,7 @@ export default function CustomerTable({allData}) {
   }
 
   return (
+    <>
     <Box sx={{ width: '100%' }}>
     {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
@@ -283,21 +287,21 @@ export default function CustomerTable({allData}) {
                       <TableCell align="right">{formatCurrency(row.accountBalance)}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
-                        <IoEyeSharp 
+                        <Preview 
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
                         />
                       </TableCell>
                       <TableCell align="right">
-                        <FiEdit 
+                        <Edit 
                           style={{cursor: "pointer"}}
                           onClick={() => navigate(`/customers/edit/${row._id}`)}
                         />
                       </TableCell>
                       <TableCell align="right">
-                        <AiFillDelete 
+                        <Delete 
                           style={{cursor: "pointer"}}
-                          // onClick={() => navigate("/customers/edit")}
+                          onClick={handleOpen}
                         />
                       </TableCell>
                     </TableRow>
@@ -331,5 +335,7 @@ export default function CustomerTable({allData}) {
         label="Dense padding"
       />
     </Box>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+  </>
   );
 }

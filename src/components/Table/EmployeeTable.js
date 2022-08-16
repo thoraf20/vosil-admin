@@ -21,10 +21,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { AiFillDelete } from "react-icons/ai"
+// import { AiFillDelete } from "react-icons/ai"
 import { visuallyHidden } from '@mui/utils';
 import { EmployeeHeadCells } from '../../data/dummy';
 import moment from 'moment';
+import BasicModal from '../../commons/Modals';
+import DeleteItem from "../Delete"
 
 
 function descendingComparator(a, b, orderBy) {
@@ -165,6 +167,10 @@ export default function EmployeeTable({allData}) {
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -224,6 +230,7 @@ export default function EmployeeTable({allData}) {
   }
 
   return (
+    <>
     <Box sx={{ width: '100%' }}>
     {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
@@ -277,9 +284,9 @@ export default function EmployeeTable({allData}) {
                       <TableCell align="right">{row.role}</TableCell>
                       <TableCell align="right">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
-                        <AiFillDelete 
+                        <DeleteIcon 
                           style={{cursor: "pointer"}}
-                          // onClick={() => handleViewDetails(row.accountNumber)}
+                          onClick={handleOpen}
                         />
                     </TableCell>
                     </TableRow>
@@ -313,5 +320,7 @@ export default function EmployeeTable({allData}) {
         label="Dense padding"
       />
     </Box>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+    </>
   );
 }

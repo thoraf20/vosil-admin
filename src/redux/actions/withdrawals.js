@@ -5,6 +5,9 @@ import {
   CREATE_WITHDRAWAL_REQUEST,
   CREATE_WITHDRAWAL_SUCCESS,
   CREATE_WITHDRAWAL_FAIL,
+  CUSTOMER_WIDTHDRAWALS_REQUEST,
+  CUSTOMER_WIDTHDRAWALS_SUCCESS,
+  CUSTOMER_WIDTHDRAWALS_FAIL,
   SINGLE_WIDTHDRAWALS_FAIL,
   SINGLE_WIDTHDRAWALS_SUCCESS,
   SINGLE_WIDTHDRAWALS_REQUEST,
@@ -81,7 +84,38 @@ export const singleWithdrawalsData = (acc) => async (dispatch, getState) => {
   }
 }
 
+export const singleCustomerWithdrawals = (accNum) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
 
+  try {
+    dispatch({
+      type: CUSTOMER_WIDTHDRAWALS_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
+
+    const { data } = await axios.get(`${baseUrl}/customer/withdrawals?search=${accNum}`, config);
+    
+    dispatch({
+      type: CUSTOMER_WIDTHDRAWALS_SUCCESS,
+      payload: data,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: CUSTOMER_WIDTHDRAWALS_FAIL,
+      payload: 
+        error.response && error.response.data.msg
+          ? error.response.data.msg
+          : error.message
+    })
+  }
+}
 export const createWithdrawal = (requestData) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)

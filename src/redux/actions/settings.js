@@ -69,8 +69,8 @@ export const updateSettingsData = (id, requestData) => async (dispatch, getState
     dispatch({
       type: UPDATE_SETTINGS_FAIL,
       payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.msg
+          ? error.response.data.msg
           : error.message
     })
   }

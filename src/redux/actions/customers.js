@@ -11,6 +11,9 @@ import {
   CUSTOMER_SAVINGS_REQUEST,
   CUSTOMER_SAVINGS_SUCCESS,
   CUSTOMER_SAVINGS_FAIL,
+  UPDATE_CUSTOMER_REQUEST,
+  UPDATE_CUSTOMER_SUCCESS,
+  UPDATE_CUSTOMER_FAIL,
 } from "../constants/customers.js"
 
 import axios from "axios"
@@ -162,6 +165,39 @@ export const createCustomer = (requestData) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: CREATE_CUSTOMER_FAIL,
+      payload: 
+        error.response && error.response.data.msg
+          ? error.response.data.msg
+          : error.message
+    })
+  }
+}
+
+export const updateCustomerData = (id, requestData) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
+
+  try {
+    dispatch({
+      type: UPDATE_CUSTOMER_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
+
+    const { data } = await axios.patch(`${baseUrl}/customers/${id}`, requestData, config);
+    
+    dispatch({
+      type: UPDATE_CUSTOMER_SUCCESS,
+      payload: data,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: UPDATE_CUSTOMER_FAIL,
       payload: 
         error.response && error.response.data.msg
           ? error.response.data.msg

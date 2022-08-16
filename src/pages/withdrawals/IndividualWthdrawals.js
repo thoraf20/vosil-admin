@@ -23,7 +23,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { SavingsHeadCells } from '../../data/dummy';
+import { SavingsHeadCells, WithdrawalHeadCells } from '../../data/dummy';
 import { IoArrowBack } from "react-icons/io5";
 import { customerSavings } from '../../redux/actions/customers';
 import { formatCurrency } from '../../utils';
@@ -68,7 +68,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {SavingsHeadCells.map((headCell) => (
+        {WithdrawalHeadCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -250,8 +250,8 @@ export default function IndividualWithdrawals() {
         </div>
         <div className="flex flex-wrap lg:flex-nowrap justify-between">
           <div>
-            <BalanceCard title="Total Savings" data={formatCurrency(savingsData?.totalWithdrawals)}/>
-            <BalanceCard title="Current Month Savings" data={formatCurrency(savingsData?.currentMonthWithdrawals)}/>
+            <BalanceCard title="Total Withdrawals" data={formatCurrency(savingsData?.totalWithdrawals)}/>
+            <BalanceCard title="Current Month Withdrawals" data={formatCurrency(savingsData?.currentMonthWithdrawals)}/>
           </div>
         </div>
 
@@ -299,7 +299,6 @@ export default function IndividualWithdrawals() {
                       <TableCell>
                         {index+1}
                       </TableCell>
-                      <TableCell align="left">{row.pageNo}</TableCell>
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
                       <TableCell align="right">{row.amount}</TableCell>
