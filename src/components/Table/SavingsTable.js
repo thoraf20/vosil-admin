@@ -21,15 +21,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { Preview, Edit, Delete } from '@mui/icons-material';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { AiFillDelete } from "react-icons/ai"
-import { FiEdit } from "react-icons/fi"
 import { visuallyHidden } from '@mui/utils';
-import { IoEyeSharp } from "react-icons/io5";
 import { SavingsHeadCells } from '../../data/dummy';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
 import BasicModal from '../../commons/Modals';
-import DeleteItem from '../Delete';
+import DeleteSaving from '../Savings/DeleteSaving';
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -169,9 +167,13 @@ export default function SavingsTable({allData}) {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
+  const [ rowId, setRowId ] = useState('')
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
+  const handleOpen = (id) => {
+    setOpen(true)
+    setRowId(id)
+  }
   const handleClose = () => setOpen(false)
 
   const handleRequestSort = (event, property) => {
@@ -294,7 +296,10 @@ export default function SavingsTable({allData}) {
                         />
                         <Delete
                           style={{cursor: "pointer"}}
-                          onClick={handleOpen}
+                          onClick={() =>
+                          // e.preventDefault()
+                           handleOpen(row?._id)
+                           }
                         />
                       </TableCell>
                     </TableRow>
@@ -328,7 +333,7 @@ export default function SavingsTable({allData}) {
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteSaving id={rowId} onClose={handleClose}/>}/>
   </>
   );
 }

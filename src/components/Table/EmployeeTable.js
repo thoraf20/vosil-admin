@@ -26,7 +26,7 @@ import { visuallyHidden } from '@mui/utils';
 import { EmployeeHeadCells } from '../../data/dummy';
 import moment from 'moment';
 import BasicModal from '../../commons/Modals';
-import DeleteItem from "../Delete"
+import DeleteStaff from '../Staffs/DeleteStaff';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -166,9 +166,14 @@ export default function EmployeeTable({allData}) {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
+  const [ rowId, setRowId ] = useState('')
+
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
+  const handleOpen = (id) => {
+    setOpen(true)
+    setRowId(id)
+  }
   const handleClose = () => setOpen(false)
   
   const handleRequestSort = (event, property) => {
@@ -224,10 +229,6 @@ export default function EmployeeTable({allData}) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
-
-  const handleViewDetails = (acc) => {
-    navigate(`/savings/${acc}`)
-  }
 
   return (
     <>
@@ -286,7 +287,10 @@ export default function EmployeeTable({allData}) {
                       <TableCell align="right">
                         <DeleteIcon 
                           style={{cursor: "pointer"}}
-                          onClick={handleOpen}
+                          onClick={() =>
+                          // e.preventDefault()
+                           handleOpen(row?._id)
+                           }
                         />
                     </TableCell>
                     </TableRow>
@@ -320,7 +324,7 @@ export default function EmployeeTable({allData}) {
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteStaff id={rowId} onClose={handleClose}/>}/>
     </>
   );
 }

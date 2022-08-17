@@ -14,6 +14,9 @@ import {
   UPDATE_CUSTOMER_REQUEST,
   UPDATE_CUSTOMER_SUCCESS,
   UPDATE_CUSTOMER_FAIL,
+  DELETE_CUSTOMER_REQUEST,
+  DELETE_CUSTOMER_FAIL,
+  DELETE_CUSTOMER_SUCCESS,
 } from "../constants/customers.js"
 
 import axios from "axios"
@@ -201,6 +204,39 @@ export const updateCustomerData = (id, requestData) => async (dispatch, getState
       payload: 
         error.response && error.response.data.msg
           ? error.response.data.msg
+          : error.message
+    })
+  }
+}
+
+export const deletById = (id) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
+
+  try {
+    dispatch({
+      type: DELETE_CUSTOMER_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
+
+    const { data } = await axios.delete(`${baseUrl}/customers/${id}`, config);
+    
+    dispatch({
+      type: DELETE_CUSTOMER_SUCCESS,
+      payload: data,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: DELETE_CUSTOMER_FAIL,
+      payload: 
+        error.response && error.response.data.message
+          ? error.response.data.message
           : error.message
     })
   }

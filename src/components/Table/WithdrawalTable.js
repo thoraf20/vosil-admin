@@ -25,8 +25,8 @@ import { visuallyHidden } from '@mui/utils';
 import { WithdrawalHeadCells } from '../../data/dummy';
 import { formatCurrency } from '../../utils';
 import moment from 'moment';
-import DeleteItem from '../Delete';
 import BasicModal from '../../commons/Modals';
+import DeleteWithdrawal from '../Withdrawal/DeleteWithdrawal';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -158,7 +158,6 @@ EnhancedTableToolbar.propTypes = {
 
 
 export default function WithdrawalsTable({allData}) {
-console.log(allData)
   const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
@@ -167,9 +166,13 @@ console.log(allData)
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
+  const [ rowId, setRowId ] = useState('')
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
+  const handleOpen = (id) => {
+    setOpen(true)
+    setRowId(id)
+  }
   const handleClose = () => setOpen(false)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -290,7 +293,10 @@ console.log(allData)
                         />
                         <Delete
                         style={{cursor: "pointer"}}
-                        onClick={handleOpen}
+                        onClick={() =>
+                          // e.preventDefault()
+                           handleOpen(row?._id)
+                           }
                         />
                       </TableCell>
                     </TableRow>
@@ -324,7 +330,7 @@ console.log(allData)
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteWithdrawal id={rowId} onClose={handleClose} />}/>
   </>
   );
 }

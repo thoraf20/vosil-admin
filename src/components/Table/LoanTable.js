@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -19,16 +18,13 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import {Delete, Preview } from '@mui/icons-material';
+import {Delete } from '@mui/icons-material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { IoEyeSharp } from "react-icons/io5";
-// import { AiFillDelete } from "react-icons/ai"
 import { LoanHeadCells } from '../../data/dummy';
-import { formatCurrency } from '../../utils';
 import moment from 'moment';
 import BasicModal from '../../commons/Modals';
-import DeleteItem from '../Delete';
+import DeleteLoan from '../Loans/DeleteLoan';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -160,7 +156,6 @@ EnhancedTableToolbar.propTypes = {
 
 
 export default function LoanTable({allData}) {
-  const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
@@ -168,6 +163,7 @@ export default function LoanTable({allData}) {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
+  const [ rowId, setRowId ] = useState('')
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -224,7 +220,10 @@ export default function LoanTable({allData}) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true)
+    const handleOpen = (id) => {
+      setOpen(true)
+      setRowId(id)
+    }
     const handleClose = () => setOpen(false)
 
   return (
@@ -244,7 +243,7 @@ export default function LoanTable({allData}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData.count}
+              rowCount={allData?.count}
             />
             <TableBody>
             {allData?.loans?.slice().sort(getComparator(order, orderBy))
@@ -277,7 +276,7 @@ export default function LoanTable({allData}) {
                       </TableCell>
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
+                      <TableCell align="right">{row.amount}</TableCell>
                       <TableCell align="right">{row.paybackAmount}</TableCell>
                       <TableCell align="right">{row.interest}</TableCell>
                       <TableCell align="right">{row.postedBy}</TableCell>
@@ -285,20 +284,18 @@ export default function LoanTable({allData}) {
                       <TableCell align="right">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">{moment(row.dueDate).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">{row.status}</TableCell>
-                      {/* <TableCell align="right">
-                        <Preview 
+                      <TableCell align="right">
+                        {/* <Preview 
                           style={{cursor: "pointer"}}
+                        /> */}
+                        <Delete 
+                          style={{cursor: "pointer"}}
+                          onClick={() =>
+                          // e.preventDefault()
+                           handleOpen(row?._id)
+                           }
                         />
-                    </TableCell> */}
-                    <TableCell align="right">
-                      {/* <Preview 
-                        style={{cursor: "pointer"}}
-                      /> */}
-                      <Delete 
-                        style={{cursor: "pointer"}}
-                        onClick={handleOpen}
-                      />
-                    </TableCell>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -330,7 +327,7 @@ export default function LoanTable({allData}) {
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteLoan id={rowId} onClose={handleClose}/>}/>
   </>
   );
 }

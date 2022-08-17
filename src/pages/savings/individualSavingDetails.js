@@ -265,6 +265,16 @@ export default function IndividualSavings() {
           </div>
         </div>
 
+        <div className="flex flex-wrap lg:flex-nowrap justify-between">
+          <div>
+            <BalanceCard title="Available Balance" data={formatCurrency(savingsData?.withdrawableBalance)}/>
+          </div>
+          <div>
+            <BalanceCard title="Admin Charges" data={formatCurrency(savingsData?.adminCharges)}/>
+          </div>
+        </div>
+
+
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

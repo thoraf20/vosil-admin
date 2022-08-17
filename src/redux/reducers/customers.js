@@ -134,3 +134,22 @@ export const updateCustomerByIdReducer = (state= {updateDate: [] }, action) => {
       return state;
   }
 }
+
+export const deleteCustomerByIdReducer = (state= {updateDate: [] }, action) => {
+  switch (action.type) {
+    case UPDATE_CUSTOMER_REQUEST: 
+      return { loading : true};
+
+    case UPDATE_CUSTOMER_SUCCESS:
+      return {loading: false, success: true, updateDate: action.payload };
+
+    case UPDATE_CUSTOMER_FAIL:
+      return {loading: false, error: action.payload };
+
+    case UPDATE_CUSTOMER_RESET:
+      return { updateDate: [] };
+
+    default:
+      return state;
+  }
+}

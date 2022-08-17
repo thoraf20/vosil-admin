@@ -23,10 +23,7 @@ import { Preview, Edit, Delete } from '@mui/icons-material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { CustomerHeadCells } from '../../data/dummy';
-import { formatCurrency } from '../../utils';
 import moment from 'moment';
-import BasicModal from '../../commons/Modals';
-import DeleteItem from '../Delete';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -167,9 +164,9 @@ export default function CustomerTable({allData}) {
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(30);
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  // const [open, setOpen] = useState(false);
+  // const handleOpen = () => setOpen(true)
+  // const handleClose = () => setOpen(false)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -284,7 +281,7 @@ export default function CustomerTable({allData}) {
                       <TableCell align="right">{row.residentialAddress}</TableCell>
                       <TableCell align="right">{row.phoneNumber}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.accountBalance)}</TableCell>
+                      <TableCell align="right">{(row.accountBalance)}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
                         <Preview 
@@ -294,10 +291,6 @@ export default function CustomerTable({allData}) {
                         <Edit 
                           style={{cursor: "pointer"}}
                           onClick={() => navigate(`/customers/edit/${row._id}`)}
-                        />
-                        <Delete 
-                          style={{cursor: "pointer"}}
-                          onClick={handleOpen}
                         />
                       </TableCell>
                     </TableRow>
@@ -331,7 +324,6 @@ export default function CustomerTable({allData}) {
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteItem />}/>
   </>
   );
 }
