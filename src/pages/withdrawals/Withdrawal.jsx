@@ -143,8 +143,7 @@ export default function Withdrawal() {
 
   const data = useSelector((state) => state.withdrawals)
 
-  const { loading, error, allData } = data
-
+  const { loading, error, allData, count } = data
 
   const [selected, setSelected] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -169,43 +168,12 @@ export default function Withdrawal() {
 
   const handleExport = () => {
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(allData?.withdrawals)
+    const ws = XLSX.utils.json_to_sheet(allData)
 
     XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
     XLSX.writeFile(wb, "withdrawals.xlsx");
   }
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = allData?.withdrawals?.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
+  
   return (
     <Box sx={{ width: '100%' }}>
     {loading ? 'loading...' : (
@@ -263,7 +231,7 @@ export default function Withdrawal() {
         </TextField>
         </div>
         </div>
-        <WithdrawalsTable allData={allData}/>
+        <WithdrawalsTable allData={allData} count={count}/>
       </Paper>
       )}
       <BasicModal open={open} onClose={handleClose} title='Withdrawal Form' content={<Withdraws onClose={handleClose}/>}/>

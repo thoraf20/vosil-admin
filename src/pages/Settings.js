@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import TextField from '@mui/material/TextField';
 import { toast, Toaster} from 'react-hot-toast'
+import { DatePicker } from 'react-datepicker';
+
 
 import { Header } from '../components';
 import Permissions from '../components/Permissions/Permissions';
@@ -21,6 +23,9 @@ const Settings = () => {
 
   const [permission, setPermission] = useState([])
   const [userId, setUserId] = useState('')
+
+  // const [startDate, setStartDate] = useState(new Date());
+
 
   const handleStaffChange = (event) => {
     setUserId(event.target.value);
@@ -63,12 +68,18 @@ const Settings = () => {
     `${error}`, { duration: 7000, position: 'top-right'}
   )
 
+  // const handleDate = () => {
+  //   setStartDate()
+  // }
+
   return (
     <>
     <Toaster  />
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Settings" title="Date" />
       <Date />
+
+      {/* <DatePicker /> */}
 
       <TextField
           id="outlined-select-account-type"

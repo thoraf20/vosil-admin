@@ -21,18 +21,34 @@ import {
   UPDATE_PERMISSION_RESET
 } from "../constants/staffs.js"
 
-export const staffReducer = (state= {allData: [] }, action) => {
+export const staffReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
   switch (action.type) {
     case STAFF_REQUEST: 
       return { loading : true};
 
   case STAFF_SUCCESS:
-    return {loading: false, success: true, allData: action.payload };
+    return {loading: false, allData: action.payload.staffs, count: action.payload.count };
 
   case STAFF_FAIL:
     return {loading: false, error: action.payload };
 
   case STAFF_RESET:
+    return { allData: [] };
+
+  case ADD_STAFF_REQUEST: 
+    return { loading : true, ...state};
+
+  case ADD_STAFF_SUCCESS:
+    return {
+      loading: false, success: true, 
+      allData: [action.payload.staff, ...state.allData], 
+      message: action.payload.msg, count: state.count + 1
+    };
+
+  case ADD_STAFF_FAIL:
+    return {loading: false, error: action.payload };
+
+  case ADD_STAFF_RESET:
     return { allData: [] };
 
     default:

@@ -157,7 +157,8 @@ EnhancedTableToolbar.propTypes = {
 };
 
 
-export default function EmployeeTable({allData}) {
+export default function EmployeeTable({allData, count}) {
+  console.log(allData)
   const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
@@ -184,7 +185,7 @@ export default function EmployeeTable({allData}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.savings?.map((n) => n.name);
+      const newSelecteds = allData?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -228,7 +229,7 @@ export default function EmployeeTable({allData}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - count) : 0;
 
   return (
     <>
@@ -247,13 +248,13 @@ export default function EmployeeTable({allData}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData?.count}
+              rowCount={count}
             />
             <TableBody>
-            {allData?.staffs?.slice().sort(getComparator(order, orderBy))
+            {allData?.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row?.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -311,7 +312,7 @@ export default function EmployeeTable({allData}) {
         <TablePagination
           rowsPerPageOptions={[30, 50, 70]}
           component="div"
-          count={allData.count}
+          count={count ? count : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

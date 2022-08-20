@@ -12,8 +12,8 @@ const Withdraws = ({onClose}) => {
 
   const dispatch = useDispatch()
 
-  const withdraw = useSelector((state) => state.addWithdrawal)
-  const { loading, success, error, allData} = withdraw
+  const withdraw = useSelector((state) => state.withdrawals)
+  const { loading, success, error, message} = withdraw
 
   const [state, setState] = useState('')
   const [ customerName, setCustomerName ] = useState('')
@@ -24,7 +24,7 @@ const Withdraws = ({onClose}) => {
    } = state
 
   const notifySuccess = () => toast.success(
-    `Withdrawal of ${allData?.withdrawal?.amount} Successful.`,
+    `${message}`,
    {duration: 7000}
   )
 

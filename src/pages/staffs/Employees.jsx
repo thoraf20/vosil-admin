@@ -144,7 +144,8 @@ export default function Employees() {
 
   const data = useSelector((state) => state.staffs)
 
-  const { loading, allData } = data
+  const { loading, allData, count } = data
+  console.log(allData)
 
   const handleChange = (e) => {
     setColumToQuery(e.target.value)
@@ -160,10 +161,11 @@ export default function Employees() {
   const handleClose = () => setOpen(false)
 
   const [openDetails, setOpenDetails] = useState(false);
-  const handleDetailsOpen = (id) => {
-    localStorage.setItem('userId', id)
-    setOpenDetails(true)
-  }
+
+  // const handleDetailsOpen = (id) => {
+  //   localStorage.setItem('userId', id)
+  //   setOpenDetails(true)
+  // }
   const handleDetailsClose = () => setOpenDetails(false)
 
   useEffect(() => {
@@ -226,7 +228,7 @@ export default function Employees() {
            </button>
         </div>
         </div>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <div className='flex justify-between w-full'>
         <div>
            <button
@@ -267,7 +269,7 @@ export default function Employees() {
         </TextField>
         </div>
         </div>
-        <EmployeeTable allData={allData}/>
+        <EmployeeTable allData={allData} count={count}/>
       </Paper>
       )}
       <BasicModal open={open} onClose={handleClose} title='Staff Form' content={<StaffDetails onClose={handleClose}/>}/>

@@ -10,8 +10,8 @@ const Saving = ({onClose}) => {
 
   const dispatch = useDispatch()
 
-  const saving = useSelector((state) => state.addSavings)
-  const { loading, success, error, allData } = saving
+  const saving = useSelector((state) => state.savings)
+  const { loading, success, error, message } = saving
   const [state, setState] = useState('')
   const [ customerName, setCustomerName ] = useState('')
 
@@ -22,7 +22,7 @@ const Saving = ({onClose}) => {
    } = state
 
    const notify = () => toast.success(
-    `${allData?.msg}`, { duration: 7000}
+    `${message}`, { duration: 7000}
   )
 
   const notifyError = () => toast.error(

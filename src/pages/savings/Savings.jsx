@@ -77,9 +77,9 @@ export default function Savings() {
 
   const data = useSelector((state) => state.savings)
 
-  const { allData } = data
+  const { allData, count } = data
 
-  const [selected, setSelected] = useState([]);
+  // const [selected, setSelected] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [column, setColumToQuery] = useState("");
   
@@ -106,30 +106,11 @@ export default function Savings() {
 
   const handleExport = () => {
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(allData?.savings)
+    const ws = XLSX.utils.json_to_sheet(allData)
 
     XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
     XLSX.writeFile(wb, "savings.xlsx");
   }
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -147,7 +128,7 @@ export default function Savings() {
            </button>
         </div>
         </div>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        
         <div className='flex justify-between w-full'>
         <div>
            <button
@@ -188,7 +169,7 @@ export default function Savings() {
         </TextField>
         </div>
         </div>
-        <SavingsTable allData={allData}/>
+        <SavingsTable allData={allData} count={count}/>
       </Paper>
       )}
       <BasicModal open={open} onClose={handleClose} title='Savings Form' content={<Saving onClose={handleClose}/>}/>

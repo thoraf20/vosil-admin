@@ -155,7 +155,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 
-export default function LoanTable({allData}) {
+export default function LoanTable({allData, count}) {
 
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
@@ -217,7 +217,7 @@ export default function LoanTable({allData}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - count) : 0;
 
     const [open, setOpen] = useState(false);
     const handleOpen = (id) => {
@@ -238,18 +238,18 @@ export default function LoanTable({allData}) {
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              // numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData?.count}
+              rowCount={count}
             />
             <TableBody>
-            {allData?.loans?.slice().sort(getComparator(order, orderBy))
+            {allData?.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row?.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -314,7 +314,7 @@ export default function LoanTable({allData}) {
         <TablePagination
           rowsPerPageOptions={[30, 50, 70]}
           component="div"
-          count={allData.count}
+          count={count ? count : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

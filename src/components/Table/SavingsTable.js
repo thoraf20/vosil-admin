@@ -158,7 +158,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 
-export default function SavingsTable({allData}) {
+export default function SavingsTable({allData, count}) {
   const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
@@ -184,7 +184,7 @@ export default function SavingsTable({allData}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.savings?.map((n) => n.name);
+      const newSelecteds = allData?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -228,7 +228,7 @@ export default function SavingsTable({allData}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - count) : 0;
 
   const handleViewDetails = (acc) => {
     navigate(`/savings/${acc}`)
@@ -251,10 +251,10 @@ export default function SavingsTable({allData}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData?.count}
+              rowCount={count}
             />
             <TableBody>
-            {allData?.savings?.slice().sort(getComparator(order, orderBy))
+            {allData?.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -320,7 +320,7 @@ export default function SavingsTable({allData}) {
         <TablePagination
           rowsPerPageOptions={[30, 50, 70]}
           component="div"
-          count={allData?.count}
+          count={count}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

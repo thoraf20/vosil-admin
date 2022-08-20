@@ -14,13 +14,14 @@ import {
 
 } from "../constants/savings.js"
 
-export const savingsReducer = (state= {allData: [] }, action) => {
+
+export const savingsReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
   switch (action.type) {
     case SAVING_REQUEST: 
       return { loading : true};
 
   case SAVING_SUCCESS:
-    return {loading: false, allData: action.payload };
+    return {loading: false, allData: action.payload.savings, count: action.payload.count };
 
   case SAVING_FAIL:
     return {loading: false, error: action.payload };
@@ -28,12 +29,28 @@ export const savingsReducer = (state= {allData: [] }, action) => {
   case SAVING_RESET:
     return { allData: [] };
 
-    default:
-      return state;
-  }
+    case CREATE_SAVING_REQUEST: 
+    return { loading : true, ...state};
+
+  case CREATE_SAVING_SUCCESS:
+    return {
+      loading: false, success: true, 
+      allData: [action.payload.savings[0], ...state.allData], 
+      message: action.payload.msg, count: state.count + 1
+     };
+
+  case CREATE_SAVING_FAIL:
+    return {loading: false, error: action.payload };
+
+  case CREATE_SAVING_RESET:
+    return { allData: [] };
+
+      default:
+        return state;
+    }
 }
 
-export const singleSavingsReducer = (state= {allData: [] }, action) => {
+export const singleSavingsReducer = (state= {allData: [], loading: false, error: '' }, action) => {
   switch (action.type) {
     case SINGLE_SAVING_REQUEST: 
       return { loading : true};
@@ -45,25 +62,6 @@ export const singleSavingsReducer = (state= {allData: [] }, action) => {
     return {loading: false, error: action.payload };
 
   case SINGLE_SAVING_RESET:
-    return { allData: [] };
-
-    default:
-      return state;
-  }
-}
-
-export const createSavingsReducer = (state= {allData: [] }, action) => {
-  switch (action.type) {
-    case CREATE_SAVING_REQUEST: 
-      return { loading : true};
-
-  case CREATE_SAVING_SUCCESS:
-    return {loading: false, success: true, allData: action.payload };
-
-  case CREATE_SAVING_FAIL:
-    return {loading: false, error: action.payload };
-
-  case CREATE_SAVING_RESET:
     return { allData: [] };
 
     default:

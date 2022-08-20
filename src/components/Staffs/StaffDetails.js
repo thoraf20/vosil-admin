@@ -12,8 +12,8 @@ import { addStaffData } from '../../redux/actions/staffs'
 const StaffDetails = ({onClose}) => {
 
   const dispatch = useDispatch()
-  const staff = useSelector((state) => state.addStaff)
-  const { loading, success, error} = staff
+  const staff = useSelector((state) => state.staffs)
+  const { loading, success, error, message } = staff
 
   const [account, setAccount] = useState(accounts[0].value);
   const [role, setRole] = useState(roles[0].value);
@@ -34,7 +34,7 @@ const StaffDetails = ({onClose}) => {
 
   const { surName, otherNames,  email, password, phoneNumber } = state
 
-  const notify = () => toast.success(` Staff Added Successfully.`, {duration: 6000})
+  const notify = () => toast.success(` ${message}`, {duration: 6000})
   const notifyFailure = () => toast.error(
     `Unable To Add Staff.`, {duration: 6000}
     )

@@ -157,7 +157,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 
-export default function WithdrawalsTable({allData}) {
+export default function WithdrawalsTable({allData, count}) {
   const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
@@ -182,7 +182,7 @@ export default function WithdrawalsTable({allData}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.savings?.map((n) => n.name);
+      const newSelecteds = allData?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -226,7 +226,7 @@ export default function WithdrawalsTable({allData}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allData?.count) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - count) : 0;
 
     const handleViewDetails = (acc) => {
       navigate(`/withdrawals/${acc}`)
@@ -249,13 +249,13 @@ export default function WithdrawalsTable({allData}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={allData.count}
+              rowCount={count ? count : 0}
             />
             <TableBody>
-            {allData?.withdrawals?.slice().sort(getComparator(order, orderBy))
+            {allData?.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row?.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -280,7 +280,7 @@ export default function WithdrawalsTable({allData}) {
                       <TableCell>
                         {index+1}
                       </TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
+                      <TableCell align="left">{row?.name}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
                       <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
                       <TableCell align="right">{row.postedBy}</TableCell>
@@ -317,7 +317,7 @@ export default function WithdrawalsTable({allData}) {
         <TablePagination
           rowsPerPageOptions={[30, 50, 70]}
           component="div"
-          count={allData.count}
+          count={count ? count : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

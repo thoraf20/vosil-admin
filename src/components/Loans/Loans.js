@@ -14,8 +14,8 @@ import { customerByAccNo } from '../../redux/actions/customers';
 const PostLoan = ({onClose}) => {
   const dispatch = useDispatch()
 
-  const loan = useSelector((state) => state.addLoan)
-  const { loading, success, error, allData} = loan
+  const loan = useSelector((state) => state.loans)
+  const { loading, success, error, message } = loan
 
   const [state, setState] = useState('')
   const [ customerName, setCustomerName ] = useState('')
@@ -25,7 +25,7 @@ const PostLoan = ({onClose}) => {
     amount, 
    } = state
 
-  const notify = () => toast.success(` ${allData?.msg}`, {duration: 6000})
+  const notify = () => toast.success(` ${message}`, {duration: 6000})
   
   const notifyFailure = () => toast.error(
     `${error}`, {duration: 6000}

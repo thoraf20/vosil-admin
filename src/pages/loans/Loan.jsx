@@ -143,7 +143,8 @@ export default function Loans() {
 
   const data = useSelector((state) => state.loans)
 
-  const { loading, allData } = data
+  const { loading, allData, count } = data
+  console.log(allData)
 
   const [selected, setSelected] = useState([]);
   
@@ -175,38 +176,8 @@ export default function Loans() {
     XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
     XLSX.writeFile(wb, "loans.xlsx");
   }
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = allData.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
+ 
   
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
   return (
     <Box sx={{ width: '100%' }}>
     {loading ? 'laoding...' : (
@@ -264,7 +235,7 @@ export default function Loans() {
         </TextField>
         </div>
         </div>
-        <LoanTable allData={allData}/>
+        <LoanTable allData={allData} count={count}/>
       </Paper>
       )}
       <BasicModal open={open} onClose={handleClose} title='Loan Form' content={<PostLoan onClose={handleClose}/>}/>

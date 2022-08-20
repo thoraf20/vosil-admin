@@ -4,7 +4,7 @@ import logger from 'redux-logger'
 import { loginReducer } from "./redux/reducers/login"
 import { dashboardReducer } from "./redux/reducers/dashboard"
 import { addCustomerReducer, customerByIdReducer, customerReducer, customerSavingsReducer, customerWithdrawalsReducer, updateCustomerByIdReducer } from './redux/reducers/customers'
-import { createSavingsReducer, savingsReducer, singleSavingsReducer } from './redux/reducers/savings'
+import { savingsReducer, singleSavingsReducer } from './redux/reducers/savings'
 import { createWithdrawalsReducer, singleWithdrawalsReducer, withdrawalsReducer } from './redux/reducers/withdrawals'
 import { createLoansReducer, loansReducer } from './redux/reducers/loans'
 import { addStaffReducer, staffByIdReducer, staffReducer, updatePermissionByIdReducer, updateStaffByIdReducer } from './redux/reducers/staffs'
@@ -23,17 +23,16 @@ const reducer = {
   
   savings: savingsReducer,
   singleSaving: singleSavingsReducer,
-  addSavings: createSavingsReducer,
 
   withdrawals: withdrawalsReducer,
-  addWithdrawal: createWithdrawalsReducer,
+  // addWithdrawal: createWithdrawalsReducer,
   singleWithdrawal: singleWithdrawalsReducer,
 
   loans: loansReducer,
-  addLoan: createLoansReducer,
+  // addLoan: createLoansReducer,
 
   staffs: staffReducer,
-  addStaff: addStaffReducer,
+  // addStaff: addStaffReducer,
   staffById: staffByIdReducer,
   updateStaff: updateStaffByIdReducer,
   updatePermission: updatePermissionByIdReducer,
