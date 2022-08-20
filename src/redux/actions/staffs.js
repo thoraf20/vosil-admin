@@ -14,6 +14,9 @@ import {
   UPDATE_PERMISSION_FAIL,
   ADD_STAFF_SUCCESS,
   ADD_STAFF_FAIL,
+  DELETE_STAFF_REQUEST,
+  DELETE_STAFF_SUCCESS,
+  DELETE_STAFF_FAIL,
 } from "../constants/staffs.js"
 
 import axios from "axios"
@@ -79,9 +82,9 @@ export const staffsByIdData = (id) => async (dispatch, getState) => {
     dispatch({
       type: STAFF_BY_ID_FAIL,
       payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.response.data.error
     })
   }
 }
@@ -112,9 +115,9 @@ export const addStaffData = (requestData) => async (dispatch, getState) => {
     dispatch({
       type: ADD_STAFF_FAIL,
       payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.response.data.error
     })
   }
 }
@@ -152,6 +155,39 @@ export const updateStaffData = (id, requestData) => async (dispatch, getState) =
   }
 }
 
+export const deleteStaffData = (id) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
+
+  try {
+    dispatch({
+      type: DELETE_STAFF_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
+
+    const { data } = await axios.delete(`${baseUrl}/staffs/${id}`, config);;
+    
+    dispatch({
+      type: DELETE_STAFF_SUCCESS,
+      payload: id,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: DELETE_STAFF_FAIL,
+      payload: 
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.response.data.error
+    })
+  }
+}
+
 export const updatePermissionData = (id, requestData) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
@@ -178,9 +214,9 @@ export const updatePermissionData = (id, requestData) => async (dispatch, getSta
     dispatch({
       type: UPDATE_PERMISSION_FAIL,
       payload: 
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.response.data.error
     })
   }
 }

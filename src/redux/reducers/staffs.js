@@ -18,7 +18,11 @@ import {
   UPDATE_PERMISSION_REQUEST,
   UPDATE_PERMISSION_SUCCESS,
   UPDATE_PERMISSION_FAIL,
-  UPDATE_PERMISSION_RESET
+  UPDATE_PERMISSION_RESET,
+  DELETE_STAFF_REQUEST,
+  DELETE_STAFF_SUCCESS,
+  DELETE_STAFF_FAIL,
+  DELETE_STAFF_RESET
 } from "../constants/staffs.js"
 
 export const staffReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
@@ -46,9 +50,26 @@ export const staffReducer = (state= {allData: [], loading: false, error: '', cou
     };
 
   case ADD_STAFF_FAIL:
-    return {loading: false, error: action.payload };
+    return {loading: false, error: action.payload, allData: [...state.allData] };
 
   case ADD_STAFF_RESET:
+    return { allData: [] };
+
+  case DELETE_STAFF_REQUEST: 
+    return { loading : true, ...state};
+
+  case DELETE_STAFF_SUCCESS:
+    const newData = state.allData.filter(item => item._id !== action.payload)
+    return {
+      loading: false, success: true, 
+      allData: newData,
+      message: action.payload.msg, count: state.count - 1
+    };
+
+  case DELETE_STAFF_FAIL:
+    return {loading: false, error: action.payload };
+
+  case DELETE_STAFF_RESET:
     return { allData: [] };
 
     default:

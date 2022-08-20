@@ -36,7 +36,7 @@ const StaffDetails = ({onClose}) => {
 
   const notify = () => toast.success(` ${message}`, {duration: 6000})
   const notifyFailure = () => toast.error(
-    `Unable To Add Staff.`, {duration: 6000}
+    `${error}`, {duration: 6000}
     )
 
   useEffect(() => {

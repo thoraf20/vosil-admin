@@ -1,24 +1,31 @@
-import axios from 'axios';
-import * as React from 'react';
-import { baseUrl } from '../../api/baseUrl';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { toast, Toaster} from 'react-hot-toast'
+import { deleteStaffData } from '../../redux/actions/staffs';
 
 
 const DeleteStaff = ({onClose, id}) => {
-  const user = localStorage.getItem("userInfo")
-  const userToken = JSON.parse(user)
+  const dispatch = useDispatch()
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${userToken.token}`,
-    },
-  }
+  const staff = useSelector((state) => state.staffs)
+  const { loading, success, error, message } = staff
+
+  const notify = () => toast.success(` ${message}`, {duration: 6000})
+  const notifyFailure = () => toast.error(
+    `${error}`, {duration: 6000}
+  )
+
+  useEffect(() => {
+    if (error) {
+      notifyFailure()
+    }
+    if (success) {
+      notify()
+    }
+  }, [success, error])
 
   const handleDelete = async () => {
-    const response = await axios.delete(`${baseUrl}/staffs/${id}`, config);
-    toast.success(
-      `${response?.data.msg}`, { duration: 7000}
-    )
+    dispatch(deleteStaffData(id))
     setTimeout(() => {
       onClose()
     }, 4000);
@@ -35,7 +42,7 @@ const DeleteStaff = ({onClose, id}) => {
         style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
         className="text-sm text-white px-10 py-4 hover:drop-shadow-xl hover:bg-light-gray"
         >
-          Confirm
+          { loading ? 'Deleting' : 'Delete' }
       </button>
       <button
         type="button"

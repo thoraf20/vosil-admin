@@ -158,8 +158,8 @@ EnhancedTableToolbar.propTypes = {
 
 
 export default function EmployeeTable({allData, count}) {
-  // const navigate = useNavigate()
 
+  console.log(allData)
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
   const [selected, setSelected] = useState([]);
@@ -324,7 +324,7 @@ export default function EmployeeTable({allData, count}) {
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteStaff id={rowId} onClose={handleClose}/>}/>
+    <BasicModal open={open} onClose={handleClose} title='Are you sure?' content={<DeleteStaff id={rowId} onClose={handleClose}/>}/>
     </>
   );
 }
