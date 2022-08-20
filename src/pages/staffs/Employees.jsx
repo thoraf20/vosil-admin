@@ -136,7 +136,6 @@ EnhancedTableToolbar.propTypes = {
 
 export default function Employees() {
 
-  const [selected, setSelected] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [column, setColumToQuery] = useState("");
 
@@ -145,7 +144,6 @@ export default function Employees() {
   const data = useSelector((state) => state.staffs)
 
   const { loading, allData, count } = data
-  console.log(allData)
 
   const handleChange = (e) => {
     setColumToQuery(e.target.value)
@@ -179,38 +177,6 @@ export default function Employees() {
     XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
     XLSX.writeFile(wb, "staffs.xlsx");
   }
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = allData.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -228,7 +194,6 @@ export default function Employees() {
            </button>
         </div>
         </div>
-        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <div className='flex justify-between w-full'>
         <div>
            <button

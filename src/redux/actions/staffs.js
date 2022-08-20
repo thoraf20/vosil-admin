@@ -1,5 +1,6 @@
 import {
   STAFF_REQUEST,
+  ADD_STAFF_REQUEST,
   STAFF_SUCCESS,
   STAFF_FAIL,
   STAFF_BY_ID_REQUEST,
@@ -11,6 +12,8 @@ import {
   UPDATE_PERMISSION_REQUEST,
   UPDATE_PERMISSION_SUCCESS,
   UPDATE_PERMISSION_FAIL,
+  ADD_STAFF_SUCCESS,
+  ADD_STAFF_FAIL,
 } from "../constants/staffs.js"
 
 import axios from "axios"
@@ -89,7 +92,7 @@ export const addStaffData = (requestData) => async (dispatch, getState) => {
 
   try {
     dispatch({
-      type: STAFF_REQUEST,
+      type: ADD_STAFF_REQUEST,
     })
 
     const config = {
@@ -101,13 +104,13 @@ export const addStaffData = (requestData) => async (dispatch, getState) => {
     const { data } = await axios.post(`${baseUrl}/_create_staff`, requestData, config);
     
     dispatch({
-      type: STAFF_SUCCESS,
+      type: ADD_STAFF_SUCCESS,
       payload: data,
     })
 
   } catch (error) {
     dispatch({
-      type: STAFF_FAIL,
+      type: ADD_STAFF_FAIL,
       payload: 
         error.response && error.response.data.message
           ? error.response.data.message

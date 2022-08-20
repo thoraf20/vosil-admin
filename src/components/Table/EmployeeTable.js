@@ -158,8 +158,7 @@ EnhancedTableToolbar.propTypes = {
 
 
 export default function EmployeeTable({allData, count}) {
-  console.log(allData)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');

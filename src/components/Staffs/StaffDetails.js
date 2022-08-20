@@ -79,21 +79,22 @@ const StaffDetails = ({onClose}) => {
         <div>
           <TextField
             required
-            id="outlined-required"
+            id="outlined-surname"
             label="SurName"
             name='surName'
-            onChange={handleChange} />
+            onChange={handleChange}
+             />
 
           <TextField
             required
-            id="outlined-required"
+            id="outlined-otherNames"
             label="OtherNames"
             name='otherNames'
             onChange={handleChange} />
 
           <TextField
             required
-            id="outlined-required"
+            id="outlined-email"
             label="Email"
             name='email'
             onChange={handleChange} />

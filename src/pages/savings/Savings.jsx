@@ -79,7 +79,6 @@ export default function Savings() {
 
   const { allData, count } = data
 
-  // const [selected, setSelected] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [column, setColumToQuery] = useState("");
   

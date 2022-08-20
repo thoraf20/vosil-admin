@@ -41,7 +41,7 @@ export const staffReducer = (state= {allData: [], loading: false, error: '', cou
   case ADD_STAFF_SUCCESS:
     return {
       loading: false, success: true, 
-      allData: [action.payload.staff, ...state.allData], 
+      allData: [action.payload.staffs, ...state.allData], 
       message: action.payload.msg, count: state.count + 1
     };
 
@@ -75,24 +75,24 @@ export const staffByIdReducer = (state= {allData: [] }, action) => {
   }
 }
 
-export const addStaffReducer = (state= {allData: [] }, action) => {
-  switch (action.type) {
-    case ADD_STAFF_REQUEST: 
-      return { loading : true};
+// export const addStaffReducer = (state= {allData: [] }, action) => {
+//   switch (action.type) {
+//     case ADD_STAFF_REQUEST: 
+//       return { loading : true};
 
-  case ADD_STAFF_SUCCESS:
-    return {loading: false, success: true, allData: action.payload };
+//   case ADD_STAFF_SUCCESS:
+//     return {loading: false, success: true, allData: action.payload };
 
-  case ADD_STAFF_FAIL:
-    return {loading: false, error: action.payload };
+//   case ADD_STAFF_FAIL:
+//     return {loading: false, error: action.payload };
 
-  case ADD_STAFF_RESET:
-    return { allData: [] };
+//   case ADD_STAFF_RESET:
+//     return { allData: [] };
 
-    default:
-      return state;
-  }
-}
+//     default:
+//       return state;
+//   }
+// }
 
 export const updateStaffByIdReducer = (state= {allData: [] }, action) => {
   switch (action.type) {
