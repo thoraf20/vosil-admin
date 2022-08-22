@@ -148,3 +148,36 @@ export const createWithdrawal = (requestData) => async (dispatch, getState) => {
     })
   }
 }
+
+// export const deleteWithdrawal = (id) => async (dispatch, getState) => {
+//   const user = localStorage.getItem("userInfo")
+//   const userToken = JSON.parse(user)
+
+//   try {
+//     dispatch({
+//       type: DELETE_SAVING_REQUEST,
+//     })
+
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${userToken.token}`,
+//       },
+//     }
+
+//     const { data } = await axios.delete(`${baseUrl}/saving/${id}`, config);;
+    
+//     dispatch({
+//       type: DELETE_SAVING_SUCCESS,
+//       payload: id,
+//     })
+
+//   } catch (error) {
+//     dispatch({
+//       type: DELETE_SAVING_FAIL,
+//       payload: 
+//       error.response && error.response.data.msg
+//       ? error.response.data.msg
+//       : error.response.data.error
+//     })
+//   }
+// }

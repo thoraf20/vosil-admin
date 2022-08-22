@@ -15,6 +15,7 @@ import Settings from './pages/Settings';
 import { AddCustomer } from './pages/customers/AddCustomer';
 import { EditCustomer } from './pages/customers/EditCustomer';
 import IndividualWithdrawals from './pages/withdrawals/IndividualWthdrawals';
+import RequestReset from './authentication/requestResetForm';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -34,7 +35,8 @@ const App = () => {
       <BrowserRouter>
 
       <Routes>
-      <Route path="/login" element={(<LoginForm />)} />
+        <Route path="/login" element={(<LoginForm />)} />
+        <Route path="/reset_password" element={(<RequestReset />)} />
       </Routes>
 
         <div className="flex relative dark:bg-main-dark-bg">

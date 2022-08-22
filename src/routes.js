@@ -1,7 +1,7 @@
 import { useRoutes } from "react-router-dom"
 import { LoginForm } from "./authentication"
-import LogoOnlyLayout from "./components/logoOnlyLayout"
-import { Dashboard } from "./pages"
+// import RequestReset from "./authentication/requestResetForm"
+
 
 
 export default function Router() {
@@ -14,8 +14,8 @@ export default function Router() {
       ],
     },
     // {
-    //   path: "/overview",
-    //   element: <Dashboard />,
+    //   path: "/reset_password",
+    //   element: <RequestReset />,
     // }
   ])
 }

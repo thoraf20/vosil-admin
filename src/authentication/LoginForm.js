@@ -97,8 +97,9 @@ export default function LoginForm({ history }) { 
             <Link 
               component={RouterLink}              
               variant="subtitle2"              
-              to="#"              
-              sx={{ color: "#000000", textDecoration: "none" }}>              
+              to={"/reset_password"}              
+              sx={{ color: "#000000", textDecoration: "none" }}
+            >
               Forgot password?            
             </Link>          
           </Stack>

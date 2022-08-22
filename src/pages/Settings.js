@@ -91,7 +91,7 @@ const Settings = () => {
           helperText="Please select staff"
           style={{width: '40%'}}
         >
-          {allData?.staffs?.map((option) => (
+          {allData?.map((option) => (
             <MenuItem key={option._id} value={option._id}>
               {option.surName + ' ' + option.otherNames}
             </MenuItem>

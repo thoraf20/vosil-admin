@@ -13,6 +13,7 @@ import {
   CREATE_SAVING_RESET,
 
 } from "../constants/savings.js"
+import { DELETE_STAFF_FAIL, DELETE_STAFF_REQUEST, DELETE_STAFF_RESET, DELETE_STAFF_SUCCESS } from "../constants/staffs.js";
 
 
 export const savingsReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
@@ -43,6 +44,23 @@ export const savingsReducer = (state= {allData: [], loading: false, error: '', c
     return {loading: false, error: action.payload };
 
   case CREATE_SAVING_RESET:
+    return { allData: [] };
+
+    case DELETE_STAFF_REQUEST: 
+    return { loading : true, ...state};
+
+  case DELETE_STAFF_SUCCESS:
+    const newData = state.allData.filter(item => item._id !== action.payload)
+    return {
+      loading: false, success: true, 
+      allData: newData,
+      message: action.payload.msg, count: state.count - 1
+    };
+
+  case DELETE_STAFF_FAIL:
+    return {loading: false, error: action.payload };
+
+  case DELETE_STAFF_RESET:
     return { allData: [] };
 
       default:

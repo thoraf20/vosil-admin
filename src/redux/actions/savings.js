@@ -8,6 +8,9 @@ import {
   CREATE_SAVING_REQUEST,
   CREATE_SAVING_SUCCESS,
   CREATE_SAVING_FAIL,
+  DELETE_SAVING_REQUEST,
+  DELETE_SAVING_SUCCESS,
+  DELETE_SAVING_FAIL,
 } from "../constants/savings.js"
 
 import axios from "axios"
@@ -109,6 +112,39 @@ export const createSavings = (requestData) => async (dispatch, getState) => {
         error.response && error.response.data.msg
           ? error.response.data.msg
           : error.response.data.error
+    })
+  }
+}
+
+export const deleteSavingData = (id) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
+
+  try {
+    dispatch({
+      type: DELETE_SAVING_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
+
+    const { data } = await axios.delete(`${baseUrl}/saving/${id}`, config);;
+    
+    dispatch({
+      type: DELETE_SAVING_SUCCESS,
+      payload: id,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: DELETE_SAVING_FAIL,
+      payload: 
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.response.data.error
     })
   }
 }
