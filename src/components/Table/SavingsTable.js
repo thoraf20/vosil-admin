@@ -19,7 +19,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Preview, Edit, Delete } from '@mui/icons-material';
+import { Preview, Edit } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { SavingsHeadCells } from '../../data/dummy';
@@ -69,18 +70,18 @@ function EnhancedTableHead(props) {
         </TableCell>
         {SavingsHeadCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
+            key={headCell._id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
+            sortDirection={orderBy === headCell._id ? order : false}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              active={orderBy === headCell._id}
+              direction={orderBy === headCell._d ? order : 'asc'}
+              onClick={createSortHandler(headCell._id)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
+              {orderBy === headCell._id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
@@ -102,8 +103,13 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+const deletearray = selectedId => {
+  console.log(selectedId);
+  debugger;
+};
+
 const EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
+  const { numSelected, selectedId } = props;
 
   return (
     <Toolbar
@@ -138,14 +144,13 @@ const EnhancedTableToolbar = (props) => {
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <Delete />
+            <DeleteIcon onClick={() => deletearray(selectedId)}/>
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
             <FilterListIcon />
-            {/* SearchBar */}
           </IconButton>
         </Tooltip>
       )}
@@ -166,7 +171,7 @@ export default function SavingsTable({allData, count}) {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(30);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [ rowId, setRowId ] = useState('')
 
   const [open, setOpen] = useState(false);
@@ -184,19 +189,19 @@ export default function SavingsTable({allData, count}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.map((n) => n.name);
+      const newSelecteds = allData?.map((n) => n._id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, _id) => {
+    const selectedIndex = selected.indexOf(_id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, _id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -224,7 +229,7 @@ export default function SavingsTable({allData, count}) {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (_id) => selected.indexOf(_id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -239,6 +244,10 @@ export default function SavingsTable({allData, count}) {
     <Box sx={{ width: '100%' }}>
     {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
+      <EnhancedTableToolbar
+        numSelected={selected.length}
+        selectedId={selected}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -247,6 +256,7 @@ export default function SavingsTable({allData, count}) {
           >
             <EnhancedTableHead
               numSelected={selected.length}
+              selectedId={selected._id}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
@@ -257,7 +267,7 @@ export default function SavingsTable({allData, count}) {
             {allData?.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row._id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -294,7 +304,7 @@ export default function SavingsTable({allData, count}) {
                           style={{cursor: "pointer"}}
                           onClick={() => handleViewDetails(row.accountNumber)}
                         />
-                        <Delete
+                        <DeleteIcon
                           style={{cursor: "pointer"}}
                           onClick={() =>
                           // e.preventDefault()
@@ -318,7 +328,7 @@ export default function SavingsTable({allData, count}) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[30, 50, 70]}
+          rowsPerPageOptions={[100, 200, 300]}
           component="div"
           count={count}
           rowsPerPage={rowsPerPage}
