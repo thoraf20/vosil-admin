@@ -39,8 +39,19 @@ export default function Withdrawal() {
   }, [dispatch, searchQuery, column])
 
   const handleExport = () => {
+    const data = allData.map((index) => {
+      return {
+        PageNo: index.pageNo,
+        Name: index.name,
+        AccountNumber: index.accountNumber,
+        Amount: index.amount,
+        PostedBy: index.postedBy,
+        AccountOfficer: index.accountOfficer,
+        Date: index.date
+      }
+    })
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(allData)
+    const ws = XLSX.utils.json_to_sheet(data)
 
     XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
     XLSX.writeFile(wb, "withdrawals.xlsx");

@@ -45,8 +45,17 @@ export default function Employees() {
   }, [column, dispatch, searchQuery])
 
   const handleExport = () => {
+    const data = allData?.staffs.map((index) => {
+      return {
+        SurName: index.surName,
+        OtherNames: index.otherNames,
+        Email: index.email,
+        PhoneNumber: index.phoneNumber,
+        Role: index.role,
+      }
+    })
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(allData?.staffs)
+    const ws = XLSX.utils.json_to_sheet(data)
 
     XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
     XLSX.writeFile(wb, "staffs.xlsx");
