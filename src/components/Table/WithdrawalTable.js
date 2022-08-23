@@ -135,7 +135,7 @@ const EnhancedTableToolbar = (props) => {
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
-          Savings
+          Withdrawals
         </Typography>
       )}
 

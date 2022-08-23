@@ -26,6 +26,7 @@ const Date = () => {
   }, [dispatch])
 
   const handleChange = (event) => {
+    event.preventDefault()
     const { name, value } = event.target
     setState({...state, [name]: value});
   };
@@ -62,13 +63,13 @@ const Date = () => {
         id="date"
         label="Date"
         type="date"
-        value={moment(settingData?.date).format('yyyy-MM-DD')}
         name='date'
+        value={moment(settingData?.date).format('yyyy-MM-DD')}
         sx={{ width: 220 }}
         onChange={handleChange}
-        InputLabelProps={{
-          shrink: true,
-        }}
+        // InputLabelProps={{
+        //   shrink: true,
+        // }}
       />
       
     )}

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import TextField from '@mui/material/TextField';
 import { toast, Toaster} from 'react-hot-toast'
-import { DatePicker } from 'react-datepicker';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 
 import { Header } from '../components';
@@ -11,6 +12,7 @@ import SmallHeader from '../components/SmallHeader';
 import { MenuItem } from '@mui/material';
 import { staffsData, updatePermissionData } from '../redux/actions/staffs';
 import Date from '../components/Date';
+import moment from 'moment';
 
 const Settings = () => {
 
@@ -24,7 +26,8 @@ const Settings = () => {
   const [permission, setPermission] = useState([])
   const [userId, setUserId] = useState('')
 
-  // const [startDate, setStartDate] = useState(new Date());
+  const newDate = moment().format('DD/MM/YY')
+  const [date, setDate] = useState(newDate);
 
 
   const handleStaffChange = (event) => {
@@ -79,7 +82,11 @@ const Settings = () => {
       <Header category="Settings" title="Date" />
       <Date />
 
-      {/* <DatePicker /> */}
+      {/* <DatePicker 
+      selected={date} 
+      onChange={date => setDate(date)}
+      style={{border: "2px solid black"}}
+      /> */}
 
       <TextField
           id="outlined-select-account-type"

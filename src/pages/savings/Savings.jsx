@@ -9,6 +9,7 @@ import SavingsTable from '../../components/Table/SavingsTable';
 import BasicModal from '../../commons/Modals';
 import { savingsData } from '../../redux/actions/savings';
 import * as XLSX from 'xlsx';
+import moment from 'moment';
 
 
 export default function Savings() {
@@ -51,7 +52,7 @@ export default function Savings() {
         Amount: index.amount,
         PostedBy: index.postedBy,
         AccountOfficer: index.accountOfficer,
-        Date: index.date
+        Date: moment(index.date).format('DD/MM/YY'),
       }
     })
     const wb = XLSX.utils.book_new();

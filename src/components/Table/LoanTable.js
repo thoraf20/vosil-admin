@@ -285,7 +285,7 @@ export default function LoanTable({allData, count}) {
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
                       <TableCell align="right">{row.amount}</TableCell>
-                      <TableCell align="right">{row.paybackAmount}</TableCell>
+                      <TableCell align="right">{-(row.paybackAmount)}</TableCell>
                       <TableCell align="right">{row.interest}</TableCell>
                       <TableCell align="right">{row.postedBy}</TableCell>
                       <TableCell align="right">{row.accountOfficer}</TableCell>
