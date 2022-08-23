@@ -321,6 +321,12 @@ export default function EmployeeTable({allData, count}) {
           count={count ? count : 0}
           rowsPerPage={rowsPerPage}
           page={page}
+          backIconButtonProps={{
+            "aria-label": "Previous Page"
+          }}
+          nextIconButtonProps={{
+            "aria-label": "Next Page"
+          }}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
