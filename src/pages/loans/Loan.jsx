@@ -9,10 +9,10 @@ import { savingsFilter } from '../../utils';
 import { MenuItem, TextField } from '@mui/material';
 import LoanTable from '../../components/Table/LoanTable';
 import * as XLSX from 'xlsx';
+import moment from 'moment';
 
 
 export default function Loans() {
-  //   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const data = useSelector((state) => state.loans)
@@ -41,8 +41,22 @@ export default function Loans() {
   }, [dispatch, searchQuery, column])
 
   const handleExport = () => {
+    const data = allData?.map((index) => {
+      return {
+        Name: index.name,
+        AccountNumber: index.accountNumber,
+        Amount: index.amount,
+        Balance: index.paybackAmount,
+        Interest: index.interest,
+        PostedBy: index.postedBy,
+        AccountOfficer: index.accountOfficer,
+        DateIssue: moment(index.createdAt).format('DD/MM/YY'),
+        DueDate: index.dueDate,
+        Status: index.status
+      }
+    }) 
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(allData?.loans)
+    const ws = XLSX.utils.json_to_sheet(data)
 
     XLSX.utils.book_append_sheet(wb, ws,"ExcelSheet");
     XLSX.writeFile(wb, "loans.xlsx");
