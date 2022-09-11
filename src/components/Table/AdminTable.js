@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -14,21 +13,14 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Preview, Edit } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { SavingsHeadCells } from '../../data/dummy';
-import { formatCurrency } from '../../utils';
-import moment from 'moment';
-import BasicModal from '../../commons/Modals';
-import DeleteSaving from '../Savings/DeleteSaving';
-
+import { AdminChargeHeadCells } from '../../data/dummy';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -48,7 +40,7 @@ function getComparator(order, orderBy) {
 }
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  const { order, orderBy, onRequestSort } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -57,27 +49,16 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
-        {SavingsHeadCells.map((headCell) => (
+        {AdminChargeHeadCells.map((headCell) => (
           <TableCell
-            key={headCell._id}
+            key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell._id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell._id}
-              direction={orderBy === headCell._d ? order : 'asc'}
+              direction={orderBy === headCell._id ? order : 'asc'}
               onClick={createSortHandler(headCell._id)}
             >
               {headCell.label}
@@ -105,7 +86,6 @@ EnhancedTableHead.propTypes = {
 
 const deletearray = selectedId => {
   console.log(selectedId);
-  debugger;
 };
 
 const EnhancedTableToolbar = (props) => {
@@ -137,14 +117,14 @@ const EnhancedTableToolbar = (props) => {
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
-          Savings
+          Admin Charges
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon onClick={() => deletearray(selectedId)}/>
+          <DeleteIcon onClick={() => deletearray(selectedId)}/>
           </IconButton>
         </Tooltip>
       ) : (
@@ -163,23 +143,14 @@ EnhancedTableToolbar.propTypes = {
 };
 
 
-export default function SavingsTable({allData, count}) {
-  const navigate = useNavigate()
+export default function AdminChargeTable({allData, count}) {
 
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(100);
-  const [ rowId, setRowId ] = useState('')
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = (id) => {
-    setOpen(true)
-    setRowId(id)
-  }
-  const handleClose = () => setOpen(false)
+  const [dense, setDense] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -196,26 +167,6 @@ export default function SavingsTable({allData, count}) {
     setSelected([]);
   };
 
-  const handleClick = (event, _id) => {
-    const selectedIndex = selected.indexOf(_id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, _id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -229,28 +180,22 @@ export default function SavingsTable({allData, count}) {
     setDense(event.target.checked);
   };
 
-  const isSelected = (_id) => selected.indexOf(_id) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - count) : 0;
-
-  const handleViewDetails = (acc) => {
-    navigate(`/savings/${acc}`)
-  }
 
   return (
     <>
     <Box sx={{ width: '100%' }}>
     {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
-      <EnhancedTableToolbar
-        numSelected={selected.length}
-        selectedId={selected}
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          selectedId={selected}
         />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{ minWidth: 200 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -267,51 +212,11 @@ export default function SavingsTable({allData, count}) {
             {allData?.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row._id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row._id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row._id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        {index+1}
-                      </TableCell>
+                    <TableRow>
                       <TableCell align="left">{row.pageNo}</TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="right">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
-                      <TableCell align="right">{row.postedBy}</TableCell>
-                      <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="right">{moment(row.date).format('DD/MM/YYYY')}</TableCell>
-                      <TableCell align="right">
-                        <Edit 
-                          style={{cursor: "pointer"}}
-                          onClick={() => handleViewDetails(row.accountNumber)}
-                        />
-                        <DeleteIcon
-                          style={{cursor: "pointer"}}
-                          onClick={() =>
-                          // e.preventDefault()
-                           handleOpen(row?._id)
-                           }
-                        />
-                      </TableCell>
+                      <TableCell align="right">{row.amount}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -328,9 +233,9 @@ export default function SavingsTable({allData, count}) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[100, 200, 300]}
+          rowsPerPageOptions={[10, 15, 20]}
           component="div"
-          count={count}
+          count={count ? count : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -343,7 +248,6 @@ export default function SavingsTable({allData, count}) {
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteSaving id={rowId} onClose={handleClose}/>}/>
   </>
   );
 }

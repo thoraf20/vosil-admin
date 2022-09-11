@@ -1,42 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom'
-import Box from '@mui/material/Box';
-import { MenuItem, TextField } from '@mui/material';
-
+import { MenuItem, TextField, Button, Box } from '@mui/material';
 import { toast, Toaster} from 'react-hot-toast'
+import { Formik, Field, Form } from 'formik'
+import AccountTypeSelect from '../../commons/AccountType';
+import MaritalStatusSelect from '../../commons/MaritalStatus.js';
+import GenderSelect from '../../commons/Gender.js';
 
 import { 
   accounts, maritalStatus, genders,  
-  states, alerts
+  alerts
 } from '../../utils/index'
 
 import { createCustomer } from '../../redux/actions/customers'
 
 const CustomerDetails = () => {
-  const navigate = useNavigate()
 
   const dispatch = useDispatch()
   const customer = useSelector((state) => state.addCustomer)
   const { loading, success, error, allData } = customer  
-
-  const [account, setAccount] = useState(accounts[0].value);
-
-  const handleAccountChange = (event) => {
-    setAccount(event.target.value);
-  };
-
-  const [status, setStatus] = useState(maritalStatus[0].value);
-
-  const handleStatusChange = (event) => {
-    setStatus(event.target.value);
-  };
-
-  const [gender, setGender] = useState(genders[0].value);
-
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
 
   const [alert, setAlert] = useState(alerts[0].value);
 
@@ -52,16 +34,18 @@ const CustomerDetails = () => {
     setData({...data, [name]: value});
   };
 
-  const { 
-    surName, otherNames, category,
-    email, phoneNumber, occupation,
-    residentialAddress, officeAddress, 
-    nextOfKin, nextOfKinRelationShip, stateOfOrigin, 
-    nextOfKinAddress, nextOfKinPhoneNumber
-  } = data
 
   const user = localStorage.getItem("userInfo")
   const accOfficer = JSON.parse(user)
+
+  const initialValues = {
+    surName: '', otherNames: '', accountOfficer: '',
+    email: '', phoneNumber: '', occupation: '',
+    residentialAddress: '', officeAddress: '',
+    nextOfKin: '', nextOfKinRelationShip: '', stateOfOrigin: '',
+    nextOfKinAddress: '', nextOfKinPhoneNumber: '',
+    accountType: '', gender: '', maritalStatus: ''
+  }
 
   const notify = () => toast.success(
     `Customer Successfully Added.`, { duration: 4000}
@@ -81,30 +65,13 @@ const CustomerDetails = () => {
     }
   }, [error, success])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const requestData = {
-      surName, 
-      otherNames, 
-      email, 
-      phoneNumber,
-      accountType: account,
-      accountOfficer: accOfficer.userExist.surName  + ' ' + accOfficer.userExist.otherNames,
-      maritalStatus: status,
-      gender,
-      category,
-      stateOfOrigin,
-      residentialAddress,
-      officeAddress,
-      occupation,
-      alert,
-      nextOfKin,
-      nextOfKinRelationShip,
-      nextOfKinAddress,
-      nextOfKinPhoneNumber
-    }
-    dispatch(createCustomer(requestData))
-    setData('')
+  const onSubmit = (values, props) => {
+    dispatch(createCustomer(values))
+    setTimeout(() => {
+
+      props.resetForm()
+      props.setSubmitting(loading)
+    }, 2000)
   }
 
   return (
@@ -112,90 +79,79 @@ const CustomerDetails = () => {
     <Toaster />
     <div className='flex justify-center w-full'>
       <Box
-      component="form"
       sx={{
         '& .MuiTextField-root': { m: 2, width: '25ch' },
       }}
       noValidate
       autoComplete="off"
     >
+    
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    {(props) => (
+      <Form>
       <div className='flex justify-between'>
-        <TextField
+        <Field as={TextField} 
           required
           id="outlined-required"
           label="SurName"
           name='surName'
-          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
-        <TextField
+        <Field as={TextField} 
           required
           id="outlined-required"
           label="OtherNames"
           name='otherNames'
-          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
 
-         <TextField
+        <Field as={TextField} 
           id="outlined-required"
           label="Email"
           name='email'
-          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
       </div>
       <div>
-        <TextField
+        <Field as={TextField} 
           id="outlined-number"
           label="Phone Number"
           name='phoneNumber'
           InputLabelProps={{
             shrink: true,
           }}
-          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
 
-        <TextField
-          id="outlined-select-account-type"
-          select
-          label="Select"
-          value={account}
-          onChange={handleAccountChange}
-          size='medium'
-          helperText="Please select account type"
-          style={{width: "30%"}}
+        <AccountTypeSelect
+          label='Account Type'
+          name="accountType"
+          helperText="Please select a account type"
         >
           {accounts.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
           ))}
-        </TextField>
+        </AccountTypeSelect>
 
-        <TextField
+        <Field as={TextField} 
           id="outlined"
-          label="Category"
-          name='category'
-          onChange={handleChange}
+          label="Account Officer"
+          name='accountOfficer'
           size='medium'
           style={{width: "30%"}}
         />
         </div>
         <div>
-          <TextField
-            id="outlined-select-account-officer"
-            select
-            label="Select"
-            value={status}
-            onChange={handleStatusChange}
-            size='medium'
-            style={{width: "30%"}}
+
+          <MaritalStatusSelect
+            label='Marital Status'
+            name="maritalStatus"
             helperText="Please select marital status"
           >
             {maritalStatus.map((option) => (
@@ -203,13 +159,12 @@ const CustomerDetails = () => {
                 {option.label}
               </MenuItem>
             ))}
-          </TextField>
-          <TextField
+          </MaritalStatusSelect>
+
+          <GenderSelect 
             id="outlined-select-account-officer"
-            select
-            label="Select"
-            value={gender}
-            onChange={handleGenderChange}
+            label="Gender"
+            name="gender"
             size='medium'
             style={{width: "30%"}}
             helperText="Please select gender"
@@ -219,108 +174,101 @@ const CustomerDetails = () => {
                 {option.label}
               </MenuItem>
             ))}
-          </TextField>
+          </GenderSelect>
         
-          <TextField
-          id="outlined"
-          label="State Of Origin"
-          name='stateOfOrigin'
-          onChange={handleChange}
-          size='medium'
-          style={{width: "30%"}}
-        />
-      </div>
-      {/* ) : ( */}
-        <div>
-        <TextField
-          required
-          id="outlined-required"
-          label="Residential Address"
-          name='residentialAddress'
-          onChange={handleChange}
-          size='medium'
-          style={{width: "30%"}}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Office Address"
-          name='officeAddress'
-          onChange={handleChange}
-          size='medium'
-          style={{width: "30%"}}
-        />
-
-         <TextField
-          id="outlined-disabled"
-          label="Occupation"
-          name='occupation'
-          onChange={handleChange}
-          size='medium'
-          style={{width: "30%"}}
-        />
-        </div>
-       
-          <TextField
-            id="outlined-select-account-officer"
-            select
-            label="Alert"
-            value={alert}
-            onChange={handleAlertsChange}
+          <Field as={TextField} 
+            id="outlined"
+            label="State Of Origin"
+            name='stateOfOrigin'
             size='medium'
             style={{width: "30%"}}
-            helperText="Please select marital status"
+          />
+        </div>
+
+        <div>
+          <Field as={TextField} 
+            required
+            id="outlined-required"
+            label="Residential Address"
+            name='residentialAddress'
+            size='medium'
+            style={{width: "30%"}}
+          />
+          <Field as={TextField} 
+            required
+            id="outlined-required"
+            label="Office Address"
+            name='officeAddress'
+            size='medium'
+            style={{width: "30%"}}
+          />
+
+          <Field as={TextField} 
+            id="outlined-disabled"
+            label="Occupation"
+            name='occupation'
+            size='medium'
+            style={{width: "30%"}}
+          />
+        </div>
+       
+        <Field as={TextField} 
+          id="outlined-select-account-officer"
+          select
+          label="Alert"
+          value={alert}
+          onChange={handleAlertsChange}
+          size='medium'
+          style={{width: "30%"}}
+          helperText="Please select marital status"
           >
             {alerts.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
             ))}
-          </TextField>
-          <TextField
+          </Field>
+          <Field as={TextField} 
             id="outlined-disabled"
             label="Next Of Kin"
             name='nextOfKin'
-            onChange={handleChange}
             size='medium'
             style={{width: "30%"}}
           />
-        <TextField
-          id="outlined-disabled"
-          label="Next Of Kin Relationship"
-          name='nextOfKinRelationship'
-          onChange={handleChange}
-          size='medium'
-          style={{width: "30%"}}
+          <Field as={TextField} 
+            id="outlined-disabled"
+            label="Next Of Kin Relationship"
+            name='nextOfKinRelationship'
+            size='medium'
+            style={{width: "30%"}}
         />
         
-        <TextField
+        <Field as={TextField} 
           id="outlined-disabled"
           label="Next Of Kin Address"
           name='nextOfKinAddress'
-          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
-        <TextField
+        <Field as={TextField} 
           id="outlined-disabled"
           label="Next Of Kin Phone No"
           name='nextOfKinPhoneNumber'
-          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
         
       <div className='flex justify-end'>
-         <button
-            type="button"
-            onClick={handleSubmit}
-            style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
-            className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
-          >
-            {loading ? 'Saving' : 'Save'}
-        </button>  
+        <Button type='submit' 
+          disabled={props.isSubmitting}
+          style={{ background: 'black', borderRadius: '10px', color: 'white' }}
+        >
+          {props.isSubmitting ? "Saving" : "Save"}
+        </Button>
       </div>
+      </Form>
+      )}
+      </Formik>
       </Box>
     </div>
     </>

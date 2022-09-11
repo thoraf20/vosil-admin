@@ -34,7 +34,7 @@ export default function Customers() {
   useEffect(() => {
     const getData = setTimeout(() => {
       dispatch(customerData(searchQuery, column));
-    }, 1000);
+    }, 3000);
 
     return () => clearTimeout(getData);
   }, [searchQuery, column, dispatch])

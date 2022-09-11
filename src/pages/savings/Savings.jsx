@@ -67,28 +67,28 @@ export default function Savings() {
     {false ? 'loading...' : (
       <Paper sx={{ width: '100%', mb: 2, p: 4 }}>
       <div className='flex justify-end'>
-         <div>
-           <button
-             type="button"
-             onClick={handleOpen}
-             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
-             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
-            >
+        <div>
+          <button
+            type="button"
+            onClick={handleOpen}
+            style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
+            className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+          >
               Create
-           </button>
+          </button>
         </div>
-        </div>
+      </div>
         
         <div className='flex justify-between w-full'>
         <div>
-           <button
-             type="button"
-             onClick={handleExport}
-             style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
-             className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
-            >
-              Export
-           </button>
+          <button
+            type="button"
+            onClick={handleExport}
+            style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
+            className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
+          >
+            Export
+          </button>
         </div>
         <div>
           <TextField

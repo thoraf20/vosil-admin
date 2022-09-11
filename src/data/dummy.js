@@ -202,6 +202,21 @@ export const LoanHeadCells = [
 
 ];
 
+export const AdminChargeHeadCells = [
+  {
+    id: 'pageNo',
+    numeric: true,
+    disablePadding: true,
+    label: 'Page No',
+  },
+  {
+    id: 'Amount',
+    numeric: true,
+    disablePadding: false,
+    label: 'Amount',
+  },
+];
+
 export const EmployeeHeadCells = [
   {
     id: 'sn',

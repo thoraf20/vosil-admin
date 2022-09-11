@@ -59,10 +59,6 @@ export const customerFilter = [
     value: 'accountBalance',
     label: 'Account Balance',
   },
-  {
-    value: 'date',
-    label: 'Date',
-  },
 ];
 
 export const accounts = [

@@ -11,6 +11,9 @@ import {
   DELETE_SAVING_REQUEST,
   DELETE_SAVING_SUCCESS,
   DELETE_SAVING_FAIL,
+  CHARGES_SUCCESS,
+  CHARGES_FAIL,
+  CHARGES_REQUEST,
 } from "../constants/savings.js"
 
 import axios from "axios"
@@ -145,6 +148,39 @@ export const deleteSavingData = (id) => async (dispatch, getState) => {
       error.response && error.response.data.msg
       ? error.response.data.msg
       : error.response.data.error
+    })
+  }
+}
+
+export const singleSavingsChargeData = (acc) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
+
+  try {
+    dispatch({
+      type: CHARGES_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
+
+    const { data } = await axios.get(`${baseUrl}/admin_charges?search=${acc}`, config);
+    
+    dispatch({
+      type: CHARGES_SUCCESS,
+      payload: data,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: CHARGES_FAIL,
+      payload: 
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.message
     })
   }
 }

@@ -187,7 +187,7 @@ const CustomerEdit = ({id}) => {
         </div>
         <div>
           <TextField
-            id="outlined-select-account-officer"
+            id="outlined-select-marital-status"
             select
             label="Select"
             value={allData?.maritalStatus}
@@ -222,7 +222,7 @@ const CustomerEdit = ({id}) => {
           <TextField
           required
           id="outlined-required"
-          label="StatecOfcOrigin"
+          label="State-Of-Origin"
           name='stateOfOrigin'
           value={allData?.stateOfOrigin}
           onChange={handleChange}
@@ -251,7 +251,7 @@ const CustomerEdit = ({id}) => {
         <TextField
           required
           id="outlined-required"
-          label="Residential Address"
+          label="Residential-Address"
           name='residentialAddress'
           value={allData?.residentialAddress}
           onChange={handleChange}
@@ -261,7 +261,7 @@ const CustomerEdit = ({id}) => {
         <TextField
           required
           id="outlined-required"
-          label="Office Address"
+          label="Office-Address"
           name='officeAddress'
           value={allData?.officeAddress}
           onChange={handleChange}
@@ -307,7 +307,7 @@ const CustomerEdit = ({id}) => {
           />
         <TextField
           id="outlined-disabled"
-          label="Next Of Kin Relationship"
+          label="Next-Of-Kin-Relationship"
           name='nextOfKinRelationship'
           value={allData?.nextOfKinRelationship}
           onChange={handleChange}
@@ -317,7 +317,7 @@ const CustomerEdit = ({id}) => {
         
         <TextField
           id="outlined-disabled"
-          label="Next Of Kin Address"
+          label="Next-Of-Kin-Address"
           name='nextOfKinAddress'
           value={allData?.nextOfKinAddress}
           onChange={handleChange}
@@ -326,7 +326,7 @@ const CustomerEdit = ({id}) => {
         />
         <TextField
           id="outlined-disabled"
-          label="Next Of Kin Phone No"
+          label="Next-Of-Kin-Phone-No"
           name='nextOfKinPhoneNumber'
           value={allData?.nextOfKinPhoneNumber}
           onChange={handleChange}

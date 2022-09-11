@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import Box from '@mui/material/Box';
-import { TextField } from '@mui/material';
+import { TextField, Button, Box } from '@mui/material'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 import { toast, Toaster} from 'react-hot-toast'
 import { createSavings } from '../../redux/actions/savings'
 import { customerByAccNo } from '../../redux/actions/customers';
 
-const Saving = ({onClose}) => {
+
+const Saving = () => {
 
   const dispatch = useDispatch()
-
   const saving = useSelector((state) => state.savings)
   const { loading, success, error, message } = saving
   const [state, setState] = useState('')
   const [ customerName, setCustomerName ] = useState('')
 
-  const { 
-    pageNo,
-    accountNumber, 
-    amount, 
-   } = state
+  const userInfo = localStorage.getItem("userInfo")
+  const user = JSON.parse(userInfo)
+  
+  const initialValues = {
+    pageNo: '', 
+    accountNumber: '', 
+    amount: '',
+    postedBy: user.userExist.surName + ' ' + user.userExist.otherNames,
+  }
 
-   const notify = () => toast.success(
+  const notify = () => toast.success(
     `${message}`, { duration: 7000}
   )
 
@@ -30,20 +34,24 @@ const Saving = ({onClose}) => {
   )
 
   useEffect(() => {
-    if (error) {
-      notifyError()
-    }
-    if (success) {
-      notify()
-    }
-  }, [success, error])
+  if (error) {
+    notifyError()
+  }
+  if (success) {
+    notify()
+  }
+    }, [success, error])
+  
+  const onSubmit = (values, props) => {
+    dispatch(createSavings(values))
+    setTimeout(() => {
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setState({...state, [name]: value});
-  };
+      props.resetForm()
+      props.setSubmitting(loading)
+    }, 2000)
+  }
 
-  const handleAccNumberChange = async (event) => {
+    const handleAccNumberChange = async (event) => {
     const { name, value } = event.target
     setState({...state, [name]: value});
     setCustomerName('')
@@ -53,76 +61,57 @@ const Saving = ({onClose}) => {
     }
   }
 
-  const userInfo = localStorage.getItem("userInfo")
-  const user = JSON.parse(userInfo)
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const requestData = {
-      pageNo, 
-      accountNumber, 
-      amount, 
-      postedBy: user.userExist.surName + ' ' + user.userExist.otherNames,
-    }
-    dispatch(createSavings(requestData))
-    setTimeout(() => {
-      onClose()
-    }, "4000")
-  }
-  
   return (
     <>
-    <Toaster  />
-    <div className='flex justify-center w-full'>
-      <Box
-      component="form"
+      <Toaster  />
+      <div className='flex justify-center w-full'>
+      <Box 
       sx={{
-        '& .MuiTextField-root': { m: 2, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
+          '& .MuiTextField-root': { m: 2, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+          {(props) => (
+            <Form>
 
-      <TextField
-          required
-          id="outlined-required"
-          label="Account Number"
-          name='accountNumber'
-          onChange={handleAccNumberChange}
-          helperText={customerName}
-        />
-        
-      <TextField
-          required
-          id="outlined-required"
-          label="PageNo"
-          name='pageNo'
-          onChange={handleChange}
-        />
-
-        <TextField
-          required
-          id="outlined-required"
-          label="Amount"
-          name='amount'
-          onChange={handleChange}
-        />
-      </div>
-      <div className='flex justify-end'>
-      <button
-            type="button"
-            onClick={handleSubmit}
-            style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
-            className="text-sm text-white p-4 hover:drop-shadow-xl hover:bg-light-gray"
-          >
-            {loading ? 'Submitting' : 'Submit'}
-        </button>
-      </div>
+              <Field as={TextField} 
+                fullWidth 
+                name="accountNumber" 
+                label='Account Number'
+                placeholder="Account Number"
+                // onChange={handleAccNumberChange}
+                helperText={customerName} 
+              />
+              <Field as={TextField} 
+                fullWidth name="pageNo" 
+                label='Page No'
+                placeholder="Page No" 
+              />
+                
+              <Field as={TextField} 
+                fullWidth 
+                name="amount" 
+                label='Amount'
+                placeholder="Amount" 
+              />
+              
+              <div className='flex justify-end'>
+              <Button type='submit' 
+                disabled={props.isSubmitting}
+                style={{ background: 'black', borderRadius: '10px', color: 'white' }}
+              >
+                  {props.isSubmitting ? "Loading" : "Submit"}
+              </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </Box>
-    </div>
+      </div>
     </>
   )
 }
 
-export default Saving
+export default Saving;

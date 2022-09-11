@@ -11,6 +11,10 @@ import {
   CREATE_SAVING_SUCCESS,
   CREATE_SAVING_FAIL,
   CREATE_SAVING_RESET,
+  CHARGES_REQUEST,
+  CHARGES_RESET,
+  CHARGES_FAIL,
+  CHARGES_SUCCESS,
 
 } from "../constants/savings.js"
 import { DELETE_STAFF_FAIL, DELETE_STAFF_REQUEST, DELETE_STAFF_RESET, DELETE_STAFF_SUCCESS } from "../constants/staffs.js";
@@ -81,6 +85,25 @@ export const singleSavingsReducer = (state= {allData: [], loading: false, error:
 
   case SINGLE_SAVING_RESET:
     return { allData: [] };
+
+    default:
+      return state;
+  }
+}
+
+export const savingChargesReducer = (state= {chargesData: [], loading: false, error: '' }, action) => {
+  switch (action.type) {
+    case CHARGES_REQUEST: 
+      return { loading : true};
+
+  case CHARGES_SUCCESS:
+    return {loading: false, success: true, chargesData: action.payload };
+
+  case CHARGES_FAIL:
+    return {loading: false, error: action.payload };
+
+  case CHARGES_RESET:
+    return { chargesData: [] };
 
     default:
       return state;
