@@ -19,7 +19,7 @@ const reducer = {
   customerSavings: customerSavingsReducer,
   customerWithdrawals: customerWithdrawalsReducer,
   addCustomer: addCustomerReducer,
-  updateCustomer: updateCustomerByIdReducer,
+  // updateCustomer: updateCustomerByIdReducer,
   
   savings: savingsReducer,
   singleSaving: singleSavingsReducer,

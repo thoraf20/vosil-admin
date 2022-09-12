@@ -26,14 +26,6 @@ const CustomerDetails = () => {
     setAlert(event.target.value);
   };
 
-  const [data, setData ] = useState('')
-
-  const handleChange = (event) => {
-    event.preventDefault()
-    const { name, value } = event.target
-    setData({...data, [name]: value});
-  };
-
 
   const user = localStorage.getItem("userInfo")
   const accOfficer = JSON.parse(user)
