@@ -1,24 +1,31 @@
-import axios from 'axios';
-import * as React from 'react';
-import { baseUrl } from '../../api/baseUrl';
+import  React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { toast, Toaster} from 'react-hot-toast'
+import { deleteLoan } from '../../redux/actions/loan';
 
 
 const DeleteLoan = ({onClose, id}) => {
-  const user = localStorage.getItem("userInfo")
-  const userToken = JSON.parse(user)
+  const dispatch = useDispatch()
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${userToken.token}`,
-    },
-  }
+  const loan = useSelector((state) => state.loans)
+  const { loading, success, error, message } = loan
+
+  const notify = () => toast.success(` ${message}`, {duration: 6000})
+  const notifyFailure = () => toast.error(
+    `${error}`, {duration: 6000}
+  )
+
+  useEffect(() => {
+    if (error) {
+      notifyFailure()
+    }
+    if (success) {
+      notify()
+    }
+  }, [success, error])
 
   const handleDelete = async () => {
-    const response = await axios.delete(`${baseUrl}/loans/${id}`, config);
-    toast.success(
-      `${response?.data.msg}`, { duration: 7000}
-    )
+    dispatch(deleteLoan(id))
     setTimeout(() => {
       onClose()
     }, 4000);

@@ -14,12 +14,13 @@ export default function Withdrawal() {
 
   const dispatch = useDispatch()
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [column, setColumToQuery] = useState("");
+
   const data = useSelector((state) => state.withdrawals)
 
   const { loading, allData, count } = data
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [column, setColumToQuery] = useState("");
   
   const handleChange = (e) => {
     setColumToQuery(e.target.value)

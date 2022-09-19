@@ -11,6 +11,9 @@ import {
   SINGLE_WIDTHDRAWALS_FAIL,
   SINGLE_WIDTHDRAWALS_SUCCESS,
   SINGLE_WIDTHDRAWALS_REQUEST,
+  DELETE_WITHDRAWAL_REQUEST,
+  DELETE_WITHDRAWAL_SUCCESS,
+  DELETE_WITHDRAWAL_FAIL,
   
 } from "../constants/withdrawals.js"
 
@@ -149,35 +152,35 @@ export const createWithdrawal = (requestData) => async (dispatch, getState) => {
   }
 }
 
-// export const deleteWithdrawal = (id) => async (dispatch, getState) => {
-//   const user = localStorage.getItem("userInfo")
-//   const userToken = JSON.parse(user)
+export const deleteWithdrawal = (id) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
 
-//   try {
-//     dispatch({
-//       type: DELETE_SAVING_REQUEST,
-//     })
+  try {
+    dispatch({
+      type: DELETE_WITHDRAWAL_REQUEST,
+    })
 
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${userToken.token}`,
-//       },
-//     }
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
 
-//     const { data } = await axios.delete(`${baseUrl}/saving/${id}`, config);;
+    const { data } = await axios.delete(`${baseUrl}/withdrawals/${id}`, config);;
     
-//     dispatch({
-//       type: DELETE_SAVING_SUCCESS,
-//       payload: id,
-//     })
+    dispatch({
+      type: DELETE_WITHDRAWAL_SUCCESS,
+      payload: id,
+    })
 
-//   } catch (error) {
-//     dispatch({
-//       type: DELETE_SAVING_FAIL,
-//       payload: 
-//       error.response && error.response.data.msg
-//       ? error.response.data.msg
-//       : error.response.data.error
-//     })
-//   }
-// }
+  } catch (error) {
+    dispatch({
+      type: DELETE_WITHDRAWAL_FAIL,
+      payload: 
+      error.response && error.response.data.msg
+      ? error.response.data.msg
+      : error.response.data.error
+    })
+  }
+}

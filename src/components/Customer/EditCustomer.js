@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import { MenuItem, TextField } from '@mui/material';
 
@@ -12,15 +12,17 @@ import {
 
 import { customerById, updateCustomerData } from '../../redux/actions/customers'
 
-const CustomerEdit = ({id}) => {
+const CustomerEdit = () => {
   const navigate = useNavigate()
+
+  const { id } = useParams
 
   const dispatch = useDispatch()
   const customerUpdate = useSelector((state) => state.updateCustomer)
   const customer = useSelector((state) => state.singleCustomer)
 
-  const { loading, success, error } = customerUpdate;
-  const { allData } = customer
+  // const { loading, success, error } = customeUpdate;
+  const { loading, success, error, allData } = customer
 
   const [account, setAccount] = useState(accounts[0].value);
   const handleAccountChange = (event) => {

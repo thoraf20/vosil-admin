@@ -14,7 +14,7 @@ const Date = () => {
   const { settingData } = setting
   const { loading, success, error } = dateUpdate
 
-  const [selectedDate, setSelecetedDate] = useState(settingData?.date)
+  const [selectedDate, setSelecetedDate] = useState(null)
 
   useEffect(() => {
     dispatch(settingsData())
@@ -25,6 +25,7 @@ const Date = () => {
     dispatch(updateSettingsData(settingData?._id, requestData))
     dispatch(settingsData())
   }
+
 
   useEffect(() => {
     if (error) {
@@ -50,7 +51,7 @@ const Date = () => {
     <div className='flex justify-between w-full'>
     {loading ? "loading..." : (
       <DatePicker
-        label='Date Picker'
+        label='Select Date'
         renderInput={(params) => <TextField {...params} />}
         value={selectedDate}
         onChange={(newValue) => {

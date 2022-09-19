@@ -10,7 +10,11 @@ import {
   SINGLE_WIDTHDRAWALS_SUCCESS,
   SINGLE_WIDTHDRAWALS_FAIL,
   SINGLE_WIDTHDRAWALS_RESET,
-  SINGLE_WIDTHDRAWALS_REQUEST
+  SINGLE_WIDTHDRAWALS_REQUEST,
+  DELETE_WITHDRAWAL_SUCCESS,
+  DELETE_WITHDRAWAL_REQUEST,
+  DELETE_WITHDRAWAL_FAIL,
+  DELETE_WITHDRAWAL_RESET
 } from "../constants/withdrawals.js"
 
 export const withdrawalsReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
@@ -38,9 +42,26 @@ export const withdrawalsReducer = (state= {allData: [], loading: false, error: '
     };
 
   case  CREATE_WITHDRAWAL_FAIL:
-    return {loading: false, error: action.payload };
+    return {loading: false, error: action.payload, allData: [...state.allData] };
 
   case  CREATE_WITHDRAWAL_RESET:
+    return { allData: [] };
+
+    case  DELETE_WITHDRAWAL_REQUEST: 
+    return { loading : true, ...state };
+
+  case  DELETE_WITHDRAWAL_SUCCESS:
+    const newData = state.allData.filter(item => item._id !== action.payload)
+    return {
+      loading: false, success: true, 
+      allData: newData,
+      message: action.payload.msg, count: state.count - 1
+    };
+
+  case  DELETE_WITHDRAWAL_FAIL:
+    return {loading: false, error: action.payload };
+
+  case  DELETE_WITHDRAWAL_RESET:
     return { allData: [] };
 
     default:

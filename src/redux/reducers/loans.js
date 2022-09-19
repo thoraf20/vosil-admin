@@ -6,7 +6,10 @@ import {
   CREATE_LOAN_REQUEST,
   CREATE_LOAN_SUCCESS,
   CREATE_LOAN_FAIL,
-  CREATE_LOAN_RESET
+  CREATE_LOAN_RESET,
+  DELETE_LOAN_SUCCESS,
+  DELETE_LOAN_FAIL,
+  DELETE_LOAN_RESET
 } from "../constants/loans.js"
 
 export const loansReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
@@ -37,6 +40,20 @@ export const loansReducer = (state= {allData: [], loading: false, error: '', cou
     return {loading: false, error: action.payload };
 
   case CREATE_LOAN_RESET:
+    return { allData: [] };
+
+  case DELETE_LOAN_SUCCESS:
+    const newData = state.allData.filter(item => item._id !== action.payload)
+    return {
+      loading: false, success: true, 
+      allData: newData,
+      message: action.payload.msg, count: state.count - 1
+    };
+  
+  case DELETE_LOAN_FAIL:
+    return {loading: false, error: action.payload, allData: [...state.allData] };
+
+  case DELETE_LOAN_RESET:
     return { allData: [] };
 
     default:

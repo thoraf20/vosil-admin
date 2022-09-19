@@ -15,10 +15,12 @@ import {
   CHARGES_RESET,
   CHARGES_FAIL,
   CHARGES_SUCCESS,
+  DELETE_SAVING_RESET,
+  DELETE_SAVING_FAIL,
+  DELETE_SAVING_SUCCESS,
+  DELETE_SAVING_REQUEST,
 
 } from "../constants/savings.js"
-import { DELETE_STAFF_FAIL, DELETE_STAFF_REQUEST, DELETE_STAFF_RESET, DELETE_STAFF_SUCCESS } from "../constants/staffs.js";
-
 
 export const savingsReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
   switch (action.type) {
@@ -50,10 +52,10 @@ export const savingsReducer = (state= {allData: [], loading: false, error: '', c
   case CREATE_SAVING_RESET:
     return { allData: [] };
 
-    case DELETE_STAFF_REQUEST: 
+    case DELETE_SAVING_REQUEST: 
     return { loading : true, ...state};
 
-  case DELETE_STAFF_SUCCESS:
+  case DELETE_SAVING_SUCCESS:
     const newData = state.allData.filter(item => item._id !== action.payload)
     return {
       loading: false, success: true, 
@@ -61,10 +63,10 @@ export const savingsReducer = (state= {allData: [], loading: false, error: '', c
       message: action.payload.msg, count: state.count - 1
     };
 
-  case DELETE_STAFF_FAIL:
+  case DELETE_SAVING_FAIL:
     return {loading: false, error: action.payload };
 
-  case DELETE_STAFF_RESET:
+  case DELETE_SAVING_RESET:
     return { allData: [] };
 
       default:
