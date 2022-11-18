@@ -25,7 +25,7 @@ const Settings = () => {
 
   const handleStaffChange = (event) => {
     setUserId(event.target.value);
-    setPermission(allData?.staffs?.find(el => el._id === event.target.value).permissions)
+    setPermission(allData?.find(el => el._id === event.target.value).permissions)
   };
 
   useEffect(() => {
