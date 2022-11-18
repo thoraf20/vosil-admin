@@ -8,9 +8,9 @@ const DeleteSaving = ({onClose, id}) => {
   const dispatch = useDispatch()
 
   const saving = useSelector((state) => state.savings)
-  const { loading, success, error, message } = saving
+  const { loading, success, error } = saving
 
-  const notify = () => toast.success(` ${message}`, {duration: 6000})
+  const notify = () => toast.success("Savings successfully deleted", {duration: 6000})
   const notifyFailure = () => toast.error(
     `${error}`, {duration: 6000}
   )
@@ -42,7 +42,7 @@ const DeleteSaving = ({onClose, id}) => {
         style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
         className="text-sm text-white px-10 py-4 hover:drop-shadow-xl hover:bg-light-gray"
         >
-          Confirm
+          { loading ? 'Deleting' : 'Delete' }
       </button>
       <button
         type="button"

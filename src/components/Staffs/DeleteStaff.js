@@ -8,9 +8,9 @@ const DeleteStaff = ({onClose, id}) => {
   const dispatch = useDispatch()
 
   const staff = useSelector((state) => state.staffs)
-  const { loading, success, error, message } = staff
+  const { loading, success, error } = staff
 
-  const notify = () => toast.success(` ${message}`, {duration: 6000})
+  const notify = () => toast.success("Staff deleted successfully", {duration: 6000})
   const notifyFailure = () => toast.error(
     `${error}`, {duration: 6000}
   )

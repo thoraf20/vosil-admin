@@ -8,9 +8,9 @@ const DeleteLoan = ({onClose, id}) => {
   const dispatch = useDispatch()
 
   const loan = useSelector((state) => state.loans)
-  const { loading, success, error, message } = loan
+  const { loading, success, error } = loan
 
-  const notify = () => toast.success(` ${message}`, {duration: 6000})
+  const notify = () => toast.success("Loan successfully deleted", {duration: 6000})
   const notifyFailure = () => toast.error(
     `${error}`, {duration: 6000}
   )
@@ -42,7 +42,7 @@ const DeleteLoan = ({onClose, id}) => {
         style={{ background: 'black', borderRadius: '10px', fontWeight: 'bold' }}
         className="text-sm text-white px-10 py-4 hover:drop-shadow-xl hover:bg-light-gray"
         >
-          Confirm
+          { loading ? 'Deleting' : 'Delete' }
       </button>
       <button
         type="button"

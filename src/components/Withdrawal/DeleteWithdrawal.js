@@ -9,9 +9,9 @@ const DeleteWithdrawal = ({onClose, id}) => {
   const dispatch = useDispatch()
 
   const withdrawals = useSelector((state) => state.withdrawals)
-  const { loading, success, error, message } = withdrawals
+  const { loading, success, error } = withdrawals
 
-  const notify = () => toast.success(` ${message}`, {duration: 6000})
+  const notify = () => toast.success("Withdrawal successfully deleted", {duration: 6000})
   const notifyFailure = () => toast.error(
     `${error}`, {duration: 6000}
   )
