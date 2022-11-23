@@ -79,13 +79,6 @@ export const CustomerHeadCells = [
   },
 
   {
-    id: 'category',
-    numeric: false,
-    disablePadding: false,
-    label: 'Category',
-  },
-
-  {
     id: 'officeAddress',
     numeric: false,
     disablePadding: true,

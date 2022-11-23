@@ -34,7 +34,7 @@ const CustomerDetails = () => {
     surName: '', otherNames: '', accountOfficer: '',
     email: '', phoneNumber: '', occupation: '',
     residentialAddress: '', officeAddress: '',
-    nextOfKin: '', nextOfKinRelationShip: '', stateOfOrigin: '',
+    nextOfKin: '', stateOfOrigin: '',
     nextOfKinAddress: '', nextOfKinPhoneNumber: '',
     accountType: '', gender: '', maritalStatus: ''
   }
@@ -227,13 +227,13 @@ const CustomerDetails = () => {
             size='medium'
             style={{width: "30%"}}
           />
-          <Field as={TextField} 
+          {/* <Field as={TextField} 
             id="outlined-disabled"
             label="Next Of Kin Relationship"
             name='nextOfKinRelationship'
             size='medium'
             style={{width: "30%"}}
-        />
+        /> */}
         
         <Field as={TextField} 
           id="outlined-disabled"
