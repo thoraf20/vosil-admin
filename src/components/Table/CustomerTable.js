@@ -280,13 +280,13 @@ export default function CustomerTable({allData, count}) {
                       <TableCell>
                         {index+1}
                       </TableCell>
-                      <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="left">{row.surName}</TableCell>
                       <TableCell align="left">{row.otherNames}</TableCell>
                       <TableCell align="right">{row.residentialAddress}</TableCell>
                       <TableCell align="right">{row.phoneNumber}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
                       <TableCell align="right">{(row.accountBalance)}</TableCell>
+                      <TableCell align="right">{row.accountOfficer}</TableCell>
                       <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
                         <Preview 

@@ -58,13 +58,6 @@ export const CustomerHeadCells = [
   },
 
   {
-    id: 'accountOfficer',
-    numeric: false,
-    disablePadding: false,
-    label: 'Acc Officer',
-  },
-
-  {
     id: 'surName',
     numeric: false,
     disablePadding: false,
@@ -104,6 +97,13 @@ export const CustomerHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Acc Balance',
+  },
+
+  {
+    id: 'accountOfficer',
+    numeric: false,
+    disablePadding: false,
+    label: 'Acc Officer',
   },
 
   {

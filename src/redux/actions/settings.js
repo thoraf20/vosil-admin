@@ -11,6 +11,38 @@ import axios from "axios"
 
 import { baseUrl } from "../../api/baseUrl"
 
+export const addDate = (requestData) => async (dispatch, getState) => {
+  const user = localStorage.getItem("userInfo")
+  const userToken = JSON.parse(user)
+
+  try {
+    dispatch({
+      type: SETTINGS_REQUEST,
+    })
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.token}`,
+      },
+    }
+
+    const { data } = await axios.post(`${baseUrl}/settings/_create`, requestData, config);
+    dispatch({
+      type: SETTINGS_SUCCESS,
+      payload: data,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: SETTINGS_FAIL,
+      payload: 
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
 export const settingsData = () => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
@@ -27,9 +59,10 @@ export const settingsData = () => async (dispatch, getState) => {
     }
 
     const { data } = await axios.get(`${baseUrl}/settings`, config);
+    console.log(data)
     dispatch({
       type: SETTINGS_SUCCESS,
-      payload: data[0],
+      payload: data,
     })
 
   } catch (error) {

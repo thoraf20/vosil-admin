@@ -267,17 +267,17 @@ export default function SavingsTable({allData, count}) {
             {allData?.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row._id);
+                  const isItemSelected = isSelected(row?._id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row._id)}
+                      onClick={(event) => handleClick(event, row?._id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row._id}
+                      key={row?._id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -292,13 +292,13 @@ export default function SavingsTable({allData, count}) {
                       <TableCell>
                         {index+1}
                       </TableCell>
-                      <TableCell align="left">{row.pageNo}</TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="right">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{formatCurrency(row.amount)}</TableCell>
-                      <TableCell align="right">{row.postedBy}</TableCell>
-                      <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="right">{moment(row.date).format('DD/MM/YYYY')}</TableCell>
+                      <TableCell align="left">{row?.pageNo}</TableCell>
+                      <TableCell align="left">{row?.name}</TableCell>
+                      <TableCell align="right">{row?.accountNumber}</TableCell>
+                      <TableCell align="right">{formatCurrency(row?.amount)}</TableCell>
+                      <TableCell align="right">{row?.postedBy}</TableCell>
+                      <TableCell align="right">{row?.accountOfficer}</TableCell>
+                      <TableCell align="right">{moment(row?.date).format('DD/MM/YYYY')}</TableCell>
                       <TableCell align="right">
                         <Edit 
                           style={{cursor: "pointer"}}
@@ -307,7 +307,6 @@ export default function SavingsTable({allData, count}) {
                         <DeleteIcon
                           style={{cursor: "pointer"}}
                           onClick={() =>
-                          // e.preventDefault()
                            handleOpen(row?._id)
                            }
                         />

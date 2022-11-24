@@ -6,10 +6,14 @@ import {
   UPDATE_SETTINGS_REQUEST,
   UPDATE_SETTINGS_SUCCESS,
   UPDATE_SETTINGS_FAIL,
-  UPDATE_SETTINGS_RESET
+  UPDATE_SETTINGS_RESET,
+  ADD_SETTINGS_REQUEST,
+  ADD_SETTINGS_RESET,
+  ADD_SETTINGS_FAIL,
+  ADD_SETTINGS_SUCCESS
 } from "../constants/settings.js"
 
-export const settingsReducer = (state= { settingData: [] }, action) => {
+export const settingsReducer = (state= { settingData: [], loading: false, error: '', message:''  }, action) => {
   switch (action.type) {
     case SETTINGS_REQUEST: 
       return { loading : true};
@@ -23,11 +27,26 @@ export const settingsReducer = (state= { settingData: [] }, action) => {
   case SETTINGS_RESET:
     return { settingData: [] };
 
+    case ADD_SETTINGS_REQUEST: 
+    return { loading : true, ...state};
+
+  case ADD_SETTINGS_SUCCESS:
+    return {
+      loading: false, success: true, 
+      allData: [action.payload, ...state.settingData], 
+      message: action.payload.msg
+    };
+
+  case ADD_SETTINGS_FAIL:
+    return {loading: false, error: action.payload, allData: [...state.allData] };
+
+  case ADD_SETTINGS_RESET:
+    return { allData: [] };
+
   case UPDATE_SETTINGS_REQUEST: 
   return { loading : true};
 
   case UPDATE_SETTINGS_SUCCESS:
-      console.log(state.settingData)
     return {
       loading: false, success: true, 
       settingData: action.payload,

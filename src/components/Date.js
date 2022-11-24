@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/lab'
 import { toast, Toaster} from 'react-hot-toast'
-import { settingsData, updateSettingsData } from '../redux/actions/settings';
+import { addDate, settingsData } from '../redux/actions/settings';
 
 
 const Date = () => {
@@ -11,10 +11,10 @@ const Date = () => {
   const setting = useSelector((state) => state.settings)
   const dateUpdate = useSelector((state) => state.updateSettings)
 
-  const { settingData } = setting
-  const { loading, success, error } = dateUpdate
+  const { settingData, success, error } = setting
+  const { loading  } = dateUpdate
 
-  const [selectedDate, setSelecetedDate] = useState(null)
+  const [selectedDate, setSelecetedDate] = useState(settingData?.date)
 
   useEffect(() => {
     dispatch(settingsData())
@@ -22,7 +22,7 @@ const Date = () => {
 
   const handleSubmit = async () => {
     const requestData = { date: selectedDate }
-    dispatch(updateSettingsData(settingData?._id, requestData))
+    dispatch(addDate(requestData))
     dispatch(settingsData())
   }
 
@@ -37,7 +37,7 @@ const Date = () => {
   }, [success, error])
 
   const notify = () => toast.success(
-    `${settingData?.msg}`, { duration: 7000}
+    'Date updated successfully', { duration: 7000}
   )
 
   const notifyError = () => toast.error(
