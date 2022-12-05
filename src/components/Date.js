@@ -26,7 +26,6 @@ const Date = () => {
     dispatch(settingsData())
   }
 
-
   useEffect(() => {
     if (error) {
       notifyError()
