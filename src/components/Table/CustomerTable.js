@@ -282,7 +282,7 @@ export default function CustomerTable({allData, count}) {
                       </TableCell>
                       <TableCell align="left">{row.surName}</TableCell>
                       <TableCell align="left">{row.otherNames}</TableCell>
-                      <TableCell align="right">{row.residentialAddress}</TableCell>
+                      <TableCell align="right">{row.officeAddress}</TableCell>
                       <TableCell align="right">{row.phoneNumber}</TableCell>
                       <TableCell align="right">{row.accountNumber}</TableCell>
                       <TableCell align="right">{(row.accountBalance)}</TableCell>
