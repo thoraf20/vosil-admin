@@ -24,7 +24,7 @@ const Dashboard = () => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="font-bold text-gray-400">Total Customers</p>
-                <p className="text-2xl">{allData?.totalCustomers ? allData?.totalCustomers : 0}</p>
+                <p className="text-2xl">{allData?.totalCustomersCount ? allData?.totalCustomersCount : 0}</p>
               </div>
             </div>
           </div>
