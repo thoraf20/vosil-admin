@@ -293,6 +293,11 @@ export default function IndividualSavings() {
             />
 
             <BalanceCard 
+              title="Total Excess Savings" 
+              data={formatCurrency(savingsData?.totalExcessSavings)}
+            />
+
+            <BalanceCard 
               title="Available Balance" 
               data={formatCurrency(savingsData?.withdrawableBalance)}
             />
@@ -316,6 +321,11 @@ export default function IndividualSavings() {
             />
 
             <BalanceCard 
+              title="Current Month Excess" 
+              data={formatCurrency(savingsData?.currentMothExcess)}
+            />
+
+            <BalanceCard 
               title="Admin Charges" 
               data={formatCurrency(savingsData?.adminCharges)}
             />
@@ -323,7 +333,7 @@ export default function IndividualSavings() {
 
           <div className="w-1/3">
           <AdminChargeTable allData={chargesData} count={chargesData?.length}/>
-        </div>
+          </div>
         </div>
 
         

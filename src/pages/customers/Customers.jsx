@@ -46,7 +46,7 @@ export default function Customers() {
         SurName: index.surName,
         OtherNames: index.otherNames,
         Category: index.category,
-        Address: index.residentialAddress,
+        Address: index.officeAddress,
         PhoneNumber: index.phoneNumber,
         AccountNumber: index.accountNumber,
         AccountBalance: index.accountBalance,
