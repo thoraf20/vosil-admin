@@ -287,7 +287,7 @@ export default function CustomerTable({allData, count}) {
                       <TableCell align="right">{row.accountNumber}</TableCell>
                       <TableCell align="right">{(row.accountBalance)}</TableCell>
                       <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="right">{moment(row.date).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="right">{moment(row.createAt).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
                         <Preview 
                           style={{cursor: "pointer"}}
