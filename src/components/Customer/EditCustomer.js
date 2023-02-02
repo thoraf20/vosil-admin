@@ -13,12 +13,10 @@ import {
 import { customerById, updateCustomerData } from '../../redux/actions/customers'
 
 const CustomerEdit = () => {
-  const navigate = useNavigate()
 
-  const { id } = useParams
+  const { id } = useParams()
 
   const dispatch = useDispatch()
-  const customerUpdate = useSelector((state) => state.updateCustomer)
   const customer = useSelector((state) => state.singleCustomer)
 
   // const { loading, success, error } = customeUpdate;
