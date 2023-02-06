@@ -144,6 +144,12 @@ const Settings = () => {
         defaultChecked={permission.includes('delete_loan')}
       />
 
+      <SmallHeader title="Excess" />
+      <Permissions title="delete"
+        onChange={(e) => onChange(e, 'delete_excess')}
+        defaultChecked={permission.includes('delete_excess')}
+      />
+
       <SmallHeader title="Staffs" />
       <Permissions title="create"
         onChange={(e) => onChange(e, '/_create_staff')}

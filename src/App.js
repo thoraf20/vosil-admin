@@ -16,6 +16,7 @@ import { AddCustomer } from './pages/customers/AddCustomer';
 import { EditCustomer } from './pages/customers/EditCustomer';
 import IndividualWithdrawals from './pages/withdrawals/IndividualWthdrawals';
 import RequestReset from './authentication/requestResetForm';
+import ExcessSavings from './pages/excess/excess';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -101,9 +102,11 @@ const App = () => {
                 <Route path="/withdrawals" element={<Withdrawal />} />
                 <Route path="/withdrawals/:acc" element={<IndividualWithdrawals />} />
 
-                {/* IndividualWithdrawals */}
                 <Route path="/loans" element={<Loans />} />
                 <Route path="/loans/name" element={''} />
+
+                <Route path="/excess" element={<ExcessSavings />} />
+
 
                 <Route path="/staffs" element={<Employees />} />
                 <Route path="/settings" element={<Settings />} />

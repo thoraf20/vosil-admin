@@ -355,6 +355,65 @@ export const SavingsHeadCells = [
 
 ];
 
+export const ExcessSavingsHeadCells = [
+
+  {
+    id: 'sn',
+    numeric: false,
+    disablePadding: true,
+    label: 'S/N',
+  },
+
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Name',
+  },
+
+  {
+    id: 'pageNo',
+    numeric: false,
+    disablePadding: false,
+    label: 'PageNo',
+  },
+
+  {
+    id: 'accountNumber',
+    numeric: false,
+    disablePadding: true,
+    label: 'AccountNumber',
+  },
+
+  {
+    id: 'amount',
+    numeric: false,
+    disablePadding: false,
+    label: 'Amount',
+  },
+
+  {
+    id: 'postedBy',
+    numeric: false,
+    disablePadding: false,
+    label: 'PostedBy',
+  },
+
+  {
+    id: 'accountOfficer',
+    numeric: false,
+    disablePadding: false,
+    label: 'Acc Officer',
+  },
+
+  {
+    id: 'createdAt',
+    numeric: false,
+    disablePadding: false,
+    label: 'Date',
+  },
+];
+
 
 export const links = [
   {
@@ -384,6 +443,10 @@ export const links = [
       },
       {
         name: 'loans',
+        icon: <TbWalletOff />,
+      },
+      {
+        name: 'excess',
         icon: <TbWalletOff />,
       },
       {

@@ -9,6 +9,7 @@ import { createWithdrawalsReducer, singleWithdrawalsReducer, withdrawalsReducer 
 import { createLoansReducer, loansReducer } from './redux/reducers/loans'
 import { addStaffReducer, staffByIdReducer, staffReducer, updatePermissionByIdReducer, updateStaffByIdReducer } from './redux/reducers/staffs'
 import { settingsReducer, updateSettingsByIdReducer } from './redux/reducers/settings'
+import { excessReducer } from './redux/reducers/excess'
 
 const reducer = {
   loginStore: loginReducer,
@@ -30,7 +31,8 @@ const reducer = {
   singleWithdrawal: singleWithdrawalsReducer,
 
   loans: loansReducer,
-  // addLoan: createLoansReducer,
+
+  excess: excessReducer,
 
   staffs: staffReducer,
   // addStaff: addStaffReducer,
