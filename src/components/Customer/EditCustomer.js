@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import { MenuItem, TextField } from '@mui/material';
 
@@ -118,8 +118,8 @@ const CustomerEdit = () => {
           id="outlined-required"
           label="SurName"
           name='surName'
-          value={allData?.surName}
-          // onChange={handleChange}
+          // value={allData?.surName}
+          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -128,8 +128,8 @@ const CustomerEdit = () => {
           id="outlined-required"
           label="OtherNames"
           name='otherNames'
-          value={allData?.otherNames}
-          // onChange={handleChange}
+          // value={allData?.otherNames}
+          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -138,8 +138,8 @@ const CustomerEdit = () => {
           id="outlined-required"
           label="Email"
           name='email'
-          value={allData?.email}
-          // onChange={handleChange}
+          // value={allData?.email}
+          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -149,7 +149,7 @@ const CustomerEdit = () => {
           id="outlined-number"
           label="Phone Number"
           name='phoneNumber'
-          value={allData?.phoneNumber}
+          // value={allData?.phoneNumber}
           InputLabelProps={{
             shrink: true,
           }}
@@ -180,7 +180,7 @@ const CustomerEdit = () => {
           label="Category"
           name='category'
           value={allData?.category}
-          // onChange={handleChange}
+          onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
@@ -229,22 +229,6 @@ const CustomerEdit = () => {
           size='medium'
           style={{width: "30%"}}
         />
-          {/* <TextField
-            id="outlined-select-state-of-origin"
-            select
-            label="Select"
-            value={allData?.stateOfOrigin}
-            onChange={handleStateChange}
-            size='medium'
-            style={{width: "30%"}}
-            helperText="Please select state"
-          >
-            {states.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField> */}
       </div>
       
         <div>
@@ -263,7 +247,7 @@ const CustomerEdit = () => {
           id="outlined-required"
           label="Office-Address"
           name='officeAddress'
-          value={allData?.officeAddress}
+          // value={allData?.officeAddress}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -300,7 +284,7 @@ const CustomerEdit = () => {
             id="outlined-disabled"
             label="Next Of Kin"
             name='nextOfKin'
-            value={allData?.nextOfKin}
+            // value={allData?.nextOfKin}
             onChange={handleChange}
             size='medium'
             style={{width: "30%"}}
@@ -309,7 +293,7 @@ const CustomerEdit = () => {
           id="outlined-disabled"
           label="Next-Of-Kin-Relationship"
           name='nextOfKinRelationship'
-          value={allData?.nextOfKinRelationship}
+          // value={allData?.nextOfKinRelationship}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -319,7 +303,7 @@ const CustomerEdit = () => {
           id="outlined-disabled"
           label="Next-Of-Kin-Address"
           name='nextOfKinAddress'
-          value={allData?.nextOfKinAddress}
+          // value={allData?.nextOfKinAddress}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
@@ -328,7 +312,7 @@ const CustomerEdit = () => {
           id="outlined-disabled"
           label="Next-Of-Kin-Phone-No"
           name='nextOfKinPhoneNumber'
-          value={allData?.nextOfKinPhoneNumber}
+          // value={allData?.nextOfKinPhoneNumber}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
