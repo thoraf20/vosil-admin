@@ -7,7 +7,7 @@ import { MenuItem, TextField } from '@mui/material';
 import { toast, Toaster} from 'react-hot-toast'
 
 import { 
-  accounts, maritalStatus, genders, alerts
+  accounts, maritalStatus, genders,
 } from '../../utils/index'
 
 import { customerById, updateCustomerData } from '../../redux/actions/customers'
@@ -32,11 +32,6 @@ const CustomerEdit = () => {
     setStatus(event.target.value);
   };
 
-  const [alert, setAlert] = useState(alerts[0].value);
-  const handleAlertsChange = (event) => {
-    setAlert(event.target.value);
-  };
-
   const [data, setData ] = useState('')
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -45,14 +40,11 @@ const CustomerEdit = () => {
 
   const { 
     surName, otherNames, category,
-    email, phoneNumber, occupation,
+    email, phoneNumber, occupation,accountOfficer,
     residentialAddress, officeAddress, 
     nextOfKin, nextOfKinRelationShip, stateOfOrigin,
     nextOfKinAddress, nextOfKinPhoneNumber
   } = data
-
-  const user = localStorage.getItem("userInfo")
-  const accOfficer = JSON.parse(user)
 
   const notify = () => toast.success(
     `Customer Details Successfully Updated.`, { duration: 4000}
@@ -83,14 +75,13 @@ const CustomerEdit = () => {
       email, 
       phoneNumber,
       accountType: account,
-      accountOfficer: accOfficer.userExist.surName  + ' ' + accOfficer.userExist.otherNames,
+      accountOfficer,
       maritalStatus: status,
       category,
       stateOfOrigin,
       residentialAddress,
       officeAddress,
       occupation,
-      alert,
       nextOfKin,
       nextOfKinRelationShip,
       nextOfKinAddress,
@@ -179,47 +170,47 @@ const CustomerEdit = () => {
           id="outlined"
           label="Category"
           name='category'
-          value={allData?.category}
+          // value={allData?.category}
           onChange={handleChange}
           size='medium'
           style={{width: "30%"}}
         />
-        </div>
-        <div>
-          <TextField
-            id="outlined-select-marital-status"
-            select
-            label="Select"
-            value={allData?.maritalStatus}
-            onChange={handleStatusChange}
-            size='medium'
-            style={{width: "30%"}}
-            helperText="Please select marital status"
-          >
-            {maritalStatus.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="outlined-select-account-officer"
-            select
-            label="Select"
-            value={allData?.gender}
-            // onChange={handleGenderChange}
-            size='medium'
-            style={{width: "30%"}}
-            helperText="Please select gender"
-          >
-            {genders.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+      </div>
+      <div>
+        <TextField
+          id="outlined-select-marital-status"
+          select
+          label="Select"
+          value={allData?.maritalStatus}
+          onChange={handleStatusChange}
+          size='medium'
+          style={{width: "30%"}}
+          helperText="Please select marital status"
+        >
+          {maritalStatus.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          id="outlined-select-account-officer"
+          select
+          label="Select"
+          value={allData?.gender}
+          // onChange={handleGenderChange}
+          size='medium'
+          style={{width: "30%"}}
+          helperText="Please select gender"
+        >
+          {genders.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
         
-          <TextField
+        <TextField
           required
           id="outlined-required"
           label="State-Of-Origin"
@@ -263,32 +254,26 @@ const CustomerEdit = () => {
           style={{width: "30%"}}
         />
         </div>
-       
-          <TextField
-            id="outlined-select-account-officer"
-            select
-            label="Alert"
-            value={allData?.alert}
-            onChange={handleAlertsChange}
-            size='medium'
-            style={{width: "30%"}}
-            helperText="Please select marital status"
-          >
-            {alerts.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
+        <TextField
             id="outlined-disabled"
-            label="Next Of Kin"
-            name='nextOfKin'
+            label="Account Officer"
+            name='accountOfficer'
             // value={allData?.nextOfKin}
             onChange={handleChange}
             size='medium'
             style={{width: "30%"}}
           />
+       
+        <TextField
+          id="outlined-disabled"
+          label="Next Of Kin"
+          name='nextOfKin'
+          // value={allData?.nextOfKin}
+          onChange={handleChange}
+          size='medium'
+          style={{width: "30%"}}
+        />
+
         <TextField
           id="outlined-disabled"
           label="Next-Of-Kin-Relationship"
