@@ -167,7 +167,7 @@ export const deleteWithdrawal = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.delete(`${baseUrl}/withdrawals/${id}`, config);;
+    await axios.delete(`${baseUrl}/withdrawals/${id}`, config);;
     
     dispatch({
       type: DELETE_WITHDRAWAL_SUCCESS,

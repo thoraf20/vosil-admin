@@ -170,7 +170,7 @@ export const deleteStaffData = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.delete(`${baseUrl}/staffs/${id}`, config);;
+    await axios.delete(`${baseUrl}/staffs/${id}`, config);;
     
     dispatch({
       type: DELETE_STAFF_SUCCESS,

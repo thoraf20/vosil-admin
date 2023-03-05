@@ -3,13 +3,14 @@ import logger from 'redux-logger'
 
 import { loginReducer } from "./redux/reducers/login"
 import { dashboardReducer } from "./redux/reducers/dashboard"
-import { addCustomerReducer, customerByIdReducer, customerReducer, customerSavingsReducer, customerWithdrawalsReducer, updateCustomerByIdReducer } from './redux/reducers/customers'
+import { addCustomerReducer, customerByIdReducer, customerReducer, customerSavingsReducer, customerWithdrawalsReducer } from './redux/reducers/customers'
 import { savingChargesReducer, savingsReducer, singleSavingsReducer } from './redux/reducers/savings'
-import { createWithdrawalsReducer, singleWithdrawalsReducer, withdrawalsReducer } from './redux/reducers/withdrawals'
-import { createLoansReducer, loansReducer } from './redux/reducers/loans'
-import { addStaffReducer, staffByIdReducer, staffReducer, updatePermissionByIdReducer, updateStaffByIdReducer } from './redux/reducers/staffs'
+import { singleWithdrawalsReducer, withdrawalsReducer } from './redux/reducers/withdrawals'
+import { loansReducer } from './redux/reducers/loans'
+import { staffByIdReducer, staffReducer, updatePermissionByIdReducer, updateStaffByIdReducer } from './redux/reducers/staffs'
 import { settingsReducer, updateSettingsByIdReducer } from './redux/reducers/settings'
 import { excessReducer } from './redux/reducers/excess'
+import { chargesReducer } from './redux/reducers/charges'
 
 const reducer = {
   loginStore: loginReducer,
@@ -33,6 +34,8 @@ const reducer = {
   loans: loansReducer,
 
   excess: excessReducer,
+
+  charges: chargesReducer,
 
   staffs: staffReducer,
   // addStaff: addStaffReducer,

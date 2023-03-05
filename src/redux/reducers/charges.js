@@ -1,28 +1,28 @@
 import {
-  EXCESS_REQUEST,
-  EXCESS_SUCCESS,
-  EXCESS_FAIL,
-  EXCESS_RESET,
-  DELETE_EXCESS_SUCCESS,
-  DELETE_EXCESS_FAIL,
-  DELETE_EXCESS_RESET
-} from "../constants/excess.js"
+  CHARGES_REQUEST,
+  CHARGES_SUCCESS,
+  CHARGES_FAIL,
+  CHARGES_RESET,
+  DELETE_CHARGES_SUCCESS,
+  DELETE_CHARGES_FAIL,
+  DELETE_CHARGES_RESET
+} from "../constants/charges.js"
 
-export const excessReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
+export const chargesReducer = (state= {allData: [], loading: false, error: '', count: 0, message:'' }, action) => {
   switch (action.type) {
-    case EXCESS_REQUEST: 
+    case CHARGES_REQUEST: 
       return { loading : true};
 
-  case EXCESS_SUCCESS:
+  case CHARGES_SUCCESS:
     return { loading: false, allData: action.payload, count: action.payload.count };
 
-  case EXCESS_FAIL:
+  case CHARGES_FAIL:
     return {loading: false, error: action.payload };
 
-  case EXCESS_RESET:
+  case CHARGES_RESET:
     return { allData: [] };
 
-  case DELETE_EXCESS_SUCCESS:
+  case DELETE_CHARGES_SUCCESS:
     const newData = state.allData.filter(item => item._id !== action.payload)
     return {
       loading: false, success: true, 
@@ -30,10 +30,10 @@ export const excessReducer = (state= {allData: [], loading: false, error: '', co
       message: action.payload.msg, count: state.count - 1
     };
   
-  case DELETE_EXCESS_FAIL:
+  case DELETE_CHARGES_FAIL:
     return {loading: false, error: action.payload, allData: [...state.allData] };
 
-  case DELETE_EXCESS_RESET:
+  case DELETE_CHARGES_RESET:
     return { allData: [] };
 
     default:

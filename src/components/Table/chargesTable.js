@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -23,10 +22,10 @@ import { Edit } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { ExcessSavingsHeadCells } from '../../data/dummy';
+import { ChargesHeadCells } from '../../data/dummy';
 import moment from 'moment';
 import BasicModal from '../../commons/Modals';
-import DeleteExcess from '../Excess/DeleteExcess';
+import DeleteCharges from '../Charges/deleteCharges';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -66,7 +65,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {ExcessSavingsHeadCells.map((headCell) => (
+        {ChargesHeadCells.map((headCell) => (
           <TableCell
             key={headCell._id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -134,7 +133,7 @@ const EnhancedTableToolbar = (props) => {
           component="div"
           style={{ fontSize: '2rem', fontWeight: 'bold' }}
         >
-          Excess
+          Charges
         </Typography>
       )}
 
@@ -160,7 +159,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 
-export default function ExcessTable({allData, count}) {
+export default function ChargesTable({allData, count}) {
 
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
@@ -186,7 +185,7 @@ export default function ExcessTable({allData, count}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = allData?.excess?.map((n) => n._id);
+      const newSelecteds = allData?.charges?.map((n) => n._id);
       setSelected(newSelecteds);
       return;
     }
@@ -243,7 +242,7 @@ export default function ExcessTable({allData, count}) {
       />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{ minWidth: 550 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -285,13 +284,10 @@ export default function ExcessTable({allData, count}) {
                       <TableCell>
                         {index+1}
                       </TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="left">{row.pageNo}</TableCell>
-                      <TableCell align="right">{row.accountNumber}</TableCell>
-                      <TableCell align="right">{row.amount}</TableCell>
-                      <TableCell align="right">{row.postedBy}</TableCell>
-                      <TableCell align="right">{row.accountOfficer}</TableCell>
-                      <TableCell align="right">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="left">{row.accountNumber}</TableCell>
+                      <TableCell align="left">{row.amount}</TableCell>
+                      <TableCell align="left">{moment(row.createdAt).format('DD/MM/YY')}</TableCell>
                       <TableCell align="right">
                         <DeleteIcon
                           style={{cursor: "pointer"}}
@@ -331,7 +327,7 @@ export default function ExcessTable({allData, count}) {
         label="Dense padding"
       />
     </Box>
-    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteExcess id={rowId} onClose={handleClose}/>}/>
+    <BasicModal open={open} onClose={handleClose} title='Delete?' content={<DeleteCharges id={rowId} onClose={handleClose}/>}/>
   </>
   );
 }

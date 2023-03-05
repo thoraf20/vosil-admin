@@ -6,7 +6,6 @@ import { RiContactsLine } from 'react-icons/ri';
 import { FcSettings } from 'react-icons/fc';
 import { GiWallet } from 'react-icons/gi'
 import { TbWallet, TbWalletOff } from 'react-icons/tb'
-// import avatar from './avatar.jpg';
 
 
 export const gridOrderImage = (props) => (
@@ -414,6 +413,44 @@ export const ExcessSavingsHeadCells = [
   },
 ];
 
+export const ChargesHeadCells = [
+
+  {
+    id: 'sn',
+    numeric: false,
+    disablePadding: true,
+    label: 'S/N',
+  },
+
+  {
+    id: 'pageNo',
+    numeric: false,
+    disablePadding: false,
+    label: 'PageNo',
+  },
+
+  {
+    id: 'accountNumber',
+    numeric: false,
+    disablePadding: true,
+    label: 'AccountNumber',
+  },
+
+  {
+    id: 'amount',
+    numeric: false,
+    disablePadding: false,
+    label: 'Amount',
+  },
+
+  {
+    id: 'createdAt',
+    numeric: false,
+    disablePadding: false,
+    label: 'Date',
+  },
+];
+
 
 export const links = [
   {
@@ -447,6 +484,10 @@ export const links = [
       },
       {
         name: 'excess',
+        icon: <TbWalletOff />,
+      },
+      {
+        name: 'charges',
         icon: <TbWalletOff />,
       },
       {

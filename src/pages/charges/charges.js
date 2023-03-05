@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { savingsFilter } from '../../utils';
+import { chargesFilter } from '../../utils';
 import { MenuItem, TextField } from '@mui/material';
 import * as XLSX from 'xlsx';
 import moment from 'moment';
-import ExcessTable from '../../components/Table/ExcessSavingsTable';
-import { excessData } from '../../redux/actions/excess';
+import { chargesData } from '../../redux/actions/charges';
+import ChargesTable from '../../components/Table/chargesTable';
 
 
-export default function ExcessSavings() {
+export default function Savingscharges() {
   const dispatch = useDispatch()
 
-  const data = useSelector((state) => state.excess)
+  const data = useSelector((state) => state.charges)
 
   const { allData, count } = data
 
@@ -31,7 +31,7 @@ export default function ExcessSavings() {
 
   useEffect(() => {
     const getData = setTimeout(() => {
-      dispatch(excessData(searchQuery, column));
+      dispatch(chargesData(searchQuery, column));
     }, 1000);
 
     return () => clearTimeout(getData);
@@ -41,11 +41,8 @@ export default function ExcessSavings() {
     const data = allData.map((index) => {
       return {
         PageNo: index.pageNo,
-        Name: index.name,
         AccountNumber: index.accountNumber,
         Amount: index.amount,
-        PostedBy: index.postedBy,
-        AccountOfficer: index.accountOfficer,
         Date: moment(index.date).format('DD/MM/YY'),
       }
     })
@@ -92,7 +89,7 @@ export default function ExcessSavings() {
           size='small'
           helperText="Column to search"
         >
-          {savingsFilter.map((option) => (
+          {chargesFilter.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem> 
@@ -100,7 +97,7 @@ export default function ExcessSavings() {
         </TextField>
         </div>
         </div>
-        <ExcessTable allData={allData} count={count}/>
+        <ChargesTable allData={allData} count={count}/>
       </Paper>
       )}
     </Box>

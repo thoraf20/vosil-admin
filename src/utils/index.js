@@ -26,6 +26,21 @@ export const savingsFilter = [
   },
 ];
 
+export const chargesFilter = [
+  {
+    value: 'pageNo',
+    label: 'Page No',
+  },
+  {
+    value: 'accountNumber',
+    label: 'Account Number',
+  },
+  {
+    value: 'date',
+    label: 'Date',
+  },
+];
+
 export const customerFilter = [
   {
     value: 'accountOfficer',

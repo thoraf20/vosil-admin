@@ -17,6 +17,7 @@ import { EditCustomer } from './pages/customers/EditCustomer';
 import IndividualWithdrawals from './pages/withdrawals/IndividualWthdrawals';
 import RequestReset from './authentication/requestResetForm';
 import ExcessSavings from './pages/excess/excess';
+import Savingscharges from './pages/charges/charges';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -106,6 +107,7 @@ const App = () => {
                 <Route path="/loans/name" element={''} />
 
                 <Route path="/excess" element={<ExcessSavings />} />
+                <Route path="/charges" element={<Savingscharges />} />
 
 
                 <Route path="/staffs" element={<Employees />} />

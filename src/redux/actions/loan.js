@@ -96,7 +96,7 @@ export const deleteLoan = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.delete(`${baseUrl}/loan/${id}`, config);;
+    await axios.delete(`${baseUrl}/loan/${id}`, config);;
     
     dispatch({
       type: DELETE_LOAN_SUCCESS,

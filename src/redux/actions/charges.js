@@ -1,23 +1,23 @@
 import {
-  EXCESS_REQUEST,
-  EXCESS_SUCCESS,
-  EXCESS_FAIL,
-  DELETE_EXCESS_REQUEST,
-  DELETE_EXCESS_SUCCESS,
-  DELETE_EXCESS_FAIL,
-} from "../constants/excess.js"
+  CHARGES_REQUEST,
+  CHARGES_SUCCESS,
+  CHARGES_FAIL,
+  DELETE_CHARGES_REQUEST,
+  DELETE_CHARGES_SUCCESS,
+  DELETE_CHARGES_FAIL,
+} from "../constants/charges"
 
 import axios from "axios"
 
 import { baseUrl } from "../../api/baseUrl"
 
-export const excessData = (query, column) => async (dispatch, getState) => {
+export const chargesData = (query, column) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
   try {
     dispatch({
-      type: EXCESS_REQUEST,
+      type: CHARGES_REQUEST,
     })
 
     const config = {
@@ -26,16 +26,16 @@ export const excessData = (query, column) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`${baseUrl}/excess?search=${query}&column=${column}`, config);
+    const { data } = await axios.get(`${baseUrl}/charges?search=${query}&column=${column}`, config);
     
     dispatch({
-      type: EXCESS_SUCCESS,
+      type: CHARGES_SUCCESS,
       payload: data,
     })
 
   } catch (error) {
     dispatch({
-      type: EXCESS_FAIL,
+      type: CHARGES_FAIL,
       payload: 
         error.response && error.response.data.message
           ? error.response.data.message
@@ -45,13 +45,13 @@ export const excessData = (query, column) => async (dispatch, getState) => {
 }
 
 
-export const deleteExcess = (id) => async (dispatch, getState) => {
+export const deleteCharges= (id) => async (dispatch, getState) => {
   const user = localStorage.getItem("userInfo")
   const userToken = JSON.parse(user)
 
   try {
     dispatch({
-      type: DELETE_EXCESS_REQUEST,
+      type: DELETE_CHARGES_REQUEST,
     })
 
     const config = {
@@ -60,16 +60,16 @@ export const deleteExcess = (id) => async (dispatch, getState) => {
       },
     }
 
-    await axios.delete(`${baseUrl}/excess/${id}`, config);;
+    await axios.delete(`${baseUrl}/charges/${id}`, config);;
     
     dispatch({
-      type: DELETE_EXCESS_SUCCESS,
+      type: DELETE_CHARGES_SUCCESS,
       payload: id,
     })
 
   } catch (error) {
     dispatch({
-      type: DELETE_EXCESS_FAIL,
+      type: DELETE_CHARGES_FAIL,
       payload: 
       error.response && error.response.data.msg
       ? error.response.data.msg

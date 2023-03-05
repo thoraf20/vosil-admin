@@ -134,7 +134,7 @@ export const deleteSavingData = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.delete(`${baseUrl}/saving/${id}`, config);;
+    await axios.delete(`${baseUrl}/saving/${id}`, config);;
     
     dispatch({
       type: DELETE_SAVING_SUCCESS,
